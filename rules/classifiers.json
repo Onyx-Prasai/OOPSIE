@@ -1,0 +1,51 @@
+{
+  "classifiers": [
+    {
+      "category": "dependency",
+      "patterns": [
+        "Module not found",
+        "Cannot find module",
+        "ERR_PNPM_NO_MATCHING_VERSION",
+        "npm ERR! code ERESOLVE",
+        "package.json missing"
+      ]
+    },
+    {
+      "category": "environment_variables",
+      "patterns": [
+        "NEXT_PUBLIC_",
+        "invalid api key",
+        "process.env",
+        "missing required environment variable",
+        "ENV_NOT_SET"
+      ]
+    },
+    {
+      "category": "database",
+      "patterns": [
+        "violates row-level security policy",
+        "PGRST",
+        "PrismaClientKnownRequestError",
+        "ECONNREFUSED 127.0.0.1:5432",
+        "FirebaseError: Missing or insufficient permissions"
+      ]
+    },
+    {
+      "category": "deployment",
+      "patterns": [
+        "Command \"npm run build\" exited with 1",
+        "Vercel Build Error",
+        "Netlify Build Failed",
+        "Deploy failed"
+      ]
+    },
+    {
+      "category": "cors",
+      "patterns": [
+        "Access-Control-Allow-Origin",
+        "CORS policy",
+        "blocked by CORS policy"
+      ]
+    }
+  ]
+}
