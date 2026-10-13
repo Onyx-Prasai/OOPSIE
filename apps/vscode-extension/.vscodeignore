@@ -1,0 +1,10 @@
+.vscode/**
+.vscode-test/**
+node_modules/**
+src/**
+test/**
+scripts/**
+tsconfig.json
+**/*.ts
+!out/**
+!media/**

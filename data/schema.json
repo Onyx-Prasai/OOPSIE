@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Onyx-Prasai/OOPSIE/data/schema.json",
+  "title": "OOPSIE Error Recovery Report",
+  "description": "Cautious, structured guidance for understanding a coding or deployment error.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "summary",
+    "plain_explanation",
+    "error_category",
+    "likely_causes",
+    "missing_context_questions",
+    "risk_level",
+    "warnings",
+    "repair_prompt",
+    "verification_steps",
+    "matched_recipes"
+  ],
+  "properties": {
+    "summary": { "type": "string", "minLength": 1 },
+    "plain_explanation": { "type": "string", "minLength": 1 },
+    "error_category": {
+      "type": "string",
+      "enum": [
+        "dependency",
+        "configuration",
+        "environment_variables",
+        "database",
+        "authentication",
+        "authorization",
+        "network",
+        "build",
+        "deployment",
+        "runtime",
+        "typescript",
+        "frontend",
+        "other",
+        "unknown"
+      ]
+    },
+    "likely_causes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["description", "confidence"],
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "confidence": { "type": "string", "enum": ["low", "medium", "high"] }
+        }
+      }
+    },
+    "missing_context_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "risk_level": { "type": "string", "enum": ["low", "medium", "high"] },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Safety warnings, including relevant data, authentication, payment, or production risks."
+    },
+    "repair_prompt": { "type": "string", "minLength": 1 },
+    "verification_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "matched_recipes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      }
+    }
+  }
+}

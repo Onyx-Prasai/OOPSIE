@@ -1,0 +1,11 @@
+{
+  "rules": [
+    { "pattern": "DROP TABLE",         "risk": "high",     "message": "This command may permanently delete a database table." },
+    { "pattern": "DELETE FROM",        "risk": "high",     "message": "This will delete rows from a database table." },
+    { "pattern": "rm -rf",             "risk": "high",     "message": "This may recursively delete files and directories." },
+    { "pattern": "format c:",          "risk": "high",     "message": "This may format a disk drive." },
+    { "pattern": "DROP DATABASE",      "risk": "high",     "message": "This may permanently delete an entire database." },
+    { "pattern": "TRUNCATE",           "risk": "high",     "message": "This will remove all rows from a table." },
+    { "pattern": "ALTER\\s+TABLE\\b.*\\bDROP\\b", "risk": "high", "message": "This may permanently remove a column from a table." }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "rules": [
+    {
+      "name": "JWT",
+      "regex": "eyJ[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+",
+      "replacement": "[REDACTED_JWT]"
+    },
+    {
+      "name": "AWS access key",
+      "regex": "\\bAKIA[0-9A-Z]{16}\\b",
+      "replacement": "[REDACTED_AWS_KEY]"
+    },
+    {
+      "name": "GitHub token",
+      "regex": "\\bgh[pousr]_[A-Za-z0-9]{20,}\\b",
+      "replacement": "[REDACTED_GITHUB_TOKEN]"
+    },
+    {
+      "name": "OpenAI or Stripe secret key",
+      "regex": "\\b(?:sk-(?:live|test)-|sk_(?:live|test)_)[A-Za-z0-9_-]{12,}\\b",
+      "replacement": "[REDACTED_PROVIDER_KEY]"
+    },
+    {
+      "name": "Anthropic API key",
+      "regex": "\\bsk-ant-[A-Za-z0-9_-]{16,}\\b",
+      "replacement": "[REDACTED_ANTHROPIC_KEY]"
+    },
+    {
+      "name": "Stripe restricted key",
+      "regex": "\\brk_(?:live|test)_[A-Za-z0-9]{12,}\\b",
+      "replacement": "[REDACTED_STRIPE_KEY]"
+    },
+    {
+      "name": "Sensitive environment variable assignment",
+      "regex": "\\b([A-Z0-9_]*(?:SECRET|PASSWORD|PASSWD|API[_-]?KEY|ANON[_-]?KEY|ACCESS[_-]?TOKEN|AUTH[_-]?TOKEN|GITHUB_TOKEN|DATABASE_URL|MONGODB_URI|SERVICE[_-]?ROLE[_-]?KEY|PRIVATE[_-]?KEY|CONNECTION[_-]?STRING|CREDENTIAL)[A-Z0-9_]*)\\s*=\\s*[\"']?[^\\s\"',;}]+",
+      "replacement": "$1=[REDACTED]",
+      "flags": "i"
+    },
+    {
+      "name": "Generic secret assignment",
+      "regex": "\\b(secret|password|passwd|api_key|apikey|token)\\s*=\\s*[\"']?[^\\s\"',;}]+",
+      "replacement": "$1=[REDACTED]",
+      "flags": "i"
+    },
+    {
+      "name": "JSON credential property",
+      "regex": "([\"'])([A-Z0-9_]*(?:SECRET|PASSWORD|PASSWD|API[_-]?KEY|ANON[_-]?KEY|ACCESS[_-]?TOKEN|AUTH[_-]?TOKEN|GITHUB_TOKEN|TOKEN|DATABASE_URL|MONGODB_URI|SERVICE[_-]?ROLE[_-]?KEY|PRIVATE[_-]?KEY|CONNECTION[_-]?STRING|CREDENTIAL)[A-Z0-9_]*)[\"']\\s*:\\s*([\"'])[^\"']+\\3",
+      "replacement": "\"$2\":\"[REDACTED]\"",
+      "flags": "i"
+    },
+    {
+      "name": "Bearer token",
+      "regex": "\\bBearer\\s+[A-Za-z0-9._~+/-]+=*",
+      "replacement": "[REDACTED_BEARER_TOKEN]",
+      "flags": "i"
+    },
+    {
+      "name": "Private key block",
+      "regex": "-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\\s\\S]+?-----END (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+      "replacement": "[REDACTED_PRIVATE_KEY]"
+    }
+  ]
+}

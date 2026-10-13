@@ -1,0 +1,27 @@
+body {
+  color: var(--vscode-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  padding: 0 12px 16px;
+}
+
+h1 {
+  color: var(--vscode-textLink-foreground);
+  font-size: 1.5em;
+}
+
+h2 {
+  margin-bottom: 6px;
+  font-size: 1.1em;
+}
+
+pre {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  padding: 10px;
+  background: var(--vscode-textCodeBlock-background);
+}
+
+button {
+  margin: 4px 4px 4px 0;
+}

@@ -1,14 +1,17 @@
 # Dependencies
 node_modules/
 
-# Build output
-dist/
-dist-ssr/
+# Build output and deployment caches
+**/dist/
+**/dist-ssr/
+**/build/
+.vercel/
+coverage/
+htmlcov/
 
 # Environment variables
-.env
-.env.local
-.env.*.local
+.env*
+!.env.example
 
 # Logs
 logs/
@@ -32,6 +35,34 @@ Thumbs.db
 
 # Vite cache
 .vite/
+
+# Python environments, caches, and generated model artifacts
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+.pytest_cache/
+artifacts/
+checkpoints/
+*.safetensors
+*.pt
+*.ckpt
+data/processed/*.jsonl
+evaluation/results/*.json
+
+# VS Code extension build output
+apps/vscode-extension/out/
+apps/vscode-extension/node_modules/
+*.vsix
 
 # Local only
 *.local

@@ -1,0 +1,11 @@
+{
+  "patterns": [
+    { "category": "dependency",            "signatures": ["Module not found", "Cannot find module", "ERR_PNPM_NO_MATCHING_VERSION", "npm ERR! code ERESOLVE", "peer dep missing"] },
+    { "category": "environment_variables", "signatures": ["undefined", "process.env", "NEXT_PUBLIC_", "Missing env", "getStaticProps"] },
+    { "category": "database",             "signatures": ["permission denied", "RLS", "new row violates", "relation does not exist", "column does not exist"] },
+    { "category": "deployment",           "signatures": ["Build failed", "Command failed with exit code", "ENOENT", "Cannot read properties of undefined"] },
+    { "category": "authentication",       "signatures": ["401", "403", "Unauthorized", "Invalid token", "Session expired", "JWT"] },
+    { "category": "network",              "signatures": ["ECONNREFUSED", "ETIMEDOUT", "fetch failed", "Network Error", "CORS"] },
+    { "category": "typescript",           "signatures": ["TS", "Type error", "is not assignable to type", "Property does not exist"] }
+  ]
+}

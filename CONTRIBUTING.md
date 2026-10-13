@@ -1,39 +1,52 @@
-# Contributing to OOPSIE 🚀
+# Contributing to OOPSIE
 
-Thank you for contributing to **OOPSIE** — the open-source AI Error Recovery Copilot for vibe coders!
+Thank you for helping build OOPSIE's open error-recovery dataset, training and evaluation tools, inference interfaces, knowledge base, and documentation.
 
-## How You Can Contribute
+## Contribution areas
 
-### 1. Submit an Error Recovery Recipe (`/knowledge-base/`)
-Found a common error in React, Next.js, Supabase, Vercel, Firebase, Docker, or Python?
-1. Fork this repository: [https://github.com/Onyx-Prasai/OOPSIE](https://github.com/Onyx-Prasai/OOPSIE)
-2. Create a markdown file under `/knowledge-base/<framework>/<error-slug>.md`.
-3. Fill out the recipe template:
-   - Target Error Signatures
-   - Plain Language Explanation
-   - Likely Root Causes
-   - Safe AI Repair Prompt Template
-   - Verification Checklist
-4. Open a Pull Request!
+- **Training examples:** add reviewed records to the maintainer-selected split in `data/`, following `data/example-schema.json` and the [dataset guide](docs/dataset-guide.md).
+- **Benchmark cases:** add distinct, held-out examples to `evaluation/benchmark.jsonl`; never copy benchmark items into any dataset split. Follow the [benchmark guide](docs/benchmark-guide.md).
+- **Knowledge-base recipes:** add a focused Markdown recipe under `knowledge-base/<framework>/` using `knowledge-base/_template.md`. Include exact synthetic/anonymized signatures, likely causes, safe repair guidance, relevant risk, and verification steps.
+- **Redaction rules:** improve `rules/redaction/patterns.json` with tests for safe examples and false positives. Redaction is best-effort; do not submit credentials to test it.
+- **Classifiers:** add precise signatures and cautious descriptions to `rules/classifiers/`; ambiguous errors should remain unknown or ask for more context.
+- **Prompts and tooling:** improve `prompts/`, data validation, preprocessing, evaluation, API/CLI, and demo code without implying unverified model capability.
+- **Documentation and translations:** improve `docs/` and keep project status, safety disclaimers, and terminology accurate.
+- **Optional VS Code extension:** changes belong in `apps/vscode-extension/`; it remains an optional future interface.
 
-### 2. Improve Classification Rules (`/rules/classifiers.json`)
-Add regex or keyword patterns to help OOPSIE instantly classify obscure build errors.
+## Dataset and privacy requirements
 
-### 3. Add Safety & Redaction Patterns (`/rules/secret-redaction-patterns.json`)
-Help ensure users never accidentally paste sensitive API tokens or database secrets into public logs.
+- Never commit real API keys, tokens, passwords, private keys, private database URLs, personal data, private logs, or proprietary source code.
+- Use original synthetic examples or material you have explicit permission to share and have fully anonymized.
+- Follow the existing dataset-record schema and keep expected category/risk aligned with the target report.
+- Use cautious language such as “likely cause”; do not claim certainty unless the supplied evidence establishes it.
+- Include concrete verification steps and focused, safe repair prompts.
+- Do not disable authentication, authorization, database protections, or other safety controls as a generic fix.
+- Automated redaction and validation do not guarantee that data is safe or shareable; review every contribution manually.
 
-### 4. Direct Email Support & Inquiries
-Reach out to the lead maintainer at **[onyxefforts@gmail.com](mailto:onyxefforts@gmail.com)** for recipe questions or security reports.
+## Validate changes
 
-## Local Development Setup
-```bash
-# Clone repository
-git clone https://github.com/Onyx-Prasai/OOPSIE.git
-cd OOPSIE
-
-# Install dependencies
-npm install
-
-# Start local documentation & engine portal
-npm run dev
+```powershell
+npm run validate:data
+python training/preprocess.py
+python -m unittest discover -s tests
 ```
+
+For web demo changes, also run:
+
+```powershell
+npm run build
+npm run lint
+```
+
+For optional extension changes, run its compile and lint scripts from `apps/vscode-extension`.
+
+## Pull requests
+
+- Submit one focused change per pull request.
+- Explain the motivation and any limitations.
+- Include verification steps and exact command results.
+- For data contributions, state synthetic/permissioned provenance and confirm there is no sensitive information.
+- For model or evaluation claims, include model/checkpoint, data, prompt, and evaluation provenance. Do not imply a fine-tuned checkpoint or benchmark result exists until verified.
+- OOPSIE does not guarantee fixes, security, or production readiness.
+
+See [`docs/contributing-guide.md`](docs/contributing-guide.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).

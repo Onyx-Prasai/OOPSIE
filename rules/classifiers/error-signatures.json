@@ -1,0 +1,103 @@
+{
+  "rules": [
+    {
+      "category": "dependency",
+      "framework": "npm / Node.js",
+      "risk": "low",
+      "signatures": ["Cannot find module", "Module not found", "ERR_MODULE_NOT_FOUND", "ERESOLVE", "ERR_PNPM_OUTDATED_LOCKFILE"],
+      "explanation": "The runtime or package manager cannot resolve a package or local module. The output alone may not distinguish an absent dependency from an incorrect import or install directory.",
+      "cause": "A dependency may be missing, installed in another project, incompatible with the current package manager, or referenced by an incorrect import path.",
+      "focus": "the import, package manifest, lockfile, and project root"
+    },
+    {
+      "category": "runtime",
+      "framework": "React",
+      "risk": "low",
+      "signatures": ["Cannot read properties of undefined", "Too many re-renders", "Rendered fewer hooks", "Objects are not valid as a React child", "Maximum update depth exceeded", "Hydration failed"],
+      "explanation": "The runtime points to a value or rendering behavior that does not match what the component expects. The exact data flow or intended UI behavior is not shown.",
+      "cause": "A component may receive incomplete data, update state during rendering, call hooks conditionally, or render different content on the server and client.",
+      "focus": "the named component, its props/state, and the relevant rendering lifecycle"
+    },
+    {
+      "category": "build",
+      "framework": "Next.js",
+      "risk": "low",
+      "signatures": ["missing a required default export", "should be awaited", "should be wrapped in a suspense boundary", "Client Component", "Dynamic server usage", "not a React Component", "next/image"],
+      "explanation": "Next.js reports a route, rendering, or server/client component constraint. The correct fix depends on the route code and installed Next.js version.",
+      "cause": "A route export, async framework API, server/client boundary, static rendering requirement, or image host configuration may not match Next.js expectations.",
+      "focus": "the reported route/component and the Next.js version-specific requirement"
+    },
+    {
+      "category": "authentication",
+      "framework": "Supabase",
+      "risk": "medium",
+      "signatures": ["AuthApiError", "Invalid API key", "Invalid Refresh Token", "Auth session missing", "auth/invalid-api-key"],
+      "explanation": "Supabase rejected or could not complete an authentication request. The message does not show whether the project configuration, session flow, or environment is mismatched.",
+      "cause": "The configured public URL/key pair or authentication session may not match the intended Supabase project and environment.",
+      "focus": "the Supabase client setup and authentication flow without exposing key values"
+    },
+    {
+      "category": "authorization",
+      "framework": "Supabase",
+      "risk": "high",
+      "signatures": ["row-level security policy", "permission denied for table", "PostgrestError"],
+      "explanation": "A database request was rejected by a table permission or row-level security rule. The log does not justify relaxing access controls.",
+      "cause": "The active user or request may not satisfy the table's current row-level security policy.",
+      "focus": "the exact table policy and expected user access, preserving least privilege"
+    },
+    {
+      "category": "configuration",
+      "framework": "Firebase",
+      "risk": "medium",
+      "signatures": ["FirebaseError", "No Firebase App", "auth/unauthorized-domain", "storage/unauthorized"],
+      "explanation": "Firebase indicates an initialization, project configuration, allowed-domain, or service-rules issue. The exact project and runtime configuration are not included.",
+      "cause": "The app may initialize with the wrong project configuration, initialize more than once, or use a service rule/domain that does not allow the request.",
+      "focus": "Firebase initialization, target project, and narrowly scoped service rules"
+    },
+    {
+      "category": "deployment",
+      "framework": "Vercel / Netlify",
+      "risk": "medium",
+      "signatures": ["exited with", "Output Directory", "Publish directory", "Root Directory", "Build failed", "Deployment failed", "maximum duration"],
+      "explanation": "The hosting provider could not complete a build or locate the configured application/output. Earlier build-log lines and hosting settings may be needed to determine why.",
+      "cause": "The configured project root, build command, output directory, or runtime may not match the repository and framework.",
+      "focus": "the first actionable build error and configured root/build/output settings"
+    },
+    {
+      "category": "environment_variables",
+      "framework": "Application configuration",
+      "risk": "medium",
+      "signatures": ["Missing required environment variable", "is not set", "is undefined", "NEXT_PUBLIC_", "DATABASE_URL", "must be configured"],
+      "explanation": "The application or build cannot find a required setting or received an empty value. This does not identify the correct environment or value.",
+      "cause": "A required variable may be absent from the current development/deployment scope or use a name that differs from the app's configuration.",
+      "focus": "the required variable name and environment scope; never reveal its value"
+    },
+    {
+      "category": "network",
+      "framework": "API / backend",
+      "risk": "medium",
+      "signatures": ["ECONNREFUSED", "ETIMEDOUT", "fetch failed", "502 Bad Gateway", "503 Service Unavailable", "CORS", "429 Too Many Requests", "413 Payload Too Large"],
+      "explanation": "The request failed at the network or HTTP layer. The error alone may not distinguish client settings, server availability, request limits, or an upstream dependency.",
+      "cause": "The backend may be unavailable, unreachable at the configured address, rejecting the request, or constrained by rate, size, or cross-origin policy.",
+      "focus": "the request URL/status, API contract, and correlated server logs"
+    },
+    {
+      "category": "authentication",
+      "framework": "Authentication / identity",
+      "risk": "high",
+      "signatures": ["401 Unauthorized", "403 Forbidden", "Invalid JWT", "redirect_uri_mismatch", "state parameter mismatch", "access token has expired", "issuer does not match"],
+      "explanation": "The identity or access flow rejected the request because session, token, callback, issuer, audience, or scope checks did not match.",
+      "cause": "An identity-provider setting or authorization scope may not match the active client and environment.",
+      "focus": "issuer, callback, audience, session flow, and least-privilege scopes without exposing credentials"
+    },
+    {
+      "category": "unknown",
+      "framework": "Unknown",
+      "risk": "low",
+      "signatures": [],
+      "explanation": "There is not enough specific diagnostic information to identify a likely cause from this text alone.",
+      "cause": "The message only establishes that an operation failed; the triggering command, component, or preceding error is missing.",
+      "focus": "the command/action, full surrounding log, runtime, and a minimal reproduction"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "name": "oopsie-vscode-optional",
+  "displayName": "OOPSIE — Optional Model Client",
+  "description": "Optional VS Code interface for the OOPSIE open-source AI error recovery model.",
+  "version": "0.1.0",
+  "publisher": "onyx-prasai",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other", "Debuggers", "AI"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "oopsie.analyzeSelection",      "title": "OOPSIE: Explain Selected Error" },
+      { "command": "oopsie.analyzeTerminal",        "title": "OOPSIE: Analyze Terminal Output" },
+      { "command": "oopsie.analyzeDiagnostic",      "title": "OOPSIE: Explain This Problem" },
+      { "command": "oopsie.generateRepairPrompt",   "title": "OOPSIE: Generate Repair Prompt" },
+      { "command": "oopsie.openHistory",            "title": "OOPSIE: Open Error History" },
+      { "command": "oopsie.contributeRecipe",       "title": "OOPSIE: Contribute Error Recipe" }
+    ],
+    "keybindings": [
+      {
+        "command": "oopsie.analyzeSelection",
+        "key": "ctrl+shift+o",
+        "mac": "cmd+shift+o",
+        "when": "editorHasSelection"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "oopsie", "title": "OOPSIE", "icon": "media/icons/oopsie.svg" }
+      ]
+    },
+    "views": {
+      "oopsie": [
+        { "type": "webview", "id": "oopsie.panel", "name": "Error Recovery" }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        { "command": "oopsie.analyzeSelection", "when": "editorHasSelection", "group": "oopsie" },
+        { "command": "oopsie.generateRepairPrompt", "when": "editorHasSelection", "group": "oopsie" }
+      ],
+      "problems/context": [
+        { "command": "oopsie.analyzeDiagnostic", "group": "oopsie" }
+      ]
+    },
+    "configuration": {
+      "title": "OOPSIE",
+      "properties": {
+        "oopsie.apiBaseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000",
+          "description": "Base URL for the OOPSIE inference API."
+        },
+        "oopsie.redactSecrets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically redact secrets and API keys before sending to AI."
+        },
+        "oopsie.maxContextLines": {
+          "type": "number",
+          "default": 200,
+          "minimum": 1,
+          "description": "Maximum number of log lines to include in analysis context."
+        },
+        "oopsie.autoAnalyzeTerminalErrors": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically detect and analyze errors in the terminal."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./ && node ./scripts/copy-resources.mjs",
+    "watch": "tsc -watch -p ./",
+    "lint": "tsc -p ./ --noEmit"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  }
+}
