@@ -9,10 +9,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from inference.schema import validate_instance
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from inference.schema import validate_instance
 SPLITS = ("train", "validation", "test")
+ALL_SPLITS = ("pilot", "train", "validation", "test")
 SYSTEM_PROMPT = (
     "You are OOPSIE, an AI error recovery assistant. Return only a JSON object matching "
     "the supplied response schema. Explain likely causes without certainty, ask for missing "
@@ -50,6 +53,17 @@ def validate_example(
     line_number: int,
 ) -> dict[str, Any]:
     if isinstance(example, dict) and isinstance(example.get("target_report"), dict):
+        if "model_input" in example:
+            errors = validate_instance(example["target_report"], schema, "$.target_report")
+            if errors:
+                raise ValueError(f"{source}:{line_number}: {errors[0]}")
+            return {
+                "input": {
+                    "error_text": example["model_input"]["raw_error"],
+                    "context": example["model_input"].get("context", {}),
+                },
+                "output": example["target_report"],
+            }
         required = {
             "id", "framework", "platform", "input_type", "raw_error", "cleaned_error",
             "expected_category", "expected_risk", "ground_truth_cause", "ground_truth_fix",
@@ -134,7 +148,7 @@ def preprocess_split(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--split", choices=(*SPLITS, "all"), default="all")
+    parser.add_argument("--split", choices=(*ALL_SPLITS, "all"), default="all")
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
     parser.add_argument("--schema", type=Path, default=ROOT / "data" / "schema.json")
     parser.add_argument(

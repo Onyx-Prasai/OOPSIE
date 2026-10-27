@@ -1,0 +1,80 @@
+[
+  {
+    "id": "svc_db_001",
+    "domain": "database",
+    "description": "PostgreSQL connection refused in Django application during staging deploy.",
+    "model_input": {
+      "raw_error": "django.db.utils.OperationalError: could not connect to server: Connection refused\nIs the server running on host \"postgres.internal\" (10.0.4.12) and accepting TCP/IP connections on port 5432?",
+      "context": {
+        "language_or_framework": "Django / PostgreSQL",
+        "environment": "staging"
+      }
+    },
+    "expected_category": "database"
+  },
+  {
+    "id": "svc_cfg_002",
+    "domain": "environment_variables",
+    "description": "Missing Stripe secret key environment variable in Node.js service boot.",
+    "model_input": {
+      "raw_error": "Error: Missing required environment variable: STRIPE_SECRET_KEY. Cannot initialize Stripe client without API credentials at Object.<anonymous> (/app/src/billing.ts:8:11)",
+      "context": {
+        "language_or_framework": "Node.js / Express",
+        "environment": "production"
+      }
+    },
+    "expected_category": "environment_variables"
+  },
+  {
+    "id": "svc_ts_003",
+    "domain": "typescript",
+    "description": "TypeScript compiler excess / unknown prop error on React component.",
+    "model_input": {
+      "raw_error": "src/components/Checkout.tsx(42,9): error TS2322: Type '{ user: User; total: number; onComplete: () => void; }' is not assignable to type 'IntrinsicAttributes & CheckoutProps'.\n  Property 'onComplete' does not exist on type 'IntrinsicAttributes & CheckoutProps'. Did you mean 'onSuccess'?",
+      "context": {
+        "language_or_framework": "TypeScript / React",
+        "environment": "local_development"
+      }
+    },
+    "expected_category": "typescript"
+  },
+  {
+    "id": "svc_net_004",
+    "domain": "network",
+    "description": "Outbound HTTP API connection timeout in Python requests client.",
+    "model_input": {
+      "raw_error": "requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='api.resend.com', port=443): Max retries exceeded with url: /emails (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f9a1>, 'Connection to api.resend.com timed out. (connect timeout=5.0)'))",
+      "context": {
+        "language_or_framework": "Python / requests",
+        "environment": "production"
+      }
+    },
+    "expected_category": "network"
+  },
+  {
+    "id": "svc_amb_005",
+    "domain": "ambiguous",
+    "description": "Process terminated by SIGKILL / exit code 137 without diagnostic stack trace.",
+    "model_input": {
+      "raw_error": "Worker process 4109 exited with status 137\n[pm2] App [api-gateway:0] exited with code [137] via signal [SIGKILL]\n[pm2] Script /app/server.js had too many unstable restarts (16). Stopped.",
+      "context": {
+        "language_or_framework": "Node.js / PM2",
+        "environment": "production"
+      }
+    },
+    "expected_category": "unknown"
+  },
+  {
+    "id": "svc_regression_eslint_006",
+    "domain": "regression_case",
+    "description": "Failed request ffbb49c1-7dc6-430b-82a5-b1df6a01a6b9: linter warnings followed by uncaptured exit code 1.",
+    "model_input": {
+      "raw_error": "[eslint] Warning: 'unusedVar' is defined but never used (no-unused-vars) in src/Header.js:3:7\n[build] 2 warnings found.\n[builder] Starting compiler step...\n[builder] Process finished with exit code 1.",
+      "context": {
+        "language_or_framework": "React / Webpack",
+        "environment": "ci_build"
+      }
+    },
+    "expected_category": "unknown"
+  }
+]

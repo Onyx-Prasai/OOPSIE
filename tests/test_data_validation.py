@@ -22,8 +22,13 @@ class CorpusValidationTests(unittest.TestCase):
     def test_validator_reports_missing_fields_invalid_risk_and_duplicates(self) -> None:
         valid = json.loads((ROOT / "data" / "train.jsonl").read_text(encoding="utf-8").splitlines()[0])
         invalid = dict(valid)
-        invalid["expected_risk"] = "critical"
-        invalid.pop("ground_truth_fix")
+        if "model_input" in invalid:
+            invalid["target_report"] = dict(invalid["target_report"])
+            invalid["target_report"]["risk_level"] = "critical"
+            invalid.pop("reference_annotations")
+        else:
+            invalid["expected_risk"] = "critical"
+            invalid.pop("ground_truth_fix")
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             for split in ("train", "validation", "test"):
@@ -34,13 +39,29 @@ class CorpusValidationTests(unittest.TestCase):
             benchmark_path = root / "benchmark.jsonl"
             benchmark_path.write_text("", encoding="utf-8")
             errors = validate_corpus(root, benchmark_path, ROOT / "data" / "schema.json")
-        self.assertTrue(any("missing required field 'ground_truth_fix'" in error for error in errors))
-        self.assertTrue(any("expected_risk must be low, medium, or high" in error for error in errors))
+        self.assertTrue(
+            any(
+                "missing required field 'ground_truth_fix'" in error
+                or "missing required field(s)" in error
+                for error in errors
+            )
+        )
+        self.assertTrue(
+            any(
+                "expected_risk must be low, medium, or high" in error
+                or "risk_level" in error
+                or "value is not in the allowed enum" in error
+                for error in errors
+            )
+        )
         self.assertTrue(any("duplicate id" in error for error in errors))
 
     def test_validator_rejects_secret_like_content(self) -> None:
         record = json.loads((ROOT / "data" / "train.jsonl").read_text(encoding="utf-8").splitlines()[0])
-        record["raw_error"] += "\nOPENAI_API_KEY=not-a-real-but-secret-shaped-value"
+        if "model_input" in record:
+            record["model_input"]["raw_error"] += "\nOPENAI_API_KEY=not-a-real-but-secret-shaped-value"
+        else:
+            record["raw_error"] += "\nOPENAI_API_KEY=not-a-real-but-secret-shaped-value"
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "example.jsonl"
             path.write_text(json.dumps(record) + "\n", encoding="utf-8")

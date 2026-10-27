@@ -75,7 +75,8 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./ && node ./scripts/copy-resources.mjs",
     "watch": "tsc -watch -p ./",
-    "lint": "tsc -p ./ --noEmit"
+    "lint": "tsc -p ./ --noEmit",
+    "test": "npm run compile && node --test test/response-parser.test.mjs"
   },
   "devDependencies": {
     "@types/vscode": "^1.85.0",

@@ -8,6 +8,7 @@ node_modules/
 .vercel/
 coverage/
 htmlcov/
+.coverage*
 
 # Environment variables
 .env*
@@ -24,14 +25,16 @@ pnpm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Editor directories
 .vscode/*
 !.vscode/extensions.json
 .idea/
 
-# TypeScript cache
+# TypeScript and linter caches
 *.tsbuildinfo
+.eslintcache
 
 # Vite cache
 .vite/
@@ -53,9 +56,14 @@ __pycache__/
 .pytest_cache/
 artifacts/
 checkpoints/
+models/
 *.safetensors
 *.pt
 *.ckpt
+checkpoints/**/*.bin
+checkpoints/**/*.onnx
+models/**/*.bin
+models/**/*.onnx
 data/processed/*.jsonl
 evaluation/results/*.json
 

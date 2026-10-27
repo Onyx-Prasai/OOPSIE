@@ -1,0 +1,66 @@
+{
+  "name": "OOPSIE Gemma-4-12B Pilot Configuration",
+  "version": "1.0.0",
+  "description": "Configuration for Kaggle smoke-test and pilot QLoRA training on google/gemma-4-12b-it.",
+  "model": {
+    "model_id": "google/gemma-4-12b-it",
+    "checkpoint_revision": "main",
+    "architecture_note": "Gemma 4 unified decoder with native linear multimodal projections; text-only causal LM training."
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "peft": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "smoke_test": {
+    "enabled": true,
+    "label": "OOPSIE-PIPELINE-SMOKE-TEST",
+    "sample_size_train": 6,
+    "sample_size_val": 2,
+    "max_steps": 3,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 2,
+    "max_seq_length": 1536,
+    "output_dir": "/kaggle/working/oopsie-smoke-test-adapter",
+    "artifacts_dir": "/kaggle/working/oopsie-smoke-test-artifacts"
+  },
+  "full_training": {
+    "enabled": false,
+    "label": "OOPSIE-FULL-TRAINING-PILOT",
+    "num_train_epochs": 3,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 0.0002,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.1,
+    "max_seq_length": 1536,
+    "output_dir": "/kaggle/working/oopsie-gemma4-12b-lora",
+    "artifacts_dir": "/kaggle/working/oopsie-training-artifacts"
+  },
+  "dataset": {
+    "train_filename": "train_conversational.jsonl",
+    "val_filename": "val_conversational.jsonl",
+    "manifest_filename": "manifest.json",
+    "schema_filename": "schema.json"
+  },
+  "prompting": {
+    "response_template": "<|turn>model\n"
+  }
+}

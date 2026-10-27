@@ -1,0 +1,1096 @@
+{
+  "dataset_name": "OOPSIE Error Recovery Dataset",
+  "version": "1.0.0",
+  "total_records": 120,
+  "splits": {
+    "train": 85,
+    "validation": 18,
+    "test": 17
+  },
+  "held_out_benchmark": {
+    "path": "evaluation/benchmark.jsonl",
+    "count": 40
+  },
+  "records": [
+    {
+      "id": "syn-amb-005",
+      "split": "train",
+      "scenario_group": "generic-build-failed-exit-1",
+      "category": "unknown",
+      "risk_level": "low",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-015",
+      "split": "train",
+      "scenario_group": "undici-generic-fetch-failed",
+      "category": "network",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-020",
+      "split": "validation",
+      "scenario_group": "multi-step-log-distracting-warnings",
+      "category": "unknown",
+      "risk_level": "low",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-021",
+      "split": "test",
+      "scenario_group": "spa-catchall-serves-html-for-script",
+      "category": "frontend",
+      "risk_level": "low",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-030",
+      "split": "test",
+      "scenario_group": "truncated-stacktrace-missing-root",
+      "category": "unknown",
+      "risk_level": "low",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-047",
+      "split": "train",
+      "scenario_group": "docker-compose-exit-code-137-oom",
+      "category": "unknown",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-048",
+      "split": "train",
+      "scenario_group": "generic-502-bad-gateway-nginx-reverse-proxy",
+      "category": "network",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-049",
+      "split": "train",
+      "scenario_group": "turbopack-internal-panic-unhandled",
+      "category": "unknown",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-050",
+      "split": "train",
+      "scenario_group": "stripe-webhook-signature-verification-failed",
+      "category": "unknown",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-051",
+      "split": "train",
+      "scenario_group": "rate-limit-429-too-many-requests",
+      "category": "network",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-079",
+      "split": "train",
+      "scenario_group": "ci-no-output-silent-failure",
+      "category": "unknown",
+      "risk_level": "low",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-080",
+      "split": "train",
+      "scenario_group": "uncaught-promise-rejection-swallowed",
+      "category": "network",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-086",
+      "split": "validation",
+      "scenario_group": "cryptic-js-heap-out-of-memory",
+      "category": "unknown",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-090",
+      "split": "test",
+      "scenario_group": "build-output-missing-after-deploy",
+      "category": "unknown",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-amb-120",
+      "split": "test",
+      "scenario_group": "dependency-version-lock-drift",
+      "category": "dependency",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-013",
+      "split": "train",
+      "scenario_group": "supabase-invalid-api-key",
+      "category": "authentication",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-025",
+      "split": "train",
+      "scenario_group": "supabase-oauth-redirect-uri-mismatch",
+      "category": "authentication",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-028",
+      "split": "validation",
+      "scenario_group": "supabase-rls-silent-empty-select",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-040",
+      "split": "train",
+      "scenario_group": "supabase-service-role-in-client",
+      "category": "authentication",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-055",
+      "split": "validation",
+      "scenario_group": "cors-wildcard-with-credentials-rejected",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-060",
+      "split": "test",
+      "scenario_group": "supabase-rls-infinite-recursion",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-069",
+      "split": "train",
+      "scenario_group": "nextauth-secret-missing-production",
+      "category": "authentication",
+      "risk_level": "high",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-089",
+      "split": "test",
+      "scenario_group": "jwt-verify-wrong-secret",
+      "category": "authentication",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-ath-102",
+      "split": "train",
+      "scenario_group": "oauth-redirect-uri-mismatch",
+      "category": "authentication",
+      "risk_level": "high",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-auth-004",
+      "split": "train",
+      "scenario_group": "supabase-rls-violates-policy",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-006",
+      "split": "train",
+      "scenario_group": "nextjs-app-router-client-component",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-043",
+      "split": "train",
+      "scenario_group": "tsc-missing-react-jsx-runtime",
+      "category": "typescript",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-056",
+      "split": "validation",
+      "scenario_group": "typescript-excess-property-check-fail",
+      "category": "typescript",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-067",
+      "split": "train",
+      "scenario_group": "turborepo-missing-task-depends-on",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-068",
+      "split": "train",
+      "scenario_group": "vite-asset-import-query-param-syntax",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-076",
+      "split": "train",
+      "scenario_group": "typescript-strict-null-checks-undefined",
+      "category": "typescript",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-095",
+      "split": "train",
+      "scenario_group": "eslint-plugin-missing-peer-dep",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-101",
+      "split": "train",
+      "scenario_group": "webpack-circular-dependency-undefined-import",
+      "category": "build",
+      "risk_level": "medium",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-109",
+      "split": "train",
+      "scenario_group": "next-config-missing-transpile-packages",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-bld-115",
+      "split": "train",
+      "scenario_group": "vite-env-prefix-not-exposed-client",
+      "category": "configuration",
+      "risk_level": "high",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-012",
+      "split": "train",
+      "scenario_group": "prisma-missing-database-url",
+      "category": "environment_variables",
+      "risk_level": "medium",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-016",
+      "split": "train",
+      "scenario_group": "vite-missing-env-prefix",
+      "category": "environment_variables",
+      "risk_level": "medium",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-017",
+      "split": "validation",
+      "scenario_group": "firebase-no-app-initialized",
+      "category": "configuration",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-027",
+      "split": "test",
+      "scenario_group": "empty-string-environment-variable",
+      "category": "environment_variables",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-037",
+      "split": "train",
+      "scenario_group": "vite-node-crypto-browser-polyfill",
+      "category": "frontend",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-038",
+      "split": "train",
+      "scenario_group": "nextjs-middleware-edge-node-api",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-039",
+      "split": "train",
+      "scenario_group": "tailwind-content-paths-missing",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-054",
+      "split": "validation",
+      "scenario_group": "postcss-missing-autoprefixer",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-059",
+      "split": "test",
+      "scenario_group": "dotenv-expand-variable-collision",
+      "category": "environment_variables",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-075",
+      "split": "train",
+      "scenario_group": "dotenv-not-loaded-before-module-import",
+      "category": "environment_variables",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-078",
+      "split": "train",
+      "scenario_group": "tsconfig-path-alias-not-working-jest",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-085",
+      "split": "validation",
+      "scenario_group": "vite-proxy-target-port-mismatch",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-088",
+      "split": "test",
+      "scenario_group": "missing-robots-txt-env-specific",
+      "category": "configuration",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-103",
+      "split": "train",
+      "scenario_group": "docker-compose-env-file-not-loaded",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-113",
+      "split": "validation",
+      "scenario_group": "prisma-schema-provider-mismatch",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-cfg-117",
+      "split": "test",
+      "scenario_group": "gitignore-env-file-committed",
+      "category": "authentication",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-014",
+      "split": "train",
+      "scenario_group": "postgres-drop-table-denied",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-041",
+      "split": "train",
+      "scenario_group": "drizzle-migration-drop-column-data-loss",
+      "category": "database",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-042",
+      "split": "train",
+      "scenario_group": "prisma-client-not-generated-out-of-sync",
+      "category": "database",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-063",
+      "split": "train",
+      "scenario_group": "supabase-foreign-key-constraint-violation",
+      "category": "database",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-064",
+      "split": "train",
+      "scenario_group": "prisma-connection-pool-timeout-serverless",
+      "category": "database",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-077",
+      "split": "train",
+      "scenario_group": "supabase-rls-anon-role-missing-policy",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-084",
+      "split": "validation",
+      "scenario_group": "mongodb-duplicate-key-error-11000",
+      "category": "database",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-093",
+      "split": "train",
+      "scenario_group": "supabase-storage-bucket-access-denied",
+      "category": "authorization",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-096",
+      "split": "train",
+      "scenario_group": "drizzle-missing-push-schema-migration",
+      "category": "database",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-107",
+      "split": "train",
+      "scenario_group": "supabase-realtime-channel-not-subscribed",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dat-116",
+      "split": "validation",
+      "scenario_group": "sequelize-association-not-defined-before-use",
+      "category": "database",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-001",
+      "split": "train",
+      "scenario_group": "vite-missing-lucide-icons",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-008",
+      "split": "train",
+      "scenario_group": "npm-eresolve-peer-dependency-conflict",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-009",
+      "split": "train",
+      "scenario_group": "missing-supabase-js-dependency",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-022",
+      "split": "train",
+      "scenario_group": "cjs-esm-require-not-defined",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-023",
+      "split": "validation",
+      "scenario_group": "typescript-missing-type-declarations",
+      "category": "typescript",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-031",
+      "split": "train",
+      "scenario_group": "npm-git-dependency-ssh-failed",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-032",
+      "split": "train",
+      "scenario_group": "pnpm-shamefully-hoist-missing",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-033",
+      "split": "train",
+      "scenario_group": "bun-native-addon-gyp-failure",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-052",
+      "split": "validation",
+      "scenario_group": "yarn-berry-pnp-unplugged",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-057",
+      "split": "test",
+      "scenario_group": "package-lock-merge-conflict-markers",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-073",
+      "split": "train",
+      "scenario_group": "workspace-protocol-unsupported-npm",
+      "category": "dependency",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dep-098",
+      "split": "train",
+      "scenario_group": "npm-overrides-breaking-peer-resolution",
+      "category": "dependency",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-007",
+      "split": "validation",
+      "scenario_group": "vercel-build-exit-status",
+      "category": "deployment",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-018",
+      "split": "train",
+      "scenario_group": "nextjs-dynamic-usage-in-static-export",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-019",
+      "split": "train",
+      "scenario_group": "netlify-publish-directory-mismatch",
+      "category": "deployment",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-029",
+      "split": "test",
+      "scenario_group": "node-engine-version-incompatibility",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-044",
+      "split": "validation",
+      "scenario_group": "docker-build-missing-copy-package-json",
+      "category": "build",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-045",
+      "split": "train",
+      "scenario_group": "cloudflare-pages-command-not-found-pnpm",
+      "category": "deployment",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-046",
+      "split": "train",
+      "scenario_group": "vercel-serverless-function-size-limit",
+      "category": "deployment",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-072",
+      "split": "train",
+      "scenario_group": "vercel-edge-function-timeout-exceeded",
+      "category": "deployment",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-082",
+      "split": "train",
+      "scenario_group": "github-actions-env-secret-not-set",
+      "category": "deployment",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-105",
+      "split": "train",
+      "scenario_group": "vercel-function-size-limit-exceeded",
+      "category": "deployment",
+      "risk_level": "high",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-111",
+      "split": "train",
+      "scenario_group": "railway-nixpacks-build-command-override",
+      "category": "deployment",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-dpl-119",
+      "split": "test",
+      "scenario_group": "aws-s3-cors-preflight-blocked",
+      "category": "network",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-env-003",
+      "split": "train",
+      "scenario_group": "nextjs-vercel-missing-env",
+      "category": "environment_variables",
+      "risk_level": "medium",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-002",
+      "split": "train",
+      "scenario_group": "react-undefined-array-map",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-010",
+      "split": "train",
+      "scenario_group": "react-infinite-rerender-state-call",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-011",
+      "split": "train",
+      "scenario_group": "react-nextjs-hydration-mismatch",
+      "category": "frontend",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-024",
+      "split": "train",
+      "scenario_group": "react-hooks-conditional-execution",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-026",
+      "split": "test",
+      "scenario_group": "react-objects-not-valid-as-child",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-034",
+      "split": "train",
+      "scenario_group": "react-infinite-useeffect-loop",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-035",
+      "split": "train",
+      "scenario_group": "zustand-create-selector-undefined",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-036",
+      "split": "train",
+      "scenario_group": "react-context-provider-missing",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-053",
+      "split": "validation",
+      "scenario_group": "tanstack-query-missing-queryclient-provider",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-058",
+      "split": "test",
+      "scenario_group": "react-dom-dangerouslysetinnerhtml-null",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-061",
+      "split": "train",
+      "scenario_group": "nextjs-use-client-missing-server-component",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-062",
+      "split": "train",
+      "scenario_group": "nextjs15-cookies-sync-deprecated",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-065",
+      "split": "train",
+      "scenario_group": "nextjs-localstorage-ssr-window-undefined",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-066",
+      "split": "train",
+      "scenario_group": "react19-useactionstate-no-pending-guard",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-070",
+      "split": "train",
+      "scenario_group": "dangerouslysetinnerhtml-unsanitized-xss-risk",
+      "category": "frontend",
+      "risk_level": "high",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-071",
+      "split": "train",
+      "scenario_group": "cors-preflight-options-405",
+      "category": "network",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-074",
+      "split": "train",
+      "scenario_group": "react-key-array-index-reorder-bug",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-081",
+      "split": "train",
+      "scenario_group": "react-suspense-no-fallback",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-083",
+      "split": "validation",
+      "scenario_group": "nextjs-image-domain-not-configured",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-087",
+      "split": "test",
+      "scenario_group": "react-stale-closure-useeffect",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-091",
+      "split": "train",
+      "scenario_group": "nextjs-server-action-revalidate-path",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-092",
+      "split": "train",
+      "scenario_group": "nextjs-parallel-routes-unmatched-slot",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-094",
+      "split": "train",
+      "scenario_group": "react-query-stale-while-revalidate-flicker",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-097",
+      "split": "train",
+      "scenario_group": "react-hydration-mismatch-date",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-099",
+      "split": "train",
+      "scenario_group": "tailwind-jit-purge-missing-content-glob",
+      "category": "configuration",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-100",
+      "split": "train",
+      "scenario_group": "node-cron-memory-leak-no-clearInterval",
+      "category": "runtime",
+      "risk_level": "medium",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-104",
+      "split": "train",
+      "scenario_group": "zustand-persist-hydration-mismatch",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "hard",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-106",
+      "split": "train",
+      "scenario_group": "fetch-no-cors-opaque-response",
+      "category": "network",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-108",
+      "split": "train",
+      "scenario_group": "react-context-rerender-performance",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "medium",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-110",
+      "split": "train",
+      "scenario_group": "async-await-missing-in-array-map",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-112",
+      "split": "train",
+      "scenario_group": "formdata-file-upload-content-type-missing",
+      "category": "network",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-114",
+      "split": "validation",
+      "scenario_group": "uncontrolled-to-controlled-input-warning",
+      "category": "runtime",
+      "risk_level": "low",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    },
+    {
+      "id": "syn-run-118",
+      "split": "test",
+      "scenario_group": "event-listener-not-removed-memory-leak",
+      "category": "runtime",
+      "risk_level": "medium",
+      "difficulty": "easy",
+      "source_type": "synthetic"
+    }
+  ]
+}

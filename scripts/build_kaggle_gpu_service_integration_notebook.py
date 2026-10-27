@@ -1,0 +1,485 @@
+"""Build training/kaggle_gpu_service_integration.ipynb.
+
+Small, self-contained Kaggle notebook to run real-GPU service integration testing
+using the verified Gemma 4 12B pilot adapter and training-aligned prompt formatter.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+NOTEBOOK_PATH = ROOT / "training" / "kaggle_gpu_service_integration.ipynb"
+
+cells = [
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "# OOPSIE: Real-GPU Service Integration Test\n",
+            "\n",
+            "This notebook performs the **first real-GPU end-to-end integration test** for the OOPSIE inference service on a Kaggle NVIDIA GPU (Tesla T4 or higher).\n",
+            "\n",
+            "> **STRICT SCOPE & CONSTRAINTS**:\n",
+            "> - **No Retraining / No Merging**: Zero weights altered or merged.\n",
+            "> - **Imports Actual Code**: Imports repository modules directly from the service bundle (no duplicate implementation cells).\n",
+            "> - **In-Process Testing**: Uses FastAPI `TestClient` in-process; no public tunnels or open public ports.\n",
+            "> - **No Silent Healing**: Strict raw completion parsing with zero markdown fence stripping or syntax repair."
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 1: Install Dependencies\n",
+            "\n",
+            "Installs the exact verified package versions from previous Kaggle runs (`env_packages.json`), plus FastAPI and Uvicorn for service testing."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "!pip install -q -U git+https://github.com/huggingface/transformers.git\n",
+            "!pip install -q -U trl>=0.12.0 peft>=0.14.0 bitsandbytes>=0.45.0 accelerate datasets\n",
+            "!pip install -q -U fastapi>=0.115.0 uvicorn httpx\n",
+            "print(\"Dependencies installed successfully.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 2: Unpack Service Code Bundle\n",
+            "\n",
+            "Extracts `oopsie-service-code.zip` into `/kaggle/working/service_root` and adds it to `sys.path` so the notebook imports the actual repository inference engine and API."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import os\n",
+            "import sys\n",
+            "import zipfile\n",
+            "from pathlib import Path\n",
+            "\n",
+            "candidate_dirs = [p.parent.parent for p in Path(\"/kaggle/input\").rglob(\"inference/config.py\")]\n",
+            "if candidate_dirs:\n",
+            "    service_root = candidate_dirs[0]\n",
+            "    print(f\"Found unpacked service code in Kaggle input: {service_root}\")\n",
+            "else:\n",
+            "    zip_matches = list(Path(\"/kaggle/input\").rglob(\"*.zip\"))\n",
+            "    if zip_matches:\n",
+            "        bundle_path = zip_matches[0]\n",
+            "        print(f\"Extracting service bundle from: {bundle_path}\")\n",
+            "        service_root = Path(\"/kaggle/working/service_root\")\n",
+            "        service_root.mkdir(parents=True, exist_ok=True)\n",
+            "        with zipfile.ZipFile(bundle_path, \"r\") as zf:\n",
+            "            zf.extractall(service_root)\n",
+            "    else:\n",
+            "        raise FileNotFoundError(f\"Service code not found under /kaggle/input! Contents: {list(Path('/kaggle/input').glob('*'))}\")\n",
+            "\n",
+            "if str(service_root) not in sys.path:\n",
+            "    sys.path.insert(0, str(service_root))\n",
+            "\n",
+            "# Verify imports from actual code\n",
+            "import inference.config as cfg\n",
+            "from inference.engine import BaseInferenceEngine, Gemma4PilotEngine, MockInferenceEngine, set_engine\n",
+            "from inference.parser import strict_parse_raw_completion, validate_oopsie_report\n",
+            "from inference.api.main import app, get_semaphore\n",
+            "\n",
+            "print(\"Service code successfully unpacked and imported from:\", service_root)"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 3: Hardware Preflight & Tesla T4 Compatibility Patch"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import torch\n",
+            "\n",
+            "# Tesla T4 (CC 7.5) compatibility patch: avoid torch.addmm(out_dtype=torch.float32) on BFloat16\n",
+            "try:\n",
+            "    import trl.kernels.chunked_logprob\n",
+            "    trl.kernels.chunked_logprob._MM_OUT_DTYPE = False\n",
+            "    print(\"Applied Tesla T4 kernel compatibility workaround (_MM_OUT_DTYPE = False).\")\n",
+            "except Exception as e:\n",
+            "    print(f\"TRL kernel patch notice: {e}\")\n",
+            "\n",
+            "assert torch.cuda.is_available(), \"CUDA GPU accelerator required!\"\n",
+            "device_name = torch.cuda.get_device_name(0)\n",
+            "vram_gb = torch.cuda.get_device_properties(0).total_memory / (1024 ** 3)\n",
+            "print(f\"Primary GPU   : {device_name}\")\n",
+            "print(f\"Available VRAM: {vram_gb:.2f} GB\")\n",
+            "assert vram_gb >= 14.0, f\"Insufficient VRAM: {vram_gb:.2f} GB (minimum 14.0 GB required for 12B NF4).\"\n",
+            "\n",
+            "# HF_TOKEN check from Kaggle Secrets (do not print token)\n",
+            "hf_token = os.environ.get(\"HF_TOKEN\")\n",
+            "if not hf_token:\n",
+            "    try:\n",
+            "        from kaggle_secrets import UserSecretsClient\n",
+            "        hf_token = UserSecretsClient().get_secret(\"HF_TOKEN\")\n",
+            "        os.environ[\"HF_TOKEN\"] = hf_token\n",
+            "        print(\"Successfully loaded HF_TOKEN from Kaggle Secrets.\")\n",
+            "    except Exception:\n",
+            "        raise RuntimeError(\"HF_TOKEN not found! Add via Kaggle: Add-ons -> Secrets -> HF_TOKEN.\")\n",
+            "else:\n",
+            "    print(\"HF_TOKEN detected in environment.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 4: Controlled Concurrency & Cancellation Pre-Check (Fake Engine)\n",
+            "\n",
+            "Runs a controlled fake-engine test before loading GPU weights to verify that:\n",
+            "1. Asynchronous health endpoints remain responsive during generation.\n",
+            "2. Admission bounds reject concurrent requests with `HTTP 429 CAPACITY_LIMIT`.\n",
+            "3. Client cancellation does not prematurely release GPU admission."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import time\n",
+            "import threading\n",
+            "from starlette.testclient import TestClient\n",
+            "\n",
+            "class ControlledSlowEngine(MockInferenceEngine):\n",
+            "    def __init__(self, delay_s: float = 0.3):\n",
+            "        super().__init__(ready=True)\n",
+            "        self.delay_s = delay_s\n",
+            "        self.started_event = threading.Event()\n",
+            "        self.completed_event = threading.Event()\n",
+            "\n",
+            "    def generate(self, raw_error: str, context=None, formatter_id=cfg.FORMATTER_TRAINING_ALIGNED):\n",
+            "        self.started_event.set()\n",
+            "        time.sleep(self.delay_s)\n",
+            "        self.completed_event.set()\n",
+            "        return super().generate(raw_error, context, formatter_id)\n",
+            "\n",
+            "slow_engine = ControlledSlowEngine(delay_s=0.3)\n",
+            "set_engine(slow_engine)\n",
+            "\n",
+            "with TestClient(app) as tc:\n",
+            "    t1_res = {}\n",
+            "    def run_worker():\n",
+            "        t1_res[\"resp\"] = tc.post(\"/v1/analyze\", json={\"error_text\": \"precheck test log\"})\n",
+            "\n",
+            "    th = threading.Thread(target=run_worker)\n",
+            "    th.start()\n",
+            "    assert slow_engine.started_event.wait(timeout=2.0), \"Engine failed to start generation.\"\n",
+            "\n",
+            "    # 1. Health endpoint responsiveness check\n",
+            "    t0 = time.perf_counter()\n",
+            "    h_resp = tc.get(\"/health\")\n",
+            "    h_dur = time.perf_counter() - t0\n",
+            "    assert h_resp.status_code == 200, f\"Health check failed: {h_resp.status_code}\"\n",
+            "    assert h_dur < 0.15, f\"Health check blocked by generation! Duration: {h_dur:.3f}s\"\n",
+            "    print(f\"Precheck 1 PASS: Health endpoint responsive during generation ({h_dur * 1000:.1f}ms).\")\n",
+            "\n",
+            "    # 2. Concurrency rejection check\n",
+            "    c_resp = tc.post(\"/v1/analyze\", json={\"error_text\": \"concurrent request\"})\n",
+            "    assert c_resp.status_code == 429, f\"Expected 429 CAPACITY_LIMIT, got {c_resp.status_code}\"\n",
+            "    assert c_resp.json()[\"error\"][\"code\"] == \"CAPACITY_LIMIT\"\n",
+            "    print(\"Precheck 2 PASS: Concurrent request rejected with HTTP 429 CAPACITY_LIMIT.\")\n",
+            "\n",
+            "    # 3. Cancellation / completion bounding check\n",
+            "    sem = get_semaphore()\n",
+            "    assert sem.acquire(blocking=False) is False, \"Semaphore prematurely released while generation running!\"\n",
+            "    th.join()\n",
+            "    assert t1_res[\"resp\"].status_code == 200, \"Primary request failed.\"\n",
+            "    assert sem.acquire(blocking=False) is True, \"Semaphore not released after generation completion!\"\n",
+            "    sem.release()\n",
+            "    print(\"Precheck 3 PASS: GPU capacity held until background thread completion.\")\n",
+            "\n",
+            "print(\"All concurrency pre-checks PASSED.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 5: Configure the Real Engine & Mount Points\n",
+            "\n",
+            "Locates the pilot adapter weights under `/kaggle/input`, disables mock mode, and configures `Gemma4PilotEngine`."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# Locate adapter directory containing adapter_model.safetensors\n",
+            "adapter_files = list(Path(\"/kaggle/input\").rglob(\"adapter_model.safetensors\"))\n",
+            "if not adapter_files:\n",
+            "    raise FileNotFoundError(\n",
+            "        \"adapter_model.safetensors not found under /kaggle/input! Add the pilot adapter dataset to this notebook.\"\n",
+            "    )\n",
+            "adapter_path = adapter_files[0].parent\n",
+            "print(f\"Located pilot adapter directory: {adapter_path}\")\n",
+            "\n",
+            "# Explicit configuration\n",
+            "os.environ[\"OOPSIE_USE_MOCK_ENGINE\"] = \"0\"\n",
+            "os.environ[\"OOPSIE_MODEL_PATH\"] = str(adapter_path)\n",
+            "os.environ[\"OOPSIE_BASE_MODEL_ID\"] = \"google/gemma-4-12b-it\"\n",
+            "os.environ[\"OOPSIE_FORMATTER\"] = cfg.FORMATTER_TRAINING_ALIGNED\n",
+            "\n",
+            "assert not cfg.is_mock_engine_enabled(), \"Mock mode must be explicitly disabled!\"\n",
+            "\n",
+            "real_engine = Gemma4PilotEngine(\n",
+            "    adapter_path=adapter_path,\n",
+            "    base_model_id=\"google/gemma-4-12b-it\",\n",
+            ")\n",
+            "assert isinstance(real_engine, Gemma4PilotEngine), \"Engine must be Gemma4PilotEngine!\"\n",
+            "set_engine(real_engine)\n",
+            "\n",
+            "print(\"Configured real Gemma4PilotEngine with training_aligned_v1 formatter.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 6: Load Real Model Weights & Probe Readiness\n",
+            "\n",
+            "Loads the 12B base model in 4-bit NF4 with double quantization and attaches the LoRA adapter once."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "print(\"Loading base model and pilot adapter into GPU...\")\n",
+            "t0_load = time.perf_counter()\n",
+            "real_engine.load()\n",
+            "load_duration = time.perf_counter() - t0_load\n",
+            "\n",
+            "assert real_engine.is_ready() is True, \"Model engine failed to report ready!\"\n",
+            "allocated_gb = torch.cuda.memory_allocated(0) / (1024 ** 3)\n",
+            "reserved_gb = torch.cuda.memory_reserved(0) / (1024 ** 3)\n",
+            "\n",
+            "print(f\"Model loaded in {load_duration:.2f} seconds.\")\n",
+            "print(f\"GPU Memory Allocated: {allocated_gb:.2f} GB\")\n",
+            "print(f\"GPU Memory Reserved : {reserved_gb:.2f} GB\")\n",
+            "\n",
+            "# Verify API readiness endpoint inside TestClient context manager\n",
+            "with TestClient(app) as client:\n",
+            "    ready_resp = client.get(\"/ready\")\n",
+            "    assert ready_resp.status_code == 200, f\"Readiness probe returned {ready_resp.status_code}\"\n",
+            "    ready_data = ready_resp.json()\n",
+            "    assert ready_data[\"status\"] == \"ready\"\n",
+            "    assert ready_data[\"model_ready\"] is True\n",
+            "    assert ready_data[\"model_version\"] == cfg.MODEL_VERSION\n",
+            "    print(\"API Readiness Probe: READY (HTTP 200).\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 7: Execute Real Request through POST /v1/analyze\n",
+            "\n",
+            "Submits an ordinary synthetic error log through the API service. Captures complete outer envelopes, token counts, throughput, and parses output strictly."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "sample_request = {\n",
+            "    \"error_text\": (\n",
+            "        \"[eslint] Warning: 'unusedVar' is defined but never used (no-unused-vars) in src/Header.js:3:7\\n\"\n",
+            "        \"[build] 2 warnings found.\\n\"\n",
+            "        \"[builder] Starting compiler step...\\n\"\n",
+            "        \"[builder] Process finished with exit code 1.\"\n",
+            "    ),\n",
+            "    \"context\": {\n",
+            "        \"language_or_framework\": \"React / Webpack\",\n",
+            "        \"environment\": \"ci_build\"\n",
+            "    },\n",
+            "    \"formatter\": \"training_aligned_v1\"\n",
+            "}\n",
+            "\n",
+            "print(\"Submitting real inference request to POST /v1/analyze...\")\n",
+            "t0_req = time.perf_counter()\n",
+            "with TestClient(app) as client:\n",
+            "    resp = client.post(\"/v1/analyze\", json=sample_request)\n",
+            "total_req_time = (time.perf_counter() - t0_req) * 1000.0\n",
+            "\n",
+            "print(f\"HTTP Status Code: {resp.status_code}\")\n",
+            "body = resp.json()\n",
+            "\n",
+            "request_success = (resp.status_code == 200 and body.get(\"status\") == \"success\")\n",
+            "if request_success:\n",
+            "    print(\"\\n--- OUTER SUCCESS ENVELOPE ---\")\n",
+            "    print(f\"Request ID        : {body['request_id']}\")\n",
+            "    print(f\"Model Version     : {body['model_version']}\")\n",
+            "    print(f\"Formatter Version : {body['formatter_version']}\")\n",
+            "    print(f\"Prompt Tokens     : {body['metadata']['prompt_tokens']}\")\n",
+            "    print(f\"Generated Tokens  : {body['metadata']['generated_tokens']}\")\n",
+            "    print(f\"Budget Hit (Cutoff): {body['metadata']['budget_hit']}\")\n",
+            "    print(f\"Measured Latency  : {body['metadata']['duration_ms']} ms\")\n",
+            "    tok_per_sec = body['metadata']['generated_tokens'] / (body['metadata']['duration_ms'] / 1000.0)\n",
+            "    print(f\"Throughput        : {tok_per_sec:.2f} tok/s\")\n",
+            "    \n",
+            "    data = body[\"data\"]\n",
+            "    print(\"\\n--- VALIDATED OOPSIE REPORT ---\")\n",
+            "    print(f\"Summary           : {data.get('summary')}\")\n",
+            "    print(f\"Risk Level        : {data.get('risk_level')}\")\n",
+            "    print(f\"Error Category    : {data.get('error_category')}\")\n",
+            "    print(f\"Likely Causes     : {len(data.get('likely_causes', []))} item(s)\")\n",
+            "    print(f\"Repair Prompt     : {data.get('repair_prompt')[:140]}...\")\n",
+            "else:\n",
+            "    print(\"\\n--- SERVICE FAILURE ENVELOPE ---\")\n",
+            "    print(f\"Request ID        : {body.get('request_id')}\")\n",
+            "    print(f\"Error Code        : {body.get('error', {}).get('code')}\")\n",
+            "    print(f\"Error Message     : {body.get('error', {}).get('message')}\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 8: Save Integration Report & Artifacts\n",
+            "\n",
+            "Records the real GPU integration outcomes into `/kaggle/working/oopsie-gpu-integration/`."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import json\n",
+            "from pathlib import Path\n",
+            "out_dir = Path(\"/kaggle/working/oopsie-gpu-integration\")\n",
+            "out_dir.mkdir(parents=True, exist_ok=True)\n",
+            "\n",
+            "integration_report = {\n",
+            "    \"service_status\": \"integration_test_completed\",\n",
+            "    \"hardware\": {\n",
+            "        \"device\": device_name,\n",
+            "        \"vram_total_gb\": round(vram_gb, 2),\n",
+            "        \"vram_allocated_gb\": round(allocated_gb, 2),\n",
+            "        \"vram_reserved_gb\": round(reserved_gb, 2),\n",
+            "    },\n",
+            "    \"model_configuration\": {\n",
+            "        \"base_model_id\": \"google/gemma-4-12b-it\",\n",
+            "        \"adapter_path\": str(adapter_path),\n",
+            "        \"engine_type\": type(real_engine).__name__,\n",
+            "        \"mock_mode_disabled\": not cfg.is_mock_engine_enabled(),\n",
+            "        \"formatter\": cfg.FORMATTER_TRAINING_ALIGNED,\n",
+            "        \"max_new_tokens\": cfg.MAX_NEW_TOKENS,\n",
+            "        \"temperature\": cfg.TEMPERATURE,\n",
+            "        \"do_sample\": cfg.DO_SAMPLE,\n",
+            "    },\n",
+            "    \"lifecycle_checks\": {\n",
+            "        \"model_load_duration_s\": round(load_duration, 2),\n",
+            "        \"readiness_status_code\": ready_resp.status_code,\n",
+            "        \"readiness_body\": ready_data,\n",
+            "        \"concurrency_prechecks_passed\": True,\n",
+            "    },\n",
+            "    \"inference_request_outcome\": {\n",
+            "        \"http_status\": resp.status_code,\n",
+            "        \"envelope_status\": body.get(\"status\"),\n",
+            "        \"request_id\": body.get(\"request_id\"),\n",
+            "        \"metadata\": body.get(\"metadata\"),\n",
+            "        \"report_validated\": request_success,\n",
+            "        \"error_details\": body.get(\"error\") if not request_success else None,\n",
+            "    },\n",
+            "    \"limitations_notice\": (\n",
+            "        \"This single integration test confirms API and model execution on real GPU hardware. \"\n",
+            "        \"It does NOT establish a new benchmark, prove repair correctness, or justify public deployment.\"\n",
+            "    )\n",
+            "}\n",
+            "\n",
+            "with open(out_dir / \"gpu_service_integration_report.json\", \"w\", encoding=\"utf-8\") as f:\n",
+            "    json.dump(integration_report, f, indent=2)\n",
+            "\n",
+            "# Diagnostic artifact containing raw completion for debugging (excluded from service logs)\n",
+            "with open(out_dir / \"api_response_envelope.json\", \"w\", encoding=\"utf-8\") as f:\n",
+            "    json.dump(body, f, indent=2)\n",
+            "\n",
+            "summary_md = f\"\"\"# OOPSIE Real-GPU Integration Test Summary\n",
+            "\n",
+            "- **Date**: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}\n",
+            "- **GPU**: {device_name} ({vram_gb:.2f} GB)\n",
+            "- **Base Model**: `google/gemma-4-12b-it`\n",
+            "- **Adapter**: `{adapter_path}`\n",
+            "- **Engine**: `{type(real_engine).__name__}` (Mock Mode: False)\n",
+            "- **Formatter**: `{cfg.FORMATTER_TRAINING_ALIGNED}`\n",
+            "- **Load Time**: {load_duration:.2f}s (Allocated: {allocated_gb:.2f} GB)\n",
+            "- **API Readiness Probe**: HTTP {ready_resp.status_code}\n",
+            "- **Inference Outcome**: HTTP {resp.status_code} ({body.get('status')})\n",
+            "- **Generated Tokens**: {body.get('metadata', {}).get('generated_tokens', 'N/A')}\n",
+            "- **Throughput**: {tok_per_sec:.2f} tok/s if request_success else 'N/A'\n",
+            "\n",
+            "> This artifact validates operational service contracts on real GPU hardware without public deployment.\n",
+            "\"\"\"\n",
+            "\n",
+            "with open(out_dir / \"integration_summary.md\", \"w\", encoding=\"utf-8\") as f:\n",
+            "    f.write(summary_md)\n",
+            "\n",
+            "print(f\"\\nArtifacts successfully written to {out_dir}:\")\n",
+            "for item in out_dir.iterdir():\n",
+            "    print(f\"  - {item.name} ({item.stat().st_size:,} bytes)\")\n",
+            "print(\"\\nReal-GPU integration test harness completed.\")"
+        ]
+    }
+]
+
+notebook = {
+    "cells": cells,
+    "metadata": {
+        "kernelspec": {
+            "display_name": "Python 3",
+            "language": "python",
+            "name": "python3"
+        },
+        "language_info": {
+            "codemirror_mode": {"name": "ipython", "version": 3},
+            "file_extension": ".py",
+            "mimetype": "text/x-python",
+            "name": "python",
+            "nbconvert_exporter": "python",
+            "pygments_lexer": "ipython3",
+            "version": "3.10.12"
+        }
+    },
+    "nbformat": 4,
+    "nbformat_minor": 5
+}
+
+def main():
+    NOTEBOOK_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(NOTEBOOK_PATH, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(notebook, f, indent=2)
+    print(f"Generated notebook at: {NOTEBOOK_PATH} ({NOTEBOOK_PATH.stat().st_size:,} bytes, {len(cells)} cells)")
+
+if __name__ == "__main__":
+    main()

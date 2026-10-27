@@ -4,10 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node scripts/vite-compat.cjs",
+    "build": "tsc -b && node scripts/vite-compat.cjs build",
     "lint": "oxlint src",
-    "preview": "vite preview"
+    "preview": "node scripts/vite-compat.cjs preview",
+    "test": "node --test tests/client-contract.test.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

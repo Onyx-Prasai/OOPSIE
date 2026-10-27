@@ -20,15 +20,23 @@ class DatasetPipelineTests(unittest.TestCase):
             rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
             self.assertGreater(len(rows), 0, split)
             for row in rows:
-                self.assertIsInstance(row["cleaned_error"], str)
+                raw_or_cleaned = (
+                    row["model_input"]["raw_error"]
+                    if "model_input" in row
+                    else row["cleaned_error"]
+                )
+                self.assertIsInstance(raw_or_cleaned, str)
                 self.assertEqual(validate_instance(row["target_report"], schema), [], split)
 
     def test_preprocessor_redacts_input_and_output_text(self) -> None:
         source_data = json.loads((ROOT / "data" / "train.jsonl").read_text(encoding="utf-8").splitlines()[0])
-        source_data["raw_error"] += "\nAuthorization: Bearer sample-token-value"
-        source_data["cleaned_error"] = source_data["raw_error"]
+        if "model_input" in source_data:
+            source_data["model_input"]["raw_error"] += "\nAuthorization: Bearer sample-token-value"
+        else:
+            source_data["raw_error"] += "\nAuthorization: Bearer sample-token-value"
+            source_data["cleaned_error"] = source_data["raw_error"]
+            source_data["safe_repair_prompt"] = source_data["target_report"]["repair_prompt"]
         source_data["target_report"]["plain_explanation"] += " token=sample-secret-value"
-        source_data["safe_repair_prompt"] = source_data["target_report"]["repair_prompt"]
         with tempfile.TemporaryDirectory() as directory:
             temp_root = Path(directory)
             source = temp_root / "source.jsonl"
@@ -53,7 +61,7 @@ class InferenceSafetyTests(unittest.TestCase):
     def test_generated_report_must_match_schema(self) -> None:
         report = json.loads((ROOT / "data" / "train.jsonl").read_text(encoding="utf-8").splitlines()[0])["target_report"]
         parsed = parse_report(json.dumps(report))
-        self.assertEqual(parsed["error_category"], "dependency")
+        self.assertEqual(parsed["error_category"], report["error_category"])
         with self.assertRaises(ValueError):
             parse_report('{"summary":"missing required fields"}')
 

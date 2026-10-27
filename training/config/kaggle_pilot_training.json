@@ -1,0 +1,66 @@
+{
+  "name": "OOPSIE Gemma-4-12B Pilot Training Configuration",
+  "version": "1.0.0",
+  "description": "Bounded 3-epoch pilot QLoRA training and evaluation harness for google/gemma-4-12b-it.",
+  "experiment_type": "small_data_domain_adaptation",
+  "seed": 42,
+  "model": {
+    "model_id": "google/gemma-4-12b-it",
+    "checkpoint_revision": "main",
+    "architecture_note": "Gemma 4 unified decoder with native linear multimodal projections; text-only causal LM training."
+  },
+  "quantization": {
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16",
+    "bnb_4bit_use_double_quant": true
+  },
+  "peft": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  "training": {
+    "num_train_epochs": 3,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "effective_batch_size": 4,
+    "learning_rate": 0.0002,
+    "lr_scheduler_type": "cosine",
+    "warmup_ratio": 0.05,
+    "max_seq_length": 1536,
+    "eval_strategy": "epoch",
+    "save_strategy": "epoch",
+    "load_best_model_at_end": true,
+    "metric_for_best_model": "eval_loss",
+    "output_dir": "/kaggle/working/oopsie-pilot-checkpoints",
+    "adapter_final_dir": "/kaggle/working/oopsie-pilot-adapter",
+    "artifacts_dir": "/kaggle/working/oopsie-pilot-artifacts"
+  },
+  "generation": {
+    "max_new_tokens": 512,
+    "do_sample": false,
+    "temperature": 0.0
+  },
+  "dataset": {
+    "train_filename": "train_conversational.jsonl",
+    "val_filename": "val_conversational.jsonl",
+    "test_filename": "test_conversational.jsonl",
+    "manifest_filename": "manifest.json",
+    "schema_filename": "schema.json"
+  },
+  "prompting": {
+    "response_template": "<|turn>model\n"
+  }
+}
