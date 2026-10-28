@@ -12,10 +12,16 @@ import threading
 import time
 from typing import Any
 
-import pytest
-from starlette.testclient import TestClient
+import unittest
 
-from inference.api.main import app, get_semaphore
+try:
+    import pytest
+    from starlette.testclient import TestClient
+    from inference.api.main import app, get_semaphore
+except ImportError as exc:
+    raise unittest.SkipTest(
+        f"Skipping test_inference_service: {exc}. Install 'oopsie-ai[test]'."
+    )
 from inference.config import (
     CONFIG_VERSION,
     DEFAULT_FORMATTER,
