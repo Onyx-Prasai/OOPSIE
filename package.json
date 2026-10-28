@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace apps/web-demo",
-    "build": "npm run build --workspace apps/web-demo",
+    "build": "npm run build --workspace apps/web-demo && node scripts/copy-dist.mjs",
     "lint": "npm run lint --workspace apps/web-demo",
     "preview": "npm run preview --workspace apps/web-demo",
     "validate:data": "node scripts/validate-data.mjs"
