@@ -702,3 +702,10 @@ def test_warning_provenance_and_shared_fixture_immutability(reset_engine: MockIn
     assert not any("production" in w.lower() for w in data2["warnings"])
 
 
+def test_ollama_engine_mode_and_properties():
+    from inference.engine import OllamaInferenceEngine
+    engine = OllamaInferenceEngine(model_name="gemma2:9b")
+    assert engine.engine_mode == "real_model"
+    assert engine.model_name == "gemma2:9b"
+    assert engine.base_url == "http://127.0.0.1:11434"
+

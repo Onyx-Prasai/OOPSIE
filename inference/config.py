@@ -69,6 +69,15 @@ def get_concurrency_limit() -> int:
 def is_mock_engine_enabled() -> bool:
     return os.environ.get("OOPSIE_USE_MOCK_ENGINE", "").lower() in ("1", "true", "yes")
 
+def is_ollama_engine_enabled() -> bool:
+    return os.environ.get("OOPSIE_USE_OLLAMA", "").lower() in ("1", "true", "yes")
+
+def get_ollama_url() -> str:
+    return os.environ.get("OOPSIE_OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
+
+def get_ollama_model() -> str:
+    return os.environ.get("OOPSIE_OLLAMA_MODEL", "gemma2")
+
 def get_schema_path() -> Path:
     env_path = os.environ.get("OOPSIE_SCHEMA_PATH")
     if env_path:

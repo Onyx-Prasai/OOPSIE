@@ -25,7 +25,10 @@ from inference.config import (
     DEFAULT_SYSTEM_PROMPT_VERSION,
     get_adapter_path,
     get_base_model_id,
+    get_ollama_model,
+    get_ollama_url,
     is_mock_engine_enabled,
+    is_ollama_engine_enabled,
 )
 from inference.formatters import (
     build_conversation_messages,
@@ -223,6 +226,105 @@ class Gemma4PilotEngine(BaseInferenceEngine):
         )
 
 
+class OllamaInferenceEngine(BaseInferenceEngine):
+    """Local inference engine connecting to an Ollama server running Gemma or other models."""
+    engine_mode: str = "real_model"
+
+    def __init__(
+        self,
+        model_name: str | None = None,
+        base_url: str | None = None,
+    ) -> None:
+        self.model_name = model_name or get_ollama_model()
+        self.base_url = (base_url or get_ollama_url()).rstrip("/")
+        self._ready: bool = False
+
+    def is_ready(self) -> bool:
+        if self._ready:
+            return True
+        try:
+            import urllib.request
+            req = urllib.request.Request(f"{self.base_url}/api/version", headers={"User-Agent": "OOPSIE"})
+            with urllib.request.urlopen(req, timeout=2.0) as resp:
+                self._ready = (resp.status == 200)
+                return self._ready
+        except Exception:
+            return False
+
+    def load(self) -> None:
+        """Verify Ollama server connection and model availability."""
+        if not self.is_ready():
+            raise ModelNotReadyError(
+                f"Cannot connect to Ollama at {self.base_url}. "
+                "Please make sure Ollama is running in your terminal ('ollama serve' or 'ollama run')."
+            )
+
+    def generate(
+        self,
+        raw_error: str,
+        context: dict[str, Any] | None = None,
+        formatter_id: str = FORMATTER_TRAINING_ALIGNED,
+        system_prompt_version: str = DEFAULT_SYSTEM_PROMPT_VERSION,
+    ) -> GenerationResult:
+        if not self.is_ready():
+            self.load()
+
+        import json
+        import urllib.request
+
+        messages = build_conversation_messages(
+            raw_error, context, system_prompt_version=system_prompt_version
+        )
+
+        payload = {
+            "model": self.model_name,
+            "messages": messages,
+            "stream": False,
+            "format": "json",
+            "options": {
+                "temperature": TEMPERATURE,
+                "num_predict": MAX_NEW_TOKENS,
+            },
+        }
+
+        req_data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
+            f"{self.base_url}/api/chat",
+            data=req_data,
+            headers={"Content-Type": "application/json", "User-Agent": "OOPSIE"},
+            method="POST",
+        )
+
+        t0 = time.perf_counter()
+        try:
+            with urllib.request.urlopen(req, timeout=120.0) as response:
+                res_body = json.loads(response.read().decode("utf-8"))
+        except Exception as exc:
+            raise EngineError(f"Ollama generation request failed: {exc}") from exc
+
+        elapsed_ms = (time.perf_counter() - t0) * 1000.0
+
+        message_obj = res_body.get("message", {})
+        completion_text = message_obj.get("content", "").strip()
+
+        prompt_tokens = int(res_body.get("prompt_eval_count", 0))
+        gen_tokens = int(res_body.get("eval_count", 0))
+        hit_budget = gen_tokens >= MAX_NEW_TOKENS
+
+        return GenerationResult(
+            completion_text=completion_text,
+            prompt_tokens=prompt_tokens,
+            generated_tokens=gen_tokens,
+            hit_budget=hit_budget,
+            raw_with_specials=completion_text,
+            duration_ms=elapsed_ms,
+            formatter_id=formatter_id,
+            model_version=f"ollama/{self.model_name}",
+            system_prompt_version=system_prompt_version,
+            engine_mode=self.engine_mode,
+        )
+
+
 class MockInferenceEngine(BaseInferenceEngine):
     """Configurable mock engine for testing without GPU or model checkpoints."""
     engine_mode: str = "mock"
@@ -341,6 +443,10 @@ def get_engine() -> BaseInferenceEngine:
     if _ENGINE_INSTANCE is None:
         if is_mock_engine_enabled():
             _ENGINE_INSTANCE = MockInferenceEngine(ready=True)
+        elif is_ollama_engine_enabled():
+            engine = OllamaInferenceEngine()
+            engine.load()
+            _ENGINE_INSTANCE = engine
         else:
             _ENGINE_INSTANCE = Gemma4PilotEngine()
     return _ENGINE_INSTANCE
