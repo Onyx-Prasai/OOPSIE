@@ -53,7 +53,7 @@ VERIFIED_CONTEXT_LIMIT = 8192
 MAX_NEW_TOKENS = 1024
 
 # Expected cryptographic hashes for fail-fast integrity checks
-EXPECTED_SCHEMA_HASH = "40550bfef007a7078dc3515a0c03e52dec29e351b931e9bb6cd5ea8f447b547a"
+EXPECTED_SCHEMA_HASH = "ce322859f8e4a757847b3e4d02b90ded41054ccbef5b4dd872523a80d681440a"
 EXPECTED_PROMPT_V2_HASH = "37a921ef57f8d165265b02209370f04174b4eaf8a024edb5c180a5fd7d216cee"
 
 # Fixed exemplar for Condition C (strictly pre-selected from data/train.jsonl)
@@ -87,7 +87,10 @@ def verify_integrity_hashes() -> dict[str, str]:
     schema_path = ROOT / "data" / "schema.json"
     if not schema_path.exists():
         raise FileNotFoundError(f"Canonical schema missing at {schema_path}")
-    actual_schema_hash = hashlib.sha256(schema_path.read_bytes()).hexdigest()
+    # Normalize CRLF → LF before hashing so the check is line-ending-agnostic
+    # across Windows (CRLF checkout) and Linux CI (LF checkout).
+    schema_bytes = schema_path.read_bytes().replace(b"\r\n", b"\n")
+    actual_schema_hash = hashlib.sha256(schema_bytes).hexdigest()
     if actual_schema_hash != EXPECTED_SCHEMA_HASH:
         raise ValueError(
             f"Schema hash mismatch! Expected {EXPECTED_SCHEMA_HASH}, got {actual_schema_hash}"
