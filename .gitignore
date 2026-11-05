@@ -72,6 +72,13 @@ apps/vscode-extension/out/
 apps/vscode-extension/node_modules/
 *.vsix
 
+# Evaluation archives, intermediate checkpoints, and unblinding keys
+*.zip
+*.tar.gz
+*.tgz
+*unblinded_review_key*.json
+*checkpoint_results*.jsonl
+
 # Local only
 *.local
 *.sw?

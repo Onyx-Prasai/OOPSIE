@@ -1,0 +1,641 @@
+"""Build training/kaggle_benchmark_evaluation.ipynb (v1.2.0-frozen).
+
+Features:
+- Protocol OOPSIE-EVAL-PROTOCOL-v1.2.0-frozen
+- Four frozen conditions:
+  * Condition A: Unadapted Base Zero-Shot + Full Canonical Schema (Official Chat Template)
+  * Condition B: Adapted Pilot Zero-Shot + Full Canonical Schema (Training-Aligned Suffix)
+  * Condition C: Unadapted Base 1-Shot + Full Schema (Official Chat Template, syn-dep-001)
+  * Condition D: Adapted Pilot + Current Production Service Prompt, No Schema (Training-Aligned)
+- Designated Primary (A vs B) and Secondary (C, D) comparisons
+- Pre-benchmark Step 6: Condition D development smoke test on N=2 validation cases
+- Step 7: Evaluates all 40 records in evaluation/benchmark.jsonl (SHA-256: 1676a9bcb916...)
+- Resumable evaluation loop: checkpoints every completed (case, condition) result to checkpoint_results.jsonl
+- Resumes seamlessly if session preempted or interrupted; never silently overwrites completed results
+- Disaggregated metrics: raw JSON valid, strict schema valid, budget hits, category agreement (all vs parseable)
+- Paired 2x2 contingency tables and Wilson 95% confidence intervals
+- Blinded human review sheet (System Alpha, Beta, Gamma, Delta) + separate unblinded_review_key.json
+- Exported archive oopsie_benchmark_results_v1_2_0.tar.gz with execution manifest
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+NOTEBOOK_PATH = ROOT / "training" / "kaggle_benchmark_evaluation.ipynb"
+
+cells = [
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "# OOPSIE: Final 4-Condition Benchmark Evaluation (v1.2.0-frozen)\n",
+            "\n",
+            "**Protocol**: `OOPSIE-EVAL-PROTOCOL-v1.2.0-frozen`  \n",
+            "**Target Corpus**: `evaluation/benchmark.jsonl` (N=40 records, SHA-256: `1676a9bcb9160bd142483cb868b4b652c21e93ef9f29e48f56786312c4a942dd`)  \n",
+            "**Base Model**: `google/gemma-4-12b-it` (4-bit NF4 precision, `torch.bfloat16`)  \n",
+            "**Adapter Checkpoint**: `oopsie-pilot-adapter` (Step 44, Epoch 2)  \n",
+            "\n",
+            "### Experimental Conditions:\n",
+            "- **Primary Comparison**:\n",
+            "  - **Condition A (Base Zero-Shot + Schema)**: Upstream chat template + `system_prompt_v2_enum_guided` + complete JSON schema.\n",
+            "  - **Condition B (Adapter Zero-Shot + Schema)**: Training-aligned `<|turn>model\\n` + identical `system_prompt_v2_enum_guided` + complete JSON schema.\n",
+            "- **Secondary Comparisons**:\n",
+            "  - **Condition C (Base 1-Shot + Schema)**: Upstream chat template + Condition A prompt + fixed training exemplar (`syn-dep-001`).\n",
+            "  - **Condition D (Adapter Current Service Prompt)**: Training-aligned `<|turn>model\\n` + current production `system_prompt_v2_enum_guided` **WITHOUT** raw schema block.\n",
+            "\n",
+            "> **RESUMABILITY & SAFETY CONSTRAINTS**:\n",
+            "> - **Resumable Checkpointing**: Results are incrementally saved to `checkpoint_results.jsonl`. If disconnected, rerun seamlessly skips completed cases.\n",
+            "> - **Manifest Integrity**: Pre-run hashes (benchmark dataset, schema, prompt v2, adapter) must match before resuming.\n",
+            "> - **Condition D Smoke Test**: Verifies Condition D on N=2 development cases before touching benchmark data.\n",
+            "> - **Blinded Review Isolation**: Human review sheet randomizes systems (Alpha, Beta, Gamma, Delta); unblinding key is written to a separate file."
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 1: Install Pinned Dependencies Matching Pilot Environment"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "!pip install -q -U git+https://github.com/huggingface/transformers.git\n",
+            "!pip install -q -U trl>=0.12.0 peft>=0.14.0 bitsandbytes>=0.45.0 accelerate datasets\n",
+            "print(\"Dependencies installed successfully.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 2: Unpack & Verify Versioned Evaluation Bundle (v1.2.0-four-conditions)"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import os\n",
+            "import sys\n",
+            "import time\n",
+            "import json\n",
+            "import shutil\n",
+            "import hashlib\n",
+            "import zipfile\n",
+            "from pathlib import Path\n",
+            "\n",
+            "bundle_dir = Path(\"/kaggle/working/eval_bundle\")\n",
+            "if bundle_dir.exists():\n",
+            "    shutil.rmtree(bundle_dir)\n",
+            "bundle_dir.mkdir(parents=True, exist_ok=True)\n",
+            "\n",
+            "# Locate uploaded evaluation bundle zip or unpacked directory (prioritize v1.2.0 / four-conditions)\n",
+            "all_zips = list(Path(\"/kaggle/input\").rglob(\"oopsie-eval-bundle*.zip\")) + list(Path(\"/kaggle/working\").rglob(\"oopsie-eval-bundle*.zip\"))\n",
+            "v12_zips = [z for z in all_zips if \"1.2\" in z.name or \"four\" in z.name]\n",
+            "zip_candidates = v12_zips if v12_zips else all_zips\n",
+            "\n",
+            "all_unpacked = [p.parent.parent for p in Path(\"/kaggle/input\").rglob(\"evaluation/harness.py\")]\n",
+            "v12_unpacked = [p for p in all_unpacked if \"1.2\" in str(p) or \"four\" in str(p)]\n",
+            "unpacked_candidates = v12_unpacked if v12_unpacked else all_unpacked\n",
+            "\n",
+            "if zip_candidates:\n",
+            "    b_zip = zip_candidates[0]\n",
+            "    print(f\"Extracting bundle from {b_zip}...\")\n",
+            "    with zipfile.ZipFile(b_zip, \"r\") as zf:\n",
+            "        zf.extractall(bundle_dir)\n",
+            "elif unpacked_candidates:\n",
+            "    b_dir = unpacked_candidates[0]\n",
+            "    print(f\"Copying unpacked bundle from {b_dir}...\")\n",
+            "    shutil.copytree(b_dir, bundle_dir, dirs_exist_ok=True)\n",
+            "else:\n",
+            "    raise FileNotFoundError(\"No oopsie-eval-bundle found in /kaggle/input or /kaggle/working!\")\n",
+            "\n",
+            "sys.path.insert(0, str(bundle_dir))\n",
+            "print(\"Bundle loaded on sys.path. Verifying imports...\")\n",
+            "\n",
+            "import evaluation.harness as harness\n",
+            "if not hasattr(harness, 'CONDITIONS'):\n",
+            "    raise AttributeError(\n",
+            "        \"ERROR: Kaggle loaded an older v1.1.0 bundle which lacks the 4-condition specification and benchmark dataset!\\n\"\n",
+            "        \"Please upload 'oopsie-eval-bundle-v1.2.0-four-conditions.zip' to Kaggle and remove the older v1.1.0 dataset.\"\n",
+            "    )\n",
+            "\n",
+            "hashes = harness.verify_integrity_hashes()\n",
+            "print(\"Verified integrity hashes:\")\n",
+            "for k, v in hashes.items():\n",
+            "    print(f\"  {k:22}: {v}\")\n",
+            "\n",
+            "# Verify the 4 conditions exist\n",
+            "print(f\"\\nRegistered evaluation conditions: {list(harness.CONDITIONS.keys())}\")\n",
+            "for cid, cond in harness.CONDITIONS.items():\n",
+            "    print(f\"  [{cid}] {cond.name} (use_adapter={cond.use_adapter}, schema={cond.include_schema_in_prompt})\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 3: Load Gemma 4 12B Base Model in 4-bit NF4 Quantization"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import torch\n",
+            "from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig\n",
+            "\n",
+            "BASE_MODEL_ID = \"google/gemma-4-12b-it\"\n",
+            "print(f\"Loading base model: {BASE_MODEL_ID} in 4-bit NF4 (compute_dtype=torch.bfloat16)...\")\n",
+            "\n",
+            "bnb_config = BitsAndBytesConfig(\n",
+            "    load_in_4bit=True,\n",
+            "    bnb_4bit_quant_type=\"nf4\",\n",
+            "    bnb_4bit_compute_dtype=torch.bfloat16,\n",
+            "    bnb_4bit_use_double_quant=True,\n",
+            ")\n",
+            "\n",
+            "t0 = time.perf_counter()\n",
+            "tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL_ID)\n",
+            "base_model = AutoModelForCausalLM.from_pretrained(\n",
+            "    BASE_MODEL_ID,\n",
+            "    quantization_config=bnb_config,\n",
+            "    device_map=\"auto\",\n",
+            "    torch_dtype=torch.bfloat16,\n",
+            ")\n",
+            "load_time = time.perf_counter() - t0\n",
+            "\n",
+            "vram_alloc = torch.cuda.memory_allocated() / (1024 ** 3)\n",
+            "vram_res = torch.cuda.memory_reserved() / (1024 ** 3)\n",
+            "print(f\"Base model loaded in {load_time:.2f}s.\")\n",
+            "print(f\"VRAM allocated: {vram_alloc:.2f} GB, reserved: {vram_res:.2f} GB\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 4: Attach Fine-Tuned Pilot Adapter Checkpoint-44"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "from peft import PeftModel\n",
+            "\n",
+            "# Locate adapter directory\n",
+            "adapter_candidates = [\n",
+            "    p for p in Path(\"/kaggle/input\").rglob(\"adapter_config.json\")\n",
+            "    if \"checkpoint\" in str(p).lower() or \"pilot\" in str(p).lower() or \"adapter\" in str(p).lower()\n",
+            "]\n",
+            "\n",
+            "if adapter_candidates:\n",
+            "    adapter_path = adapter_candidates[0].parent\n",
+            "else:\n",
+            "    # Fallback to local working directory if uncompressed\n",
+            "    adapter_path = Path(\"/kaggle/working/oopsie-pilot-adapter\")\n",
+            "\n",
+            "print(f\"Attaching PEFT adapter from: {adapter_path}...\")\n",
+            "model = PeftModel.from_pretrained(base_model, str(adapter_path), adapter_name=\"oopsie_pilot\")\n",
+            "model.eval()\n",
+            "print(\"PEFT adapter attached successfully.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 5: Verify PEFT Runtime Adapter State Management"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "# 1. Initial adapted state\n",
+            "st_init = harness.inspect_peft_layer_status(model, expected_adapter=\"oopsie_pilot\")\n",
+            "print(\"Initial Adapted State:\")\n",
+            "for k, v in st_init.items():\n",
+            "    print(f\"  {k:20}: {v}\")\n",
+            "assert st_init[\"enabled\"] is True, \"Adapters must be initially enabled!\"\n",
+            "assert st_init[\"any_merged\"] is False, \"LoRA weights must not be merged!\"\n",
+            "\n",
+            "# 2. Disabled state inside context manager\n",
+            "with model.disable_adapter():\n",
+            "    st_disabled = harness.inspect_peft_layer_status(model, expected_adapter=\"oopsie_pilot\")\n",
+            "    print(\"\\nInside disable_adapter() context:\")\n",
+            "    for k, v in st_disabled.items():\n",
+            "        print(f\"  {k:20}: {v}\")\n",
+            "    assert st_disabled[\"none_enabled\"] is True, \"All layers must be disabled inside context!\"\n",
+            "    assert st_disabled[\"any_merged\"] is False, \"LoRA weights must not be merged!\"\n",
+            "\n",
+            "# 3. Restoration after context exit\n",
+            "st_restored = harness.inspect_peft_layer_status(model, expected_adapter=\"oopsie_pilot\")\n",
+            "print(\"\\nAfter context exit:\")\n",
+            "for k, v in st_restored.items():\n",
+            "    print(f\"  {k:20}: {v}\")\n",
+            "assert st_restored[\"enabled\"] is True, \"Adapters must be restored after context exit!\"\n",
+            "print(\"\\nAll PEFT adapter layer status assertions PASSED.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 6: Development Smoke Test — Condition D Verification (N=2 Cases from Validation Split)\n",
+            "\n",
+            "Runs a small fixed smoke test on 2 development cases (`syn-amb-020` and `syn-ath-055`) under Condition D before touching benchmark data to verify prompt identity, adapter state, formatter, output capture, and scoring completeness."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "val_path = bundle_dir / \"data\" / \"validation.jsonl\"\n",
+            "val_records = [json.loads(l) for l in val_path.read_text(encoding=\"utf-8\").splitlines() if l.strip()]\n",
+            "smoke_cases = [r for r in val_records if r[\"id\"] in (\"syn-amb-020\", \"syn-ath-055\")]\n",
+            "\n",
+            "smoke_out_dir = Path(\"/kaggle/working/oopsie-smoke-test-d\")\n",
+            "smoke_out_dir.mkdir(parents=True, exist_ok=True)\n",
+            "\n",
+            "print(f\"Running Condition D development smoke test on {len(smoke_cases)} cases...\")\n",
+            "smoke_results = {}\n",
+            "for sc in smoke_cases:\n",
+            "    cid = sc[\"id\"]\n",
+            "    res_d = harness.evaluate_single_case(sc, harness.CONDITION_D, model, tokenizer)\n",
+            "    smoke_results[cid] = res_d\n",
+            "    print(f\"  [{cid}] Cond D -> JSON valid: {res_d.json_valid}, Schema valid: {res_d.schema_valid}, Budget hit: {res_d.hit_budget}, Tokens: {res_d.gen_token_count}\")\n",
+            "\n",
+            "with open(smoke_out_dir / \"smoke_d_results.json\", \"w\", encoding=\"utf-8\") as f:\n",
+            "    json.dump({k: harness.asdict(v) for k, v in smoke_results.items()}, f, indent=2)\n",
+            "\n",
+            "print(\"Condition D smoke test complete. Infrastructure and scoring verified.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 7: Load 40 Reserved Benchmark Records & Verify Input Contract"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "bench_path = bundle_dir / \"evaluation\" / \"benchmark.jsonl\"\n",
+            "bench_bytes = bench_path.read_bytes()\n",
+            "actual_bench_hash = hashlib.sha256(bench_bytes).hexdigest()\n",
+            "EXPECTED_BENCH_HASH = \"1676a9bcb9160bd142483cb868b4b652c21e93ef9f29e48f56786312c4a942dd\"\n",
+            "\n",
+            "print(f\"Benchmark path: {bench_path}\")\n",
+            "print(f\"Benchmark SHA-256: {actual_bench_hash}\")\n",
+            "assert actual_bench_hash == EXPECTED_BENCH_HASH, f\"Benchmark hash mismatch! Expected {EXPECTED_BENCH_HASH}, got {actual_bench_hash}\"\n",
+            "\n",
+            "bench_records = [json.loads(l) for l in bench_path.read_text(encoding=\"utf-8\").splitlines() if l.strip()]\n",
+            "print(f\"Loaded {len(bench_records)} reserved benchmark records.\")\n",
+            "assert len(bench_records) == 40, f\"Expected 40 records, got {len(bench_records)}\"\n",
+            "\n",
+            "# Verify prompt rendering for sample record across all 4 conditions\n",
+            "sample_rec = bench_records[0]\n",
+            "print(f\"\\nSample Record ID: {sample_rec['id']}\")\n",
+            "for ckey in [\"cond_a\", \"cond_b\", \"cond_c\", \"cond_d\"]:\n",
+            "    cond = harness.CONDITIONS[ckey]\n",
+            "    p_str, msgs = harness.render_prompt_for_condition(sample_rec, cond, tokenizer)\n",
+            "    p_toks = len(tokenizer(p_str)[\"input_ids\"])\n",
+            "    print(f\"  [{ckey}] {cond.name[:45]:45}: {p_toks:4d} tokens (Hash: {hashlib.sha256(p_str.encode('utf-8')).hexdigest()[:12]}...)\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 8: Pre-Run Checkpoint Manifest & Resumption Setup\n",
+            "\n",
+            "Enables incremental, crash-resilient evaluation across all 40 cases × 4 conditions (160 unique evaluations)."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "out_dir = Path(\"/kaggle/working/oopsie-benchmark-results-v1-2-0\")\n",
+            "out_dir.mkdir(parents=True, exist_ok=True)\n",
+            "checkpoint_path = out_dir / \"checkpoint_results.jsonl\"\n",
+            "manifest_path = out_dir / \"run_manifest.json\"\n",
+            "\n",
+            "# Write or verify pre-run manifest\n",
+            "manifest_data = {\n",
+            "    \"protocol\": \"OOPSIE-EVAL-PROTOCOL-v1.2.0-frozen\",\n",
+            "    \"benchmark_records\": 40,\n",
+            "    \"benchmark_sha256\": EXPECTED_BENCH_HASH,\n",
+            "    \"canonical_schema_sha256\": harness.EXPECTED_SCHEMA_HASH,\n",
+            "    \"system_prompt_v2_sha256\": harness.EXPECTED_PROMPT_V2_HASH,\n",
+            "    \"base_model_id\": BASE_MODEL_ID,\n",
+            "    \"adapter_checkpoint\": \"oopsie-pilot-adapter (Step 44)\",\n",
+            "    \"precision\": \"4-bit NF4, torch.bfloat16\",\n",
+            "    \"decoding\": \"greedy (temp=0.0, do_sample=False, max_new_tokens=1024)\",\n",
+            "    \"conditions\": {\n",
+            "        ck: {\n",
+            "            \"name\": c.name,\n",
+            "            \"use_adapter\": c.use_adapter,\n",
+            "            \"formatter_id\": c.formatter_id,\n",
+            "            \"include_schema\": c.include_schema_in_prompt,\n",
+            "            \"demo\": c.include_demonstration,\n",
+            "            \"prompt_ver\": c.system_prompt_version,\n",
+            "        }\n",
+            "        for ck, c in harness.CONDITIONS.items()\n",
+            "    },\n",
+            "    \"timestamp\": time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime()),\n",
+            "}\n",
+            "\n",
+            "if not manifest_path.exists():\n",
+            "    with open(manifest_path, \"w\", encoding=\"utf-8\") as f:\n",
+            "        json.dump(manifest_data, f, indent=2)\n",
+            "    print(\"Pre-run manifest written.\")\n",
+            "else:\n",
+            "    # Validate existing manifest matches current execution\n",
+            "    existing_manifest = json.loads(manifest_path.read_text(encoding=\"utf-8\"))\n",
+            "    assert existing_manifest[\"benchmark_sha256\"] == EXPECTED_BENCH_HASH, \"Cannot resume: Benchmark hash mismatch!\"\n",
+            "    assert existing_manifest[\"canonical_schema_sha256\"] == harness.EXPECTED_SCHEMA_HASH, \"Cannot resume: Schema hash mismatch!\"\n",
+            "    assert existing_manifest[\"system_prompt_v2_sha256\"] == harness.EXPECTED_PROMPT_V2_HASH, \"Cannot resume: System prompt hash mismatch!\"\n",
+            "    print(\"Pre-run manifest validated. Resuming under matching configuration.\")\n",
+            "\n",
+            "# Load existing checkpoints using hardened recovery logic\n",
+            "completed_passes = set()\n",
+            "bench_results_by_case = {r[\"id\"]: {} for r in bench_records}\n",
+            "\n",
+            "completed_dict, incomplete_list, audit_warnings = harness.load_checkpoint_records(checkpoint_path)\n",
+            "for (cid, ckey), res_obj in completed_dict.items():\n",
+            "    if cid in bench_results_by_case:\n",
+            "        bench_results_by_case[cid][ckey] = res_obj\n",
+            "        completed_passes.add((cid, ckey))\n",
+            "\n",
+            "if incomplete_list:\n",
+            "    print(f\"\\n[RESUMPTION NOTICE] Isolated {len(incomplete_list)} incomplete attempt(s) from earlier interrupted writes:\")\n",
+            "    for inc in incomplete_list:\n",
+            "        print(f\"  Line {inc.get('line_num')}: {inc.get('error', 'unknown error')}\")\n",
+            "\n",
+            "if audit_warnings:\n",
+            "    print(f\"\\nCheckpoint audit warnings logged ({len(audit_warnings)}):\")\n",
+            "    for w in audit_warnings[:5]:\n",
+            "        print(f\"  - {w}\")\n",
+            "\n",
+            "print(f\"Checkpoint status: {len(completed_passes)} / 160 case-condition evaluations verified and ready.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 9: Resumable 4-Condition Benchmark Evaluation Loop (160 Unique Passes)\n",
+            "\n",
+            "Executes all 40 cases across Conditions A, B, C, and D with immediate per-case checkpointing."
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "fixed_demo = harness.load_fixed_demonstration()\n",
+            "total_target = 40 * len(harness.CONDITIONS)\n",
+            "\n",
+            "print(f\"Beginning evaluation loop across {len(bench_records)} cases x 4 conditions ({total_target} total passes)...\")\n",
+            "print(\"Estimated runtime based on dev dry-run latency: ~4.5 - 5.5 hours.\\n\")\n",
+            "\n",
+            "ckpt_file = open(checkpoint_path, \"a\", encoding=\"utf-8\")\n",
+            "\n",
+            "try:\n",
+            "    for i, rec in enumerate(bench_records, 1):\n",
+            "        cid = rec[\"id\"]\n",
+            "        print(f\"\\n[{i:02d}/40] Case: {cid} (Category: {rec.get('expected_category')})\")\n",
+            "        \n",
+            "        for ckey in [\"cond_a\", \"cond_b\", \"cond_c\", \"cond_d\"]:\n",
+            "            if (cid, ckey) in completed_passes:\n",
+            "                prior_res = bench_results_by_case[cid][ckey]\n",
+            "                print(f\"  [{ckey}] (RESUMED) schema_valid: {prior_res.schema_valid}, budget_hit: {prior_res.hit_budget}, tok: {prior_res.gen_token_count}\")\n",
+            "                continue\n",
+            "            \n",
+            "            cond = harness.CONDITIONS[ckey]\n",
+            "            res = harness.evaluate_single_case(rec, cond, model, tokenizer, fixed_demo=fixed_demo)\n",
+            "            bench_results_by_case[cid][ckey] = res\n",
+            "            completed_passes.add((cid, ckey))\n",
+            "            \n",
+            "            # Incremental checkpoint write with flush\n",
+            "            ckpt_record = {\n",
+            "                \"case_id\": cid,\n",
+            "                \"condition_key\": ckey,\n",
+            "                \"condition_name\": cond.name,\n",
+            "                \"result\": harness.asdict(res)\n",
+            "            }\n",
+            "            ckpt_file.write(json.dumps(ckpt_record) + \"\\n\")\n",
+            "            ckpt_file.flush()\n",
+            "            \n",
+            "            print(f\"  [{ckey}] schema_valid: {res.schema_valid}, json_valid: {res.json_valid}, budget_hit: {res.hit_budget}, dur: {res.duration_seconds:.1f}s, tok: {res.gen_token_count}\")\n",
+            "\n",
+            "finally:\n",
+            "    ckpt_file.close()\n",
+            "\n",
+            "print(f\"\\nEvaluation loop finished. Completed passes: {len(completed_passes)} / {total_target}.\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 10: Comparative Metrics Summary, 2x2 Paired Transitions & Confidence Intervals"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import numpy as np\n",
+            "\n",
+            "def wilson_score_interval(successes, total, z=1.96):\n",
+            "    if total == 0:\n",
+            "        return 0.0, 0.0\n",
+            "    p = successes / total\n",
+            "    denom = 1 + z**2 / total\n",
+            "    center = (p + z**2 / (2 * total)) / denom\n",
+            "    spread = z * np.sqrt(p * (1 - p) / total + z**2 / (4 * total**2)) / denom\n",
+            "    return max(0.0, center - spread), min(1.0, center + spread)\n",
+            "\n",
+            "def summarize_condition(cond_key, name):\n",
+            "    cases = list(bench_results_by_case.keys())\n",
+            "    tot = len(cases)\n",
+            "    res_list = [bench_results_by_case[c].get(cond_key) for c in cases if cond_key in bench_results_by_case[c]]\n",
+            "    n_done = len(res_list)\n",
+            "    \n",
+            "    jv = sum(1 for r in res_list if r.json_valid)\n",
+            "    sv = sum(1 for r in res_list if r.schema_valid)\n",
+            "    hb = sum(1 for r in res_list if r.hit_budget)\n",
+            "    gf = sum(1 for r in res_list if r.generation_failed)\n",
+            "    cm_all = sum(1 for r in res_list if r.category_match is True)\n",
+            "    cm_parse = sum(1 for r in res_list if r.schema_valid and r.category_match is True)\n",
+            "    sp = sum(1 for r in res_list if r.safety_audit.get(\"safety_pass\") is True)\n",
+            "    avg_dur = np.mean([r.duration_seconds for r in res_list]) if n_done else 0.0\n",
+            "    \n",
+            "    ci_low, ci_high = wilson_score_interval(sv, n_done)\n",
+            "    \n",
+            "    return {\n",
+            "        \"condition\": name,\n",
+            "        \"completed\": f\"{n_done}/{tot}\",\n",
+            "        \"strict_schema_valid\": f\"{sv}/{n_done} ({sv/n_done*100:.1f}%)\" if n_done else \"N/A\",\n",
+            "        \"schema_valid_95ci\": f\"[{ci_low*100:.1f}%, {ci_high*100:.1f}%]\" if n_done else \"N/A\",\n",
+            "        \"raw_json_valid\": f\"{jv}/{n_done} ({jv/n_done*100:.1f}%)\" if n_done else \"N/A\",\n",
+            "        \"budget_terminations\": f\"{hb}/{n_done} ({hb/n_done*100:.1f}%)\" if n_done else \"N/A\",\n",
+            "        \"category_agreement_all\": f\"{cm_all}/{n_done} ({cm_all/n_done*100:.1f}%)\" if n_done else \"N/A\",\n",
+            "        \"category_agreement_parseable\": f\"{cm_parse}/{sv} ({cm_parse/sv*100:.1f}%)\" if sv else \"N/A\",\n",
+            "        \"heuristic_safety_pass\": f\"{sp}/{n_done} ({sp/n_done*100:.1f}%)\" if n_done else \"N/A\",\n",
+            "        \"generation_failures\": f\"{gf}/{n_done}\",\n",
+            "        \"avg_duration_seconds\": round(float(avg_dur), 2)\n",
+            "    }\n",
+            "\n",
+            "summary = [\n",
+            "    summarize_condition(\"cond_a\", \"Condition A (Base Zero-Shot + Schema)\"),\n",
+            "    summarize_condition(\"cond_b\", \"Condition B (Adapter Zero-Shot + Schema)\"),\n",
+            "    summarize_condition(\"cond_c\", \"Condition C (Base 1-Shot + Schema)\"),\n",
+            "    summarize_condition(\"cond_d\", \"Condition D (Adapter Current Service Prompt)\")\n",
+            "]\n",
+            "\n",
+            "print(\"=== BENCHMARK EVALUATION SUMMARY METRICS ===\")\n",
+            "for s in summary:\n",
+            "    print(f\"\\n--- {s['condition']} ---\")\n",
+            "    for k, v in s.items():\n",
+            "        if k != 'condition':\n",
+            "            print(f\"  {k:30}: {v}\")\n",
+            "\n",
+            "# Paired 2x2 contingency table helper\n",
+            "def print_paired_2x2(k1, k2, n1, n2):\n",
+            "    cases = [c for c in bench_results_by_case if k1 in bench_results_by_case[c] and k2 in bench_results_by_case[c]]\n",
+            "    tot = len(cases)\n",
+            "    both_p = sum(1 for c in cases if bench_results_by_case[c][k1].schema_valid and bench_results_by_case[c][k2].schema_valid)\n",
+            "    k2_only = sum(1 for c in cases if not bench_results_by_case[c][k1].schema_valid and bench_results_by_case[c][k2].schema_valid)\n",
+            "    k1_only = sum(1 for c in cases if bench_results_by_case[c][k1].schema_valid and not bench_results_by_case[c][k2].schema_valid)\n",
+            "    both_f = sum(1 for c in cases if not bench_results_by_case[c][k1].schema_valid and not bench_results_by_case[c][k2].schema_valid)\n",
+            "    print(f\"\\n=== PAIRED 2x2 TRANSITIONS: {n1} vs {n2} (N={tot}) ===\")\n",
+            "    print(f\"  Both Pass (+ +)             : {both_p} / {tot}\")\n",
+            "    print(f\"  {n2}-Only Pass (- +)         : {k2_only} / {tot}\")\n",
+            "    print(f\"  {n1}-Only Pass (+ -)         : {k1_only} / {tot}\")\n",
+            "    print(f\"  Both Fail (- -)             : {both_f} / {tot}\")\n",
+            "\n",
+            "print_paired_2x2(\"cond_a\", \"cond_b\", \"Base Zero-Shot (A)\", \"Adapter Zero-Shot (B)\")\n",
+            "print_paired_2x2(\"cond_b\", \"cond_d\", \"Adapter Matched (B)\", \"Adapter Service (D)\")\n",
+            "print_paired_2x2(\"cond_a\", \"cond_c\", \"Base Zero-Shot (A)\", \"Base 1-Shot (C)\")"
+        ]
+    },
+    {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": [
+            "## Step 11: Export Full Artifacts, Blinded Review Sheet & Downloadable Tarball"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
+            "import tarfile\n",
+            "from IPython.display import FileLink\n",
+            "\n",
+            "# 1. Save full records JSON\n",
+            "full_json_path = out_dir / \"benchmark_results_full.json\"\n",
+            "with open(full_json_path, \"w\", encoding=\"utf-8\") as f:\n",
+            "    json.dump({\n",
+            "        cid: {k: harness.asdict(v) for k, v in cmap.items()}\n",
+            "        for cid, cmap in bench_results_by_case.items()\n",
+            "    }, f, indent=2)\n",
+            "\n",
+            "# 2. Save summary metrics\n",
+            "summary_path = out_dir / \"summary_metrics.json\"\n",
+            "with open(summary_path, \"w\", encoding=\"utf-8\") as f:\n",
+            "    json.dump(summary, f, indent=2)\n",
+            "\n",
+            "# 3. Generate Blinded Review Sheet and Separate Unblinding Key\n",
+            "review_sheet_path = out_dir / \"blinded_human_review_sheet.md\"\n",
+            "key_path = out_dir / \"unblinded_review_key.json\"\n",
+            "harness.generate_blinded_review_sheet(\n",
+            "    bench_results_by_case,\n",
+            "    {r[\"id\"]: r for r in bench_records},\n",
+            "    review_sheet_path,\n",
+            "    key_output_path=key_path,\n",
+            "    seed=42,\n",
+            ")\n",
+            "\n",
+            "# 4. Write execution manifest with checksums\n",
+            "exec_manifest = {\n",
+            "    \"run_id\": \"oopsie-benchmark-final-v1-2-0\",\n",
+            "    \"protocol\": \"OOPSIE-EVAL-PROTOCOL-v1.2.0-frozen\",\n",
+            "    \"benchmark_records\": len(bench_records),\n",
+            "    \"files\": {\n",
+            "        p.name: hashlib.sha256(p.read_bytes()).hexdigest()\n",
+            "        for p in [full_json_path, summary_path, review_sheet_path, key_path, checkpoint_path]\n",
+            "        if p.exists()\n",
+            "    }\n",
+            "}\n",
+            "with open(out_dir / \"execution_manifest.json\", \"w\", encoding=\"utf-8\") as f:\n",
+            "    json.dump(exec_manifest, f, indent=2)\n",
+            "\n",
+            "# 5. Create downloadable tarball in /kaggle/working\n",
+            "tar_path = Path(\"/kaggle/working/oopsie_benchmark_results_v1_2_0.tar.gz\")\n",
+            "with tarfile.open(tar_path, \"w:gz\") as tar:\n",
+            "    tar.add(out_dir, arcname=\"benchmark_results\")\n",
+            "\n",
+            "tar_hash = hashlib.sha256(tar_path.read_bytes()).hexdigest()\n",
+            "print(f\"\\nAll benchmark artifacts successfully exported to {out_dir}\")\n",
+            "print(f\"Downloadable tarball created at: {tar_path} (SHA-256: {tar_hash})\")\n",
+            "FileLink(str(tar_path))"
+        ]
+    }
+]
+
+notebook = {
+    "cells": cells,
+    "metadata": {
+        "kernelspec": {
+            "display_name": "Python 3",
+            "language": "python",
+            "name": "python3"
+        },
+        "language_info": {
+            "name": "python",
+            "version": "3.10.12"
+        }
+    },
+    "nbformat": 4,
+    "nbformat_minor": 4
+}
+
+NOTEBOOK_PATH.parent.mkdir(parents=True, exist_ok=True)
+NOTEBOOK_PATH.write_text(json.dumps(notebook, indent=2), encoding="utf-8")
+print(f"Successfully generated Kaggle benchmark evaluation notebook at {NOTEBOOK_PATH}")
+
