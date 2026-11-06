@@ -5,9 +5,9 @@
 > **Review Protocol**: Double-blinded review. Systems are anonymized as `System Alpha`, `System Beta`, `System Gamma`, and `System Delta` in randomized order per case.
 > **Reviewer Instructions**: Complete all rubric items based strictly on provided error context, domain documentation, and technical soundness. Do not execute destructive commands.
 > **Disclosures**: Author-only review disclosure applies unless independent reviewer co-evaluates. Format cues (markdown fences vs raw JSON) may allow inferring base vs adapted configurations, so ratings must strictly evaluate technical diagnostic content independent of format.
+> **Rating Status**: AI-generated provisional ratings, subject to author review and final adoption.
 
 ---
-
 ## Case: `bench-authentication-01`
 
 ### Developer Error Input
@@ -17,7 +17,6 @@ HTTP 401: access token has expired
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -68,21 +67,20 @@ HTTP 401: access token has expired
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses expired access token. Proposes standard refresh token and clock sync checks without inventing unsupported specifics. Repair advice is well-scoped to inspecting request interceptor and handling 401s safely.
 
 ---
-
 ### System Beta
 
 ```json
@@ -96,21 +94,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately identifies JWT expiration via 'exp' claim. Outlines refresh token flow and advises against insecure token storage or extending token lifetimes. Verification steps are safe and diagnostic.
 
 ---
-
 ### System Gamma
 
 ```json
@@ -124,21 +121,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately diagnoses token expiration and recommends refresh token flow without disabling expiration safeguards. Safe verification steps inspecting session recovery.
 
 ---
-
 ### System Delta
 
 ```json
@@ -190,24 +186,23 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly attributes HTTP 401 to expired JWT token. Evaluates token refresh logic and clock skew. Outlines targeted frontend interceptor repair with clear security warnings on storage.
 
 ---
 
 
 ---
-
 ## Case: `bench-authentication-02`
 
 ### Developer Error Input
@@ -217,7 +212,6 @@ OAuth callback error: redirect URI does not match registered client
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -231,21 +225,20 @@ OAuth callback error: redirect URI does not match registered client
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly identifies OAuth redirect URI mismatch between client request and identity provider console. Scopes repair to updating developer console authorized URIs with safe verification steps.
 
 ---
-
 ### System Beta
 
 ```json
@@ -296,21 +289,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses redirect URI discrepancy in OAuth flow. Highlights protocol (http vs https) and localhost vs domain mismatches. Scopes repair cleanly between environment variables and provider dashboard.
 
 ---
-
 ### System Gamma
 
 ```json
@@ -364,21 +356,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of redirect URI mismatch. Recommends comparing registered console URIs against application config, with non-destructive verification in an incognito session.
 
 ---
-
 ### System Delta
 
 ```json
@@ -392,24 +383,23 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets OAuth callback configuration mismatch. Proposes minimal config synchronization and checks for trailing slash/protocol discrepancies.
 
 ---
 
 
 ---
-
 ## Case: `bench-authentication-03`
 
 ### Developer Error Input
@@ -419,7 +409,6 @@ HTTP 403: missing scope reports:read
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -433,21 +422,20 @@ HTTP 403: missing scope reports:read
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Properly categorizes as authorization and pinpoints missing 'reports:read' scope in OAuth token generation. Advises against granting excessive scopes and includes negative testing in verification.
 
 ---
-
 ### System Beta
 
 ```json
@@ -461,21 +449,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [ ] Pass (Correct)  [x] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes error as authentication rather than authorization, though description accurately recognizes that the OAuth token lacks the specific 'reports:read' scope. Repair and verification steps are well-scoped.
 
 ---
-
 ### System Gamma
 
 ```json
@@ -527,21 +514,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly identifies authorization scope deficiency. Advises checking token claims and requesting 'reports:read' scope without privilege escalation. Safe verification inspecting Authorization header and decoding JWT.
 
 ---
-
 ### System Delta
 
 ```json
@@ -592,24 +578,23 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurate authorization diagnosis targeting missing 'reports:read' permission claim. Poses helpful questions regarding role assignment and provides non-destructive verification commands.
 
 ---
 
 
 ---
-
 ## Case: `bench-authentication-04`
 
 ### Developer Error Input
@@ -619,7 +604,6 @@ OIDC validation error: token issuer does not match configured issuer
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -633,21 +617,20 @@ OIDC validation error: token issuer does not match configured issuer
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses OIDC issuer mismatch. Explicitly warns against disabling issuer validation, preserving crucial security boundary. Repair scopes cleanly to environment configuration.
 
 ---
-
 ### System Beta
 
 ```json
@@ -699,21 +682,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately pinpoints OIDC issuer URL mismatch between token 'iss' claim and app config. Recommends comparing decoded token claims with environment variables. Safe verification.
 
 ---
-
 ### System Gamma
 
 ```json
@@ -766,21 +748,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly identifies OIDC issuer discrepancy. Highlights trailing slash differences and environment mismatches. Repair is appropriately limited to configuration adjustments.
 
 ---
-
 ### System Delta
 
 ```json
@@ -794,24 +775,23 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of OIDC issuer mismatch. Advises inspecting 'iss' claim in JWT and aligning OIDC client settings without weakening verification parameters.
 
 ---
 
 
 ---
-
 ## Case: `bench-backend-01`
 
 ### Developer Error Input
@@ -821,7 +801,6 @@ HTTP 503 Service Unavailable from /api/catalog
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -835,21 +814,20 @@ HTTP 503 Service Unavailable from /api/catalog
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes HTTP 503 as network/gateway routing issue. Identifies backend service crash, overload, or proxy routing failure as plausible causes. Safe verification inspecting service logs and curling /api/catalog.
 
 ---
-
 ### System Beta
 
 ```json
@@ -901,21 +879,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes HTTP 503 as runtime service unavailability. Analyzes process crash, overload, and reverse proxy timeouts. Repair advises checking process status and logs before mutating code.
 
 ---
-
 ### System Gamma
 
 ```json
@@ -929,21 +906,20 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses service unavailability. Identifies upstream crash or dependency failure as likely mechanism. Advises inspecting server logs and monitoring resource consumption.
 
 ---
-
 ### System Delta
 
 ```json
@@ -996,18 +972,18 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of HTTP 503 on /api/catalog. Considers backend crash, overload, and gateway connectivity. Repair advises inspecting service logs and database health with non-destructive verification.
 
 ---
 

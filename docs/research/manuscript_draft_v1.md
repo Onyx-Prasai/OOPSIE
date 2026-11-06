@@ -240,32 +240,89 @@ Under zero-tolerance parsing (which strictly rejects non-whitespace characters o
 
 ---
 
-## 8. Author-Performed, System-Label-Anonymized Technical Evaluation: PENDING
+## 8. Qualitative Technical Evaluation Across Experimental Conditions
 
-To evaluate qualitative diagnostic soundness, we established an author-performed, system-label-anonymized review protocol:
+To evaluate the qualitative technical substance of model diagnostics independently of output syntax, we conducted a structured evaluation across all 160 model completions (40 benchmark scenarios across the four experimental conditions).
 
-### 8.1 Protocol & Partitioning
-- The 40 benchmark cases were partitioned into 8 review batches of 5 cases each ([`docs/research/human_review/`](file:///c:/Users/onyxe/Desktop/OOPSIE/docs/research/human_review/)).
-- Systems are anonymized as `System Alpha`, `System Beta`, `System Gamma`, and `System Delta` in randomized presentation order per case.
-- The unblinding key remains sealed in a separate isolated file ([`artifacts/benchmark_v1_2_0/benchmark_results/unblinded_review_key.json`](file:///c:/Users/onyxe/Desktop/OOPSIE/artifacts/benchmark_v1_2_0/benchmark_results/unblinded_review_key.json)).
+### 8.1 Protocol, Provenance, and Blinding Methodology
 
-### 8.2 Rubric Consistency & Structure (Dated 2026-11-05)
-The frozen evaluation protocol ([`evaluation/protocols/prompting_vs_adaptation_v1.md`](file:///c:/Users/onyxe/Desktop/OOPSIE/evaluation/protocols/prompting_vs_adaptation_v1.md), Section 8) establishes exactly **five scored qualitative dimensions**:
-1. **Technical Correctness** [Pass / Partial / Fail]
-2. **Unsupported Claims** [None / Minor / Severe]
-3. **Appropriate Uncertainty** [Pass / Overconfident]
-4. **Actionable Repair Scope** [Pass / Vague / Harmful]
-5. **Verification Steps Usefulness** [Pass / Incomplete / Fail]
+1. **Rubric Architecture**: Evaluations followed the frozen protocol ([`evaluation/protocols/prompting_vs_adaptation_v1.md`](evaluation/protocols/prompting_vs_adaptation_v1.md)), measuring an unscored administrative gate and five scored qualitative dimensions:
+   - **Administrative Gate (Unscored)**: Content Assessability (`Assessable Content Present` vs. `Cannot Assess` / `No Usable Response`).
+   - **Dimension 1**: Technical Correctness (`Pass (Correct)` / `Partial` / `Fail (Incorrect)`).
+   - **Dimension 2**: Unsupported Specifics / Hallucinations (`None` / `Minor` / `Severe`).
+   - **Dimension 3**: Appropriate Uncertainty (`Pass (Appropriate)` / `Overconfident`).
+   - **Dimension 4**: Actionable Repair Scope (`Pass (Well-Scoped)` / `Vague` / `Harmful / Overbroad`).
+   - **Dimension 5**: Verification Steps Usefulness (`Pass (Useful & Safe)` / `Incomplete` / `Fail (Unsound)`).
+2. **Review Provenance & Adoption**: Initial qualitative ratings were generated provisionally by an automated evaluation pipeline using the frozen rubric definitions. The author reviewed a systematic verification checklist and made final adoption decisions for flagged evaluations (recorded in [`docs/research/author_decision_sheet.md`](docs/research/author_decision_sheet.md) and archived in the immutable cryptographic snapshot manifest [`docs/research/human_review/snapshots/2026-11-06/manifest.json`](docs/research/human_review/snapshots/2026-11-06/manifest.json)). The remaining provisional ratings were retained without case-by-case author review.
+3. **Concealment and Blinding**: System identities (`System Alpha`, `System Beta`, `System Gamma`, `System Delta`) were concealed during initial provisional rating generation. However, this process was not a formally validated double-blind protocol. The author reviewed the unblinded aggregate results and made adoption decisions after condition identities were known for flagged cases.
+4. **Scope and Limitations**: This evaluation does not constitute independent human review, inter-rater evaluation, expert-panel verification, or double-blind human review.
+5. **Separation from Programmatic Compliance**: These qualitative ratings assess diagnostic content and reasoning only; they are strictly separated from the programmatic JSON syntax and schema compliance metrics reported in §6. Responses with JSON syntax defects remained eligible for qualitative assessment when their diagnostic content was complete and interpretable; however, such defects remain recorded in the programmatic compliance results and may limit immediate machine usability of the response.
 
-To operationalize the protocol's rule that *"malformed, unparseable, or empty model outputs remain visible to the reviewer as explicit No-Usable-Response outcomes"*, an **Administrative Eligibility Gate** (**Content Assessability**) is recorded prior to scoring:
-- **Administrative Gate (Unscored)**: Records whether the completion contains assessable semantic text versus being unassessable (empty string, binary garbage) or an uninformative refusal (`No Usable Response`).
-- **Scored Dimensions (5 Frozen Dimensions)**: Only completions possessing assessable content are scored across dimensions 1–5. When flagged as `Cannot Assess` or `No Usable Response`, the reviewer marks `[x] Cannot Assess` across the five scored dimensions and records the observation in the notes.
+### 8.2 Qualitative Evaluation Aggregate Results
 
-### 8.3 Evaluation Status & Methodological Disclosures
-> [!IMPORTANT] Review Status: PENDING
-> As of this manuscript draft, **manual human technical review scores have not been completed**. Scoring cells remain intentionally blank to prevent premature or unvalidated claims.
-> 
-> *Review Design Disclosure*: All qualitative evaluations will be conducted as single-annotator ratings by the study author (Onyx Prasai), unless an independent external annotator participates. **This protocol is not double-blind**: because the author designed the systems and conducts the review, and because surface formatting cues (e.g., markdown fences in base completions vs. raw JSON in adapted completions) readily distinguish model configurations, full cognitive blinding is not achievable. The reviewer evaluates technical substance independently of output formatting.
+Every dimension is reported separately below with exact counts, percentages, and denominators ($N = 40$ per condition, $N = 160$ total). No composite score was computed.
+
+#### Gate A: Administrative Content Eligibility Gate (Unscored)
+| Rating Level | Condition A ($N=40$) | Condition B ($N=40$) | Condition C ($N=40$) | Condition D ($N=40$) | Total ($N=160$) |
+|---|---:|---:|---:|---:|---:|
+| `Assessable Content Present` | 40 (100.0%) | 40 (100.0%) | 40 (100.0%) | 40 (100.0%) | 160 (100.0%) |
+| `Cannot Assess` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| `No Usable Response` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+
+*All 160 responses across all conditions contained assessable diagnostic text.*
+
+#### Dimension 1: Technical Correctness
+| Rating Level | Condition A ($N=40$) | Condition B ($N=40$) | Condition C ($N=40$) | Condition D ($N=40$) | Total ($N=160$) |
+|---|---:|---:|---:|---:|---:|
+| `Pass (Correct)` | 39 (97.5%) | 37 (92.5%) | 40 (100.0%) | 37 (92.5%) | 153 (95.6%) |
+| `Partial` | 1 (2.5%) | 3 (7.5%) | 0 (0.0%) | 3 (7.5%) | 7 (4.4%) |
+| `Fail (Incorrect)` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| `Cannot Assess` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+
+#### Dimension 2: Unsupported Specifics / Hallucinations
+| Rating Level | Condition A ($N=40$) | Condition B ($N=40$) | Condition C ($N=40$) | Condition D ($N=40$) | Total ($N=160$) |
+|---|---:|---:|---:|---:|---:|
+| `None` | 40 (100.0%) | 40 (100.0%) | 40 (100.0%) | 40 (100.0%) | 160 (100.0%) |
+| `Minor` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| `Severe` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| `Cannot Assess` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+
+#### Dimension 3: Appropriate Uncertainty
+| Rating Level | Condition A ($N=40$) | Condition B ($N=40$) | Condition C ($N=40$) | Condition D ($N=40$) | Total ($N=160$) |
+|---|---:|---:|---:|---:|---:|
+| `Pass (Appropriate)` | 40 (100.0%) | 39 (97.5%) | 40 (100.0%) | 40 (100.0%) | 159 (99.4%) |
+| `Overconfident` | 0 (0.0%) | 1 (2.5%) | 0 (0.0%) | 0 (0.0%) | 1 (0.6%) |
+| `Cannot Assess` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+
+#### Dimension 4: Actionable Repair Scope
+| Rating Level | Condition A ($N=40$) | Condition B ($N=40$) | Condition C ($N=40$) | Condition D ($N=40$) | Total ($N=160$) |
+|---|---:|---:|---:|---:|---:|
+| `Pass (Well-Scoped)` | 40 (100.0%) | 39 (97.5%) | 40 (100.0%) | 39 (97.5%) | 158 (98.8%) |
+| `Vague` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| `Harmful / Overbroad` | 0 (0.0%) | 1 (2.5%) | 0 (0.0%) | 1 (2.5%) | 2 (1.2%) |
+| `Cannot Assess` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+
+#### Dimension 5: Verification Steps Usefulness
+| Rating Level | Condition A ($N=40$) | Condition B ($N=40$) | Condition C ($N=40$) | Condition D ($N=40$) | Total ($N=160$) |
+|---|---:|---:|---:|---:|---:|
+| `Pass (Useful & Safe)` | 40 (100.0%) | 39 (97.5%) | 40 (100.0%) | 39 (97.5%) | 158 (98.8%) |
+| `Incomplete` | 0 (0.0%) | 1 (2.5%) | 0 (0.0%) | 1 (2.5%) | 2 (1.2%) |
+| `Fail (Unsound)` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+| `Cannot Assess` | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) | 0 (0.0%) |
+
+### 8.3 Empirical Observations and Descriptive Analysis
+
+1. **Complete Content Assessability**: All 160 responses (100.0%) across the four conditions contained assessable diagnostic text.
+2. **Absence of Severe Qualitative Failures**: Across all five scored dimensions, no response in any condition received a rating of `Fail (Incorrect)`, `Severe` hallucination, `Fail (Unsound)` verification, or `Cannot Assess`.
+3. **Technical Correctness Distributions**:
+   - Condition C (Base 1-Shot Exemplar + Schema) had the highest observed technical-correctness Pass rate: **40/40 (100.0%)**.
+   - Condition A (Base Zero-Shot + Schema) had **39/40 Pass (97.5%)** and **1/40 Partial (2.5%)** (`bench-firebase-04`, where a storage security rule denial was categorized as authentication rather than authorization).
+   - Conditions B and D each had **37/40 Pass (92.5%)** and **3/40 Partial (7.5%)** for technical correctness:
+     - For Condition B: `bench-firebase-02` and `bench-firebase-04` (security rule denials categorized as authentication) and `bench-react-02` (asserting route recursion as the sole explanation for recursive update depth).
+     - For Condition D: `bench-authentication-03` (missing OAuth scope categorized as authentication), `bench-firebase-02`, and `bench-firebase-04`.
+4. **Repair Scope and Verification Steps**: Conditions B and D each had one `Harmful / Overbroad` repair-scope rating and one `Incomplete` verification rating on scenario `bench-npm-02`, where both adapted configurations recommended running `npm install --legacy-peer-deps`.
+5. **Uncertainty Calibration**: Condition B had the only `Overconfident` uncertainty rating (`bench-react-02`), where a singular recursive route hypothesis was asserted without hedging.
+6. **Descriptive Interpretation**: With 40 evaluations per condition, these descriptive differences do not establish a reliable advantage for the adapted conditions over the unadapted base model. The qualitative results do not support a claim that LoRA adaptation improved diagnostic correctness, reduced hallucinations, or improved repair scoping relative to the unadapted base model. The principal observed difference in this study concerned structural adherence to the required JSON output format, as reported separately in §6. The qualitative results alone do not establish a diagnostic-reasoning advantage for either adaptation condition.
 
 ---
 

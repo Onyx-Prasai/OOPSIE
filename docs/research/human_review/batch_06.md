@@ -5,9 +5,9 @@
 > **Review Protocol**: Double-blinded review. Systems are anonymized as `System Alpha`, `System Beta`, `System Gamma`, and `System Delta` in randomized order per case.
 > **Reviewer Instructions**: Complete all rubric items based strictly on provided error context, domain documentation, and technical soundness. Do not execute destructive commands.
 > **Disclosures**: Author-only review disclosure applies unless independent reviewer co-evaluates. Format cues (markdown fences vs raw JSON) may allow inferring base vs adapted configurations, so ratings must strictly evaluate technical diagnostic content independent of format.
+> **Rating Status**: AI-generated provisional ratings, subject to author review and final adoption.
 
 ---
-
 ## Case: `bench-nextjs-02`
 
 ### Developer Error Input
@@ -17,7 +17,6 @@ Error: Page export is not a valid React component: /reports
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -31,21 +30,21 @@ Error: Page export is not a valid React component: /reports
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses missing default React component export in /reports/page.tsx. Scopes repair to adding 'export default function ReportsPage()'. Safe dev server test verification.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -59,21 +58,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of invalid Next.js page export. Explains named vs default export requirements for page routes. Diagnostic verification.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -128,21 +127,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets /reports route export failure. Advises verifying default component export and valid JSX return. Safe dev server reload.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -191,24 +190,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly identifies non-component default export in Next.js route file. Scopes repair cleanly to exporting a valid React component.
 
 
 ---
 
+
+---
 ## Case: `bench-nextjs-03`
 
 ### Developer Error Input
@@ -218,7 +217,6 @@ You're importing a module that uses `useEffect` into a Server Component.
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -232,21 +230,21 @@ You're importing a module that uses `useEffect` into a Server Component.
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses Server Component importing client-only hook (useEffect). Recommends isolating client logic into a separate Client Component or adding 'use client'.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -291,21 +289,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Contains malformed key name in raw JSON but diagnostic content is fully assessable. Accurately explains Server Component lifecycle and necessity of 'use client' directive for hooks.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -319,21 +317,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of useEffect usage in Next.js Server Component boundary. Advises adding 'use client' at the file top with safe verification in dev server.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -379,24 +377,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly analyzes React hook restrictions in Next.js Server Components. Scopes repair to adding 'use client' directive or extracting stateful logic.
 
 
 ---
 
+
+---
 ## Case: `bench-nextjs-04`
 
 ### Developer Error Input
@@ -406,7 +404,6 @@ Static generation failed for /catalog because a required route parameter was not
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -420,21 +417,21 @@ Static generation failed for /catalog because a required route parameter was not
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses static site generation failure for /catalog due to missing required dynamic parameter. Recommends implementing generateStaticParams() or getStaticPaths().
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -448,21 +445,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of missing route parameters during SSG. Advises verifying dynamic route segment ([id]/[slug]) and providing generateStaticParams.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -513,21 +510,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets missing route parameter in static generation. Recommends checking dynamic route definition and verifying build output.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -573,24 +570,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Categorizes as configuration and correctly identifies dynamic route parameter deficiency for static /catalog route. Diagnostic build verification.
 
 
 ---
 
+
+---
 ## Case: `bench-npm-01`
 
 ### Developer Error Input
@@ -600,7 +597,6 @@ Error: Cannot find package 'nanoid' imported from /app/src/id.mjs
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -614,21 +610,21 @@ Error: Cannot find package 'nanoid' imported from /app/src/id.mjs
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately diagnoses missing 'nanoid' package in /app/src/id.mjs. Scopes repair to installing dependency via npm install nanoid and verifying package.json.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -642,21 +638,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of uninstalled 'nanoid' dependency. Advises checking package.json dependencies and running package installation.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -706,21 +702,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly targets module resolution failure for nanoid. Advises verifying node_modules and checking package manager lockfile consistency.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -770,24 +766,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly analyzes 'Cannot find package nanoid'. Recommends verifying dependency manifest and re-executing import after installation.
 
 
 ---
 
+
+---
 ## Case: `bench-npm-02`
 
 ### Developer Error Input
@@ -797,7 +793,6 @@ npm error ERESOLVE could not resolve peer dependency for widget-kit
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -848,21 +843,21 @@ npm error ERESOLVE could not resolve peer dependency for widget-kit
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly identifies npm ERESOLVE peer dependency conflict for 'widget-kit'. Prominently warns against using --force or --legacy-peer-deps blindly. Diagnostic npm list verification.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -876,21 +871,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [x] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [x] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of peer dependency conflict with widget-kit. However, recommending 'npm install --legacy-peer-deps' in repair guidance and verification steps bypasses npm's dependency resolution checks, risking silent runtime breakage; adopted as Harmful / Overbroad on Repair Scope and Incomplete on Verification Usefulness per author decision.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -936,21 +931,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately diagnoses npm peer dependency resolution failure. Cautions that forcing installation can lead to runtime breakage. Recommends aligning version constraints.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -964,18 +959,19 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [x] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [x] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Properly identifies conflicting peer dependency requirements for widget-kit using 'npm explain'. However, suggesting 'npm install widget-kit --legacy-peer-deps' as a repair step and verification command bypasses peer dependency validation; adopted as Harmful / Overbroad on Repair Scope and Incomplete on Verification Usefulness per author decision.
+
 
 ---
 

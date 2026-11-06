@@ -1,0 +1,77 @@
+{
+  "snapshot_date": "2026-11-06",
+  "snapshot_timestamp_utc": "2026-11-06T16:25:32.973490Z",
+  "provenance_statement": "Ratings in this snapshot were AI-generated provisional ratings reviewed and selectively adopted by the author (Onyx Prasai) prior to unblinding.",
+  "files": [
+    {
+      "original_path": "docs/research/human_review/batch_01.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_01.md",
+      "file_name": "batch_01.md",
+      "sha256": "d262a9a7cf93e9f5c30c3ba15480f6946e0352856142ffc20c4ef6c863d57c9e",
+      "byte_size": 69336
+    },
+    {
+      "original_path": "docs/research/human_review/batch_02.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_02.md",
+      "file_name": "batch_02.md",
+      "sha256": "4f9a4bfdb7db8975661edd47972678b3f31ca7f52d43ab4ff5ad403ffc08bc40",
+      "byte_size": 67520
+    },
+    {
+      "original_path": "docs/research/human_review/batch_03.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_03.md",
+      "file_name": "batch_03.md",
+      "sha256": "af2d39376d1df530b3e022ba07b26ffcc90aa3a1851522887f26a9b9f1a32d63",
+      "byte_size": 66728
+    },
+    {
+      "original_path": "docs/research/human_review/batch_04.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_04.md",
+      "file_name": "batch_04.md",
+      "sha256": "b3efbf4ee91f23c2b93589b25c14ca4cbd5d5e031c57ac25b45c42d40c282725",
+      "byte_size": 69055
+    },
+    {
+      "original_path": "docs/research/human_review/batch_05.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_05.md",
+      "file_name": "batch_05.md",
+      "sha256": "b25f74ff50aa9ba6ff94b803a57369a88b36d337ad168f345e20fcded4f717d2",
+      "byte_size": 62340
+    },
+    {
+      "original_path": "docs/research/human_review/batch_06.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_06.md",
+      "file_name": "batch_06.md",
+      "sha256": "927f99d20fc1f5c39e099d9f3fd46a28ffacfc0f97a287aaa9479f03ecee7f22",
+      "byte_size": 64818
+    },
+    {
+      "original_path": "docs/research/human_review/batch_07.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_07.md",
+      "file_name": "batch_07.md",
+      "sha256": "b76b6423624f4638ac269e55a4a39af4b2065a585c1c77245715a4ec2a326cb1",
+      "byte_size": 65565
+    },
+    {
+      "original_path": "docs/research/human_review/batch_08.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/batch_08.md",
+      "file_name": "batch_08.md",
+      "sha256": "cc0b443c2bc3bbfad270a6e89b69a70743eeecf5935767e62644ac7a617e98b8",
+      "byte_size": 70062
+    },
+    {
+      "original_path": "docs/research/human_review_verification_checklist.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/human_review_verification_checklist.md",
+      "file_name": "human_review_verification_checklist.md",
+      "sha256": "534a97012794783262466e3dde8bd47a4cd5db1da96c79321c5d3f1717fc8c3b",
+      "byte_size": 84119
+    },
+    {
+      "original_path": "docs/research/author_decision_sheet.md",
+      "snapshot_path": "docs/research/human_review/snapshots/2026-11-06/author_decision_sheet.md",
+      "file_name": "author_decision_sheet.md",
+      "sha256": "5609d0e17076c4f517763af653af3392656f8126406b72c30aebb32c2d8b5ddc",
+      "byte_size": 17279
+    }
+  ]
+}

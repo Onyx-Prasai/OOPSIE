@@ -5,9 +5,9 @@
 > **Review Protocol**: Double-blinded review. Systems are anonymized as `System Alpha`, `System Beta`, `System Gamma`, and `System Delta` in randomized order per case.
 > **Reviewer Instructions**: Complete all rubric items based strictly on provided error context, domain documentation, and technical soundness. Do not execute destructive commands.
 > **Disclosures**: Author-only review disclosure applies unless independent reviewer co-evaluates. Format cues (markdown fences vs raw JSON) may allow inferring base vs adapted configurations, so ratings must strictly evaluate technical diagnostic content independent of format.
+> **Rating Status**: AI-generated provisional ratings, subject to author review and final adoption.
 
 ---
-
 ## Case: `bench-backend-02`
 
 ### Developer Error Input
@@ -17,7 +17,6 @@ fetch failed: connect ECONNREFUSED 127.0.0.1:9100
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -31,21 +30,21 @@ fetch failed: connect ECONNREFUSED 127.0.0.1:9100
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses connection refused (ECONNREFUSED) on 127.0.0.1:9100. Identifies service unstarted, crashed, or listening on alternate port as root mechanisms. Repair advises checking process status and port configuration before modifying client code.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -59,21 +58,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of backend process non-responsiveness on port 9100. Poses appropriate questions about local dev environment. Safe verification commands using curl and process inspection.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -122,21 +121,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately diagnoses ECONNREFUSED on port 9100. Considers unstarted service, bind address (127.0.0.1 vs 0.0.0.0), and local firewall. Well-scoped repair and safe verification steps.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -186,24 +185,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly identifies target service connectivity failure on localhost. Highlights host vs container binding and unstarted daemon. Diagnostic verification using lsof/netstat and curl.
 
 
 ---
 
+
+---
 ## Case: `bench-backend-03`
 
 ### Developer Error Input
@@ -213,7 +212,6 @@ HTTP 429 rate limit exceeded for read-only endpoint
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -265,21 +263,21 @@ HTTP 429 rate limit exceeded for read-only endpoint
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly identifies HTTP 429 rate limit exceeded. Recommends client-side caching, exponential backoff, and inspecting request frequency. Repair advises respecting Retry-After header.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -293,21 +291,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately diagnoses rate limiting on read-only endpoint. Considers rapid loop execution and missing request throttling. Safe verification inspecting HTTP headers.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -360,21 +358,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of 429 rate limiting. Proposes rate-limit backoff, caching static responses, and inspecting concurrency. Verification checks Retry-After headers.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -388,24 +386,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Correctly attributes error to rate limiting. Outlines debouncing/throttling and caching strategies. Safe verification testing throttled requests.
 
 
 ---
 
+
+---
 ## Case: `bench-backend-04`
 
 ### Developer Error Input
@@ -415,7 +413,6 @@ HTTP 502 response body was not valid JSON
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -429,21 +426,21 @@ HTTP 502 response body was not valid JSON
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses HTTP 502 Bad Gateway with invalid JSON payload (upstream proxy returning HTML error page). Advises checking upstream server logs and proxy configuration.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -457,21 +454,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of 502 Bad Gateway and non-JSON body. Analyzes upstream timeout or crash behind reverse proxy. Diagnostic curl commands with verbose output.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -524,21 +521,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets upstream gateway failure where reverse proxy returns HTML error page. Repair focuses on upstream service health and logs before gateway alterations.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -590,24 +587,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly identifies reverse proxy 502 error masking upstream failure. Recommends inspecting upstream application crashes and timeouts without disabling gateway safety controls.
 
 
 ---
 
+
+---
 ## Case: `bench-deployment-01`
 
 ### Developer Error Input
@@ -617,7 +614,6 @@ Netlify: Publish directory 'public-output' does not exist
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -668,21 +664,21 @@ Netlify: Publish directory 'public-output' does not exist
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately identifies Netlify publish directory mismatch ('public-output' missing). Scopes repair to checking build script output directory vs netlify.toml configuration.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -733,21 +729,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses missing publish directory in Netlify build. Evaluates build failure vs misconfigured publish path. Safe verification running local build.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -761,21 +757,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of Netlify deployment error. Advises verifying whether build tool outputs to 'dist', 'out', or 'public-output' and aligning Netlify build settings.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -789,24 +785,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Accurate identification of Netlify output directory misconfiguration. Recommends running local build to confirm generated artifact directory before updating netlify.toml.
 
 
 ---
 
+
+---
 ## Case: `bench-deployment-02`
 
 ### Developer Error Input
@@ -816,7 +812,6 @@ Vercel build failed: npm run build exited with code 2
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -872,21 +867,21 @@ Vercel build failed: npm run build exited with code 2
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly analyzes Vercel build failure (exit code 2). Notes that exit code 2 indicates build script error (TypeScript/linting/missing dependency) and directs user to inspect preceding logs.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -900,21 +895,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of build compilation failure on Vercel. Poses appropriate questions about preceding compiler errors and advises local reproduction with npm run build.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -971,21 +966,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets Vercel build exit code 2. Highlights missing build environment variables, TypeScript errors, and dependency incompatibilities. Diagnostic local build verification.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -999,18 +994,19 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes error as deployment and correctly identifies that 'npm run build' failed with exit code 2. Advises inspecting detailed build log output and reproducing locally.
+
 
 ---
 

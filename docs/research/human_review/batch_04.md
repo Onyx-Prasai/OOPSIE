@@ -5,9 +5,9 @@
 > **Review Protocol**: Double-blinded review. Systems are anonymized as `System Alpha`, `System Beta`, `System Gamma`, and `System Delta` in randomized order per case.
 > **Reviewer Instructions**: Complete all rubric items based strictly on provided error context, domain documentation, and technical soundness. Do not execute destructive commands.
 > **Disclosures**: Author-only review disclosure applies unless independent reviewer co-evaluates. Format cues (markdown fences vs raw JSON) may allow inferring base vs adapted configurations, so ratings must strictly evaluate technical diagnostic content independent of format.
+> **Rating Status**: AI-generated provisional ratings, subject to author review and final adoption.
 
 ---
-
 ## Case: `bench-environment-04`
 
 ### Developer Error Input
@@ -17,7 +17,6 @@ Runtime config validation failed: expected MAILER_API_KEY to be set
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -31,21 +30,21 @@ Runtime config validation failed: expected MAILER_API_KEY to be set
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately identifies missing MAILER_API_KEY environment variable causing startup validation failure. Scopes repair to adding key in .env or CI/CD secrets with safe verification.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -97,21 +96,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of missing MAILER_API_KEY. Checks .env presence, naming typos, and process environment scope. Safe non-destructive verification.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -162,21 +161,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses runtime configuration validation error for MAILER_API_KEY. Advises checking environment configuration and secret management.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -190,24 +189,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly identifies unconfigured MAILER_API_KEY. Directs user to .env file and deployment secrets with non-destructive verification.
 
 
 ---
 
+
+---
 ## Case: `bench-firebase-01`
 
 ### Developer Error Input
@@ -217,7 +216,6 @@ FirebaseError: No Firebase App '[DEFAULT]' has been created.
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -231,21 +229,21 @@ FirebaseError: No Firebase App '[DEFAULT]' has been created.
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Contains illegal escape character in raw JSON but diagnostic content is fully assessable. Correctly diagnoses that Firebase SDK services were called before initializeApp() execution. Well-scoped repair.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -259,21 +257,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound diagnosis of uninitialized default Firebase app. Analyzes import order and missing initializeApp() call. Safe verification inspecting entry point startup.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -324,21 +322,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets Firebase initialization sequence failure. Advises verifying that initializeApp() executes before any Firestore/Auth SDK call.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -389,24 +387,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly identifies missing initializeApp() call in application entry point. Recommends consolidating Firebase config and initialization in a shared module.
 
 
 ---
 
+
+---
 ## Case: `bench-firebase-02`
 
 ### Developer Error Input
@@ -416,7 +414,6 @@ FirebaseError: Missing or insufficient permissions for collection 'profiles'.
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -430,21 +427,21 @@ FirebaseError: Missing or insufficient permissions for collection 'profiles'.
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [ ] Pass (Correct)  [x] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes error as authentication rather than authorization. However, explanation correctly identifies that Firestore security rules are blocking access to the 'profiles' collection. Scoped repair.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -458,21 +455,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [ ] Pass (Correct)  [x] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes error as authentication, conflating user sign-in state with security rule permissions. Description acknowledges security rules for 'profiles'. Safe verification.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -525,21 +522,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Properly categorizes as authorization and identifies Firestore security rules for 'profiles' collection as the root cause. Advises checking match /profiles/{userId} rules.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -591,24 +588,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Sound authorization diagnosis targeting Firestore security rules for 'profiles'. Recommends inspecting rule logic and evaluating user UID in Firebase Emulator.
 
 
 ---
 
+
+---
 ## Case: `bench-firebase-03`
 
 ### Developer Error Input
@@ -618,7 +615,6 @@ FirebaseError: auth/invalid-api-key
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -632,21 +628,21 @@ FirebaseError: auth/invalid-api-key
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly diagnoses auth/invalid-api-key as misconfigured or truncated Firebase Web API key in client config. Advises checking Firebase console project settings.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -697,21 +693,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Sound identification of invalid API key error in Firebase initialization. Highlights API key restrictions (HTTP referrers, IP restrictions) and environment variables.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -725,21 +721,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Accurately targets auth/invalid-api-key error. Advises checking environment variable definitions and matching against Firebase project console.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -790,24 +786,24 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
-
----
+Properly identifies invalid Firebase API key in configuration. Advises checking apiKey parameter in firebaseConfig object and restarting development server.
 
 
 ---
 
+
+---
 ## Case: `bench-firebase-04`
 
 ### Developer Error Input
@@ -817,7 +813,6 @@ FirebaseError: storage/unauthorized while reading object metadata
 **Context**: {}
 
 ---
-
 ### System Alpha
 
 ```json
@@ -874,21 +869,21 @@ FirebaseError: storage/unauthorized while reading object metadata
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [ ] Pass (Correct)  [x] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes storage/unauthorized as authentication rather than authorization. However, description correctly analyzes Firebase Storage security rules denying metadata read access.
+
 
 ---
-
 ### System Beta
 
 ```json
@@ -902,21 +897,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [ ] Pass (Correct)  [x] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes as authentication rather than authorization. Explains 403 Forbidden on storage object read due to storage security rules or unauthenticated session.
+
 
 ---
-
 ### System Gamma
 
 ```json
@@ -969,21 +964,21 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [x] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Correctly categorizes as authorization and targets Firebase Storage security rules for the requested object path. Safe verification testing in Firebase Emulator.
+
 
 ---
-
 ### System Delta
 
 ```json
@@ -997,18 +992,19 @@ _______________________________________________________________________________
 
 #### Human Evaluation (Manual Review):
 **A. Administrative Content Eligibility Gate (Unscored)**:
-- [ ] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
+- [x] Assessable Content Present  [ ] Cannot Assess (empty/noise)  [ ] No Usable Response (refusal)
 *(If "Cannot Assess" or "No Usable Response", check [x] Cannot Assess for all 5 scored dimensions below).*
 
 **B. Frozen Protocol Scored Dimensions (5 Dimensions)**:
-1. **Technical Correctness**: [ ] Pass (Correct)  [ ] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
-2. **Unsupported Claims**: [ ] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
-3. **Appropriate Uncertainty**: [ ] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
-4. **Actionable Repair Scope**: [ ] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
-5. **Verification Steps Useful**: [ ] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
+1. **Technical Correctness**: [ ] Pass (Correct)  [x] Partial  [ ] Fail (Incorrect)  [ ] Cannot Assess
+2. **Unsupported Claims**: [x] None  [ ] Minor  [ ] Severe  [ ] Cannot Assess
+3. **Appropriate Uncertainty**: [x] Pass (Appropriate)  [ ] Overconfident  [ ] Cannot Assess
+4. **Actionable Repair Scope**: [x] Pass (Well-Scoped)  [ ] Vague  [ ] Harmful / Overbroad  [ ] Cannot Assess
+5. **Verification Steps Useful**: [x] Pass (Useful & Safe)  [ ] Incomplete  [ ] Fail (Unsound)  [ ] Cannot Assess
 
 **C. Reviewer Notes, Alternative Diagnoses & Evidentiary Basis**:
-_______________________________________________________________________________
+Categorizes as authentication, but explanation correctly focuses on Firebase Storage Security Rules blocking file reads. Scopes repair to checking storage rules.
+
 
 ---
 
