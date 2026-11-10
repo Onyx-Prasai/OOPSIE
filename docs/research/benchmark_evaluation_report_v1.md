@@ -7,7 +7,7 @@
 **Adapter Checkpoint**: `oopsie-pilot-adapter` (Step 44, Epoch 2)  
 **Demonstration (Condition C)**: `syn-dep-001` (`vite-missing-lucide-icons` from `data/train.jsonl`)  
 **Canonical Output Schema**: `data/schema.json` (SHA-256: `40550bfef007a7078dc3515a0c03e52dec29e351b931e9bb6cd5ea8f447b547a`)  
-**Artifact Archive**: `artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz` (SHA-256: `dea688ab35b9cc42fd9cb4d913f07ea334599bce38a5aab94a9e67e59899e703`)  
+**Artifact Archive**: `artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz` (SHA-256: `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0`)  
 **Evidence Verification Status**: **Verified against local disk artifacts (`artifacts/benchmark_v1_2_0/benchmark_results/`)**  
 **Audit & Correction Date**: 2026-11-05
 
@@ -151,4 +151,4 @@ All artifact files were cryptographically audited against the execution manifest
 | `blinded_human_review_sheet.md` | 418,686 bytes | `eaf69fea4ef0f8fc1e62b0839d0a1b24561562e49c21d1568839300eaf152aea` |
 | `unblinded_review_key.json` | 5,918 bytes | `738f440aa43ce3f11ebdc5dbbfebb59cdcc2792d27a9f2812d3234175627835d` |
 | `checkpoint_results.jsonl` | 628,592 bytes | `e6be2fca2763544fba0537f21339ee69e7341c095ebbf964364aecf9fa7aa0f4` |
-| `oopsie_benchmark_results_v1_2_0.tar.gz` | 234,023 bytes | `dea688ab35b9cc42fd9cb4d913f07ea334599bce38a5aab94a9e67e59899e703` |
+| `oopsie_benchmark_results_v1_2_0.tar.gz` | 234,423 bytes | `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0` |

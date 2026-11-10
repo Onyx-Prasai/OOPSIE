@@ -27,12 +27,13 @@ A pilot QLoRA adapter (`oopsie-pilot-adapter` on `google/gemma-4-12b-it`) and a 
 - **Qualitative Evaluation**: Systematic qualitative evaluation across all 160 completions demonstrated that domain adaptation was associated with improved structural output-format compliance, but **did not demonstrate a qualitative diagnostic-reasoning advantage** over the unadapted base models.
 - **Key Research Artifacts**:
   - **Manuscript Draft**: [`docs/research/manuscript_draft_v1.md`](docs/research/manuscript_draft_v1.md)
+  - **Reproduction Guide**: [`docs/reproduction-guide.md`](docs/reproduction-guide.md)
   - **Benchmark Report**: [`docs/research/benchmark_evaluation_report_v1.md`](docs/research/benchmark_evaluation_report_v1.md)
   - **Model Card**: [`inference/model-card.md`](inference/model-card.md)
-  - **Evaluation Protocol & Reproduction**: [`evaluation/protocols/prompting_vs_adaptation_v1.md`](evaluation/protocols/prompting_vs_adaptation_v1.md)
-  - **Evaluation Bundle**: [`dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip`](dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip)
-  - **Dataset Splits**: [`data/train.jsonl`](data/train.jsonl), [`data/validation.jsonl`](data/validation.jsonl), [`data/test.jsonl`](data/test.jsonl), and [`evaluation/benchmark.jsonl`](evaluation/benchmark.jsonl)
-  - **Result Archive**: [`artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz`](artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz)
+  - **Evaluation Protocol**: [`evaluation/protocols/prompting_vs_adaptation_v1.md`](evaluation/protocols/prompting_vs_adaptation_v1.md)
+  - **Dataset Splits (Tracked in Git)**: [`data/train.jsonl`](data/train.jsonl), [`data/validation.jsonl`](data/validation.jsonl), [`data/test.jsonl`](data/test.jsonl), and [`evaluation/benchmark.jsonl`](evaluation/benchmark.jsonl)
+  - **Evaluation Bundle**: `dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip` *(local evaluation bundle; to be hosted as a release asset upon publication)*
+  - **Benchmark Result Archive**: `artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz` *(SHA-256: `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0`; local archive excluding private unblinding keys; to be hosted as a release asset upon publication)*
 
 See the [roadmap](ROADMAP.md) for future project phases.
 

@@ -81,6 +81,6 @@ Qualitative diagnostic soundness was evaluated across all 160 completions using 
 
 ## 6. Hardware & Runtime Requirements
 
-- **Inference Hardware**: Requires an NVIDIA GPU with at least 15 GB VRAM (e.g., Tesla T4, RTX 3090/4090, A10G) to run 4-bit NF4 quantized inference.
+- **Inference Hardware**: Tested environment: a single NVIDIA Tesla T4 GPU with 14.56 GB allocated VRAM under 4-bit NF4 quantization and bfloat16 compute. Minimum VRAM requirements for other batch sizes, context lengths, or deployment configurations have not been ablated; configurations using less than 15 GB VRAM have not been validated.
 - **Software Stack**: Python $\ge 3.10$, PyTorch $\ge 2.4$, Hugging Face `transformers >= 4.46`, `peft >= 0.13`, `bitsandbytes >= 0.43`.
 - **Inference Settings**: Greedy decoding (`temperature = 0.0`, `do_sample = False`, `max_new_tokens = 1024`).

@@ -343,7 +343,7 @@ Every dimension is reported separately below with exact counts, percentages, and
 
 All code, evaluation harnesses, datasets, and execution manifests are preserved locally:
 - **Evaluation Bundle**: [`dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip`](file:///c:/Users/onyxe/Desktop/OOPSIE/dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip)
-- **Execution Archive**: [`artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz`](file:///c:/Users/onyxe/Desktop/OOPSIE/artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz) (SHA-256: `dea688ab35b9cc42fd9cb4d913f07ea334599bce38a5aab94a9e67e59899e703`)
+- **Execution Archive**: [`artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz`](file:///c:/Users/onyxe/Desktop/OOPSIE/artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz) (SHA-256: `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0`)
 - **Raw Evaluation Records**: [`artifacts/benchmark_v1_2_0/benchmark_results/benchmark_results_full.json`](file:///c:/Users/onyxe/Desktop/OOPSIE/artifacts/benchmark_v1_2_0/benchmark_results/benchmark_results_full.json)
 - **Audit Reports**: [`docs/research/benchmark_evaluation_report_v1.md`](file:///c:/Users/onyxe/Desktop/OOPSIE/docs/research/benchmark_evaluation_report_v1.md)
 
