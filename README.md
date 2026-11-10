@@ -21,17 +21,26 @@ The output format is defined in [`data/schema.json`](data/schema.json).
 
 ## Project status
 
-**A fine-tuned OOPSIE checkpoint is not yet available. No benchmark results or production-readiness claims are available.**
+A pilot QLoRA adapter (`oopsie-pilot-adapter` on `google/gemma-4-12b-it`) and a pre-registered four-condition benchmark evaluation are complete.
 
-The first dataset batch contains 100 synthetic examples across train, validation, and test splits, and the held-out benchmark contains 40 separate synthetic cases. These are initial development data, not evidence of model capability. The training pipeline is implemented but training has not been completed. The default web demo uses rule-based classification and community knowledge-base retrieval; it is not a fine-tuned model.
+- **Empirical Findings**: In our 40-scenario held-out benchmark (160 forward passes), the adapted model achieved 95.0% to 97.5% strict schema compliance under zero-tolerance greedy parsing, whereas unadapted base prompting failed automated ingestion (0.0%) due to conversational prose and markdown wrappers.
+- **Qualitative Evaluation**: Systematic qualitative evaluation across all 160 completions demonstrated that domain adaptation was associated with improved structural output-format compliance, but **did not demonstrate a qualitative diagnostic-reasoning advantage** over the unadapted base models.
+- **Key Research Artifacts**:
+  - **Manuscript Draft**: [`docs/research/manuscript_draft_v1.md`](docs/research/manuscript_draft_v1.md)
+  - **Benchmark Report**: [`docs/research/benchmark_evaluation_report_v1.md`](docs/research/benchmark_evaluation_report_v1.md)
+  - **Model Card**: [`inference/model-card.md`](inference/model-card.md)
+  - **Evaluation Protocol & Reproduction**: [`evaluation/protocols/prompting_vs_adaptation_v1.md`](evaluation/protocols/prompting_vs_adaptation_v1.md)
+  - **Evaluation Bundle**: [`dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip`](dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip)
+  - **Dataset Splits**: [`data/train.jsonl`](data/train.jsonl), [`data/validation.jsonl`](data/validation.jsonl), [`data/test.jsonl`](data/test.jsonl), and [`evaluation/benchmark.jsonl`](evaluation/benchmark.jsonl)
+  - **Result Archive**: [`artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz`](artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz)
 
-See the [roadmap](ROADMAP.md) for the current phase plan.
+See the [roadmap](ROADMAP.md) for future project phases.
 
 ## Quick start
 
 ### Web demo
 
-The demo lives in [`apps/web-demo`](apps/web-demo). By default it runs **Rule + Knowledge Base mode** locally in the browser and labels results as rule-based. Set `VITE_OOPSIE_API_URL` to enable **Model endpoint mode**; the endpoint's checkpoint and fine-tuning status are not verified by the demo.
+The demo lives in [`apps/web-demo`](apps/web-demo). By default it runs **Rule + Knowledge Base mode** locally in the browser and labels results as rule-based. It operates via heuristic pattern-matching and community recipe lookup; it does not use or represent fine-tuned 12B model inference. Set `VITE_OOPSIE_API_URL` to enable **Model endpoint mode**; the endpoint's checkpoint and fine-tuning status are not verified by the demo.
 
 ```powershell
 npm install
@@ -42,7 +51,7 @@ For a separately running API, set `VITE_OOPSIE_API_URL` to the `/api/analyze` en
 
 ### Local inference API
 
-Install the API dependencies and point OOPSIE at a local compatible model directory:
+Install the API dependencies and point OOPSIE at a local compatible model directory or adapter checkpoint:
 
 ```powershell
 python -m pip install -e ".[api]"
@@ -50,7 +59,7 @@ $env:OOPSIE_MODEL_PATH = "C:\models\oopsie"
 uvicorn inference.api.main:app --host 127.0.0.1 --port 8000
 ```
 
-The API validates generated JSON against [`data/schema.json`](data/schema.json), redacts common secrets, and retrieves relevant community recipes from [`knowledge-base`](knowledge-base). This endpoint requires a configured model path; no fine-tuned checkpoint is included.
+The API validates generated JSON against [`data/schema.json`](data/schema.json), redacts common secrets, and retrieves relevant community recipes from [`knowledge-base`](knowledge-base).
 
 ### Dataset, training, and evaluation
 
@@ -58,7 +67,8 @@ The API validates generated JSON against [`data/schema.json`](data/schema.json),
 - Prepare data splits with `python training/preprocess.py`
 - Train using the scripts in [`training`](training)
 - Validate dataset and benchmark records with `npm run validate:data` (or `python training/validate_data.py`)
-- Evaluate a configured API with `python evaluation/evaluate.py`; no benchmark results are currently available
+- Execute benchmark contract tests with `python -m pytest tests/test_benchmark_contract.py`
+- Full 4-condition benchmark reproduction details are documented in [`evaluation/protocols/prompting_vs_adaptation_v1.md`](evaluation/protocols/prompting_vs_adaptation_v1.md) and [`docs/research/benchmark_evaluation_report_v1.md`](docs/research/benchmark_evaluation_report_v1.md)
 
 Never commit credentials, private logs, personal data, proprietary code, or deployment secrets.
 

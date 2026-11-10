@@ -6,7 +6,7 @@
 **Target Hardware**: Single Tesla T4 GPU (14.56 GB VRAM, Kaggle free tier)  
 **Base Model**: `google/gemma-4-12b-it` (4-bit NF4 quantization, `compute_dtype=torch.bfloat16`)  
 **Adapter Checkpoint**: `oopsie-pilot-adapter` (Step 44, Epoch 2)  
-**Canonical Output Schema**: [`data/schema.json`](file:///c:/Users/onyxe/Desktop/OOPSIE/data/schema.json) (SHA-256: `40550bfef007a7078dc3515a0c03e52dec29e351b931e9bb6cd5ea8f447b547a`)  
+**Canonical Output Schema**: [`data/schema.json`](file:///c:/Users/onyxe/Desktop/OOPSIE/data/schema.json) (SHA-256: `ce322859f8e4a757847b3e4d02b90ded41054ccbef5b4dd872523a80d681440a` [canonical LF-normalized hash used by the updated harness]; original Windows CRLF checkout hash was `40550bfef007a7078dc3515a0c03e52dec29e351b931e9bb6cd5ea8f447b547a`)  
 **Benchmark Corpus**: [`evaluation/benchmark.jsonl`](file:///c:/Users/onyxe/Desktop/OOPSIE/evaluation/benchmark.jsonl) (N=40 records, SHA-256: `1676a9bcb9160bd142483cb868b4b652c21e93ef9f29e48f56786312c4a942dd`)
 
 ---

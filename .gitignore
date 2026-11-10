@@ -86,3 +86,5 @@ apps/vscode-extension/node_modules/
 *.ntvs*
 *.njsproj
 *.sln
+scratch/
+
