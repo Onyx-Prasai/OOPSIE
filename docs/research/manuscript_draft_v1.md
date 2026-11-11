@@ -74,7 +74,7 @@ The OOPSIE dataset comprises 160 multi-turn developer error scenarios structured
 - **Independent Test Set (`data/test.jsonl`)**: 17 records (SHA-256: `c4b2d10d...`)
 - **Held-Out Final Benchmark (`evaluation/benchmark.jsonl`)**: 40 records (SHA-256: `1676a9bcb9160bd142483cb868b4b652c21e93ef9f29e48f56786312c4a942dd`)
 
-All records adhere to a canonical 10-key schema ([`data/schema.json`](file:///c:/Users/onyxe/Desktop/OOPSIE/data/schema.json)) formalized under the JSON Schema Draft 2020-12 dialect, utilizing structural applicator keywords (`$schema`, `$id`, `properties`, `additionalProperties`, `items`) specified in the JSON Schema Core specification (Wright et al., 2022a) and structural assertion keywords (`type`, `enum`, `required`, `minLength`) specified in the JSON Schema Validation specification (Wright et al., 2022b):
+All records adhere to a canonical 10-key schema ([`data/schema.json`](data/schema.json)) formalized under the JSON Schema Draft 2020-12 dialect, utilizing structural applicator keywords (`$schema`, `$id`, `properties`, `additionalProperties`, `items`) specified in the JSON Schema Core specification (Wright et al., 2022a) and structural assertion keywords (`type`, `enum`, `required`, `minLength`) specified in the JSON Schema Validation specification (Wright et al., 2022b):
 ```json
 {
   "summary": "string (10-200 chars)",
@@ -342,10 +342,10 @@ Every dimension is reported separately below with exact counts, percentages, and
 ## 10. Reproducibility & Open Artifact Availability
 
 All code, evaluation harnesses, datasets, and execution manifests are preserved locally:
-- **Evaluation Bundle**: [`dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip`](file:///c:/Users/onyxe/Desktop/OOPSIE/dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip)
-- **Execution Archive**: [`artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz`](file:///c:/Users/onyxe/Desktop/OOPSIE/artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz) (SHA-256: `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0`)
-- **Raw Evaluation Records**: [`artifacts/benchmark_v1_2_0/benchmark_results/benchmark_results_full.json`](file:///c:/Users/onyxe/Desktop/OOPSIE/artifacts/benchmark_v1_2_0/benchmark_results/benchmark_results_full.json)
-- **Audit Reports**: [`docs/research/benchmark_evaluation_report_v1.md`](file:///c:/Users/onyxe/Desktop/OOPSIE/docs/research/benchmark_evaluation_report_v1.md)
+- **Evaluation Bundle**: [`dist/oopsie-eval-bundle-v1.2.0-four-conditions.zip`](https://github.com/Onyx-Prasai/OOPSIE/releases/download/v1.2.0/oopsie-eval-bundle-v1.2.0-four-conditions.zip)
+- **Execution Archive**: [`artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz`](https://github.com/Onyx-Prasai/OOPSIE/releases/download/v1.2.0/oopsie_benchmark_results_v1_2_0.tar.gz) (SHA-256: `cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb`)
+- **Raw Evaluation Records**: `artifacts/benchmark_v1_2_0/benchmark_results/benchmark_results_full.json`
+- **Audit Reports**: [`docs/research/benchmark_evaluation_report_v1.md`](docs/research/benchmark_evaluation_report_v1.md)
 
 *Public Availability Disclosure*: Base model weights (`google/gemma-4-12b-it`) are publicly available on Hugging Face under the Apache 2.0 license. Adapter weights and evaluation datasets are currently stored locally; public repository release readiness requirements are documented in the project release checklist.
 

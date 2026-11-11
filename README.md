@@ -33,7 +33,7 @@ A pilot QLoRA adapter (`oopsie-pilot-adapter` on `google/gemma-4-12b-it`) and a 
   - **Evaluation Protocol**: [`evaluation/protocols/prompting_vs_adaptation_v1.md`](evaluation/protocols/prompting_vs_adaptation_v1.md)
   - **Dataset Splits (Tracked in Git)**: [`data/train.jsonl`](data/train.jsonl), [`data/validation.jsonl`](data/validation.jsonl), [`data/test.jsonl`](data/test.jsonl), and [`evaluation/benchmark.jsonl`](evaluation/benchmark.jsonl)
   - **Evaluation Bundle**: [`oopsie-eval-bundle-v1.2.0-four-conditions.zip`](https://github.com/Onyx-Prasai/OOPSIE/releases/download/v1.2.0/oopsie-eval-bundle-v1.2.0-four-conditions.zip) *(SHA-256: `259bd473d9d18e0b13b79591ca1e44b0439667131b9e3966468d044ca05e42c5`)*
-  - **Benchmark Result Archive**: [`oopsie_benchmark_results_v1_2_0.tar.gz`](https://github.com/Onyx-Prasai/OOPSIE/releases/download/v1.2.0/oopsie_benchmark_results_v1_2_0.tar.gz) *(SHA-256: `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0`; excludes private unblinding key)*
+  - **Benchmark Result Archive**: [`oopsie_benchmark_results_v1_2_0.tar.gz`](https://github.com/Onyx-Prasai/OOPSIE/releases/download/v1.2.0/oopsie_benchmark_results_v1_2_0.tar.gz) *(SHA-256: `cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb`; excludes private unblinding key)*
 
 See the [roadmap](ROADMAP.md) for future project phases.
 

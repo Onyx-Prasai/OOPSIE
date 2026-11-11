@@ -172,7 +172,7 @@ from pathlib import Path
 CHECKSUMS = {
     "evaluation/benchmark.jsonl": "1676a9bcb9160bd142483cb868b4b652c21e93ef9f29e48f56786312c4a942dd",
     "data/schema.json": "ce322859f8e4a757847b3e4d02b90ded41054ccbef5b4dd872523a80d681440a",
-    "artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz": "fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0",
+    "artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz": "cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb",
 }
 
 for rel_path, expected_hash in CHECKSUMS.items():

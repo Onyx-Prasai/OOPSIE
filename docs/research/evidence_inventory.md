@@ -157,7 +157,7 @@ Experimental findings must remain strictly configuration-specific. Below is the 
 ### 3.8 Final 40-Case Held-Out Benchmark Evaluation (N=40, Protocol v1.2.0-frozen)
 - **Status**: **Verified against local disk artifacts (`artifacts/benchmark_v1_2_0/benchmark_results/`).**
 - **Artifact Hashes**:
-  - Downloaded Tarball `oopsie_benchmark_results_v1_2_0.tar.gz` (234,423 bytes): SHA-256 = `fec444541392d9ef7e73a2fc0f981c5760181233db04f05eaa8440d4ca97f5d0`
+  - Downloaded Tarball `oopsie_benchmark_results_v1_2_0.tar.gz` (234,322 bytes): SHA-256 = `cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb`
   - Raw results `benchmark_results_full.json` (635,014 bytes): SHA-256 = `6021aaab2616aec8cd09679532686eb09d424adfb15c2d2e22469f6c75aca397`
   - Summary metrics `summary_metrics.json` (1,885 bytes): SHA-256 = `0a759c693717240293fd2458071e779b8244155180ffa496b59a8f172c377644`
   - Review sheet `blinded_human_review_sheet.md` (418,686 bytes): SHA-256 = `eaf69fea4ef0f8fc1e62b0839d0a1b24561562e49c21d1568839300eaf152aea`
