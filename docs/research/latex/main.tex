@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{booktabs}
+\usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{microtype}
 \usepackage{hyperref}
@@ -46,7 +47,7 @@ Modern instruction-tuned foundation language models possess extensive parametric
 Prior work has addressed output structuring primarily through decoding-time grammar constraints, such as finite-state automata (FSM) guidance~\cite{willard2023guided} or context-free grammar (CFG) token masking~\cite{ugare2025syncode}. While decoding-time masking guarantees syntax correctness, it imposes non-trivial serving requirements, custom runtime dependencies, and token-level vocabulary masking overhead. An alternative approach is parameter-efficient fine-tuning (PEFT), such as Low-Rank Adaptation (LoRA; \cite{hu2022lora}) and Quantized Low-Rank Adaptation (QLoRA; \cite{dettmers2023qlora}), which internalizes formatting and task conventions directly into the model's weights.
 
 In this work, we present \textbf{OOPSIE} (Operational Output Parser \& Structured Inference Engine), an open evaluation framework designed to address the following research question:
-\begin{quote}
+\begin{quote}\sloppy
 \textit{Does QLoRA adaptation improve structured JSON/schema compliance for operational-failure diagnostic reporting, and does it improve qualitative diagnostic reasoning?}
 \end{quote}
 
@@ -117,8 +118,8 @@ To evaluate diagnostic reasoning without confirmation bias, completions from all
 \label{sec:constrained-decoding}
 This study did not evaluate constrained-decoding baselines, provider JSON modes, or grammar-guided decoding. Therefore, the results do not establish that QLoRA adaptation is necessary or preferable to constrained decoding for achieving schema compliance. Specifically, the following approaches were not evaluated:
 \begin{itemize}
-    \item \textbf{Grammar-constrained decoding} (e.g., FSM/CFG token masking as in Outlines~\cite{willard2023guided} or SynCode~\cite{ugare2025syncode}).
-    \item \textbf{Provider JSON modes} (inference-time JSON enforcement offered by hosted API providers).
+    \item \textbf{Grammar-constrained decoding} (e.g., FSM/CFG masking as in Outlines~\cite{willard2023guided} or SynCode~\cite{ugare2025syncode}).
+    \item \textbf{Provider JSON modes} (inference-time JSON enforcement offered by hosted model providers).
     \item \textbf{Negative-prompting baselines} (e.g., system-prompt instructions such as \textit{``Output raw JSON only, no markdown, no preamble''}).
 \end{itemize}
 The evaluation scope was restricted to parameter adaptation versus standard prompt-only baselines using identical inference infrastructure, without integration of constrained-decoding runtime engines. Future work should compare QLoRA adaptation against constrained-decoding approaches, JSON-mode decoding, and prompt-only formatting controls to determine whether adaptation is necessary or merely one of several viable paths to structural compliance.
@@ -129,9 +130,12 @@ The evaluation scope was restricted to parameter adaptation versus standard prom
 
 Table~\ref{tab:programmatic_results} reports the quantitative parsing and schema conformance results across all 160 runs.
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering
 \small
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccccc}
 \toprule
 \textbf{Condition} & \textbf{Raw JSON} & \textbf{Lenient JSON} & \textbf{Strict Schema} & \textbf{Key Compl.} & \textbf{Latency (s)} & \textbf{Fail Reason} \\
@@ -141,10 +145,11 @@ Table~\ref{tab:programmatic_results} reports the quantitative parsing and schema
 \textbf{C: Base One-Shot + Schema}  & 0/40 (0.0\%) & 40/40 (100.0\%) & 0/40 (0.0\%) & 0/40 (0.0\%) & $119.35 \pm 9.79$ & Markdown fences / preambles \\
 \textbf{D: Adapted No-Schema}       & 40/40 (100.0\%) & 40/40 (100.0\%) & 39/40 (97.5\%) & 39/40 (97.5\%) & $99.88 \pm 11.93$ & Missing 1 key (1 run) \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \caption{Programmatic parsing and schema compliance results across 40 held-out scenarios (160 total passes). Latency denotes single sequential execution time on an NVIDIA Tesla T4 GPU (mean $\pm$ standard deviation).}
 \label{tab:programmatic_results}
-\end{table*}
+\end{table}
 
 Unadapted base models (Conditions A and C) achieved 0.0\% raw JSON parsing and 0.0\% strict schema compliance. In 100\% of cases, failure resulted from enclosing the output in Markdown code blocks or including conversational introductory text. Once fences were stripped (Lenient JSON), the base models proved to have generated valid JSON syntax (100.0\%).
 
@@ -156,6 +161,8 @@ To rigorously test whether the observed improvement in schema compliance is stat
 
 \begin{table}[h]
 \centering
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{lcc}
 \toprule
 & \textbf{Condition B Pass} & \textbf{Condition B Fail} \\
@@ -174,7 +181,7 @@ p = 2 \times \sum_{k=0}^{0} \binom{38}{k} (0.5)^{38} = 2 \times (0.5)^{38} \appr
 \end{equation}
 The Edwards continuity-corrected chi-square statistic is:
 \begin{equation}
-\chi^2_{\text{corrected}} = \frac{(|b - c| - 1)^2}{b + c} = \frac{(|0 - 38| - 1)^2}{38} = \frac{37^2}{38} = \frac{1369}{38} \approx 36.0263
+\chi^{2}_{\text{corrected}} = \frac{(|b - c| - 1)^2}{b + c} = \frac{(|0 - 38| - 1)^2}{38} = \frac{37^2}{38} = \frac{1369}{38} \approx 36.0263
 \end{equation}
 yielding $p \approx 1.947 \times 10^{-9}$ ($df=1$). The uncorrected McNemar statistic $\chi^2 = 38.00$ yields $p \approx 7.074 \times 10^{-10}$.
 
@@ -187,9 +194,12 @@ Omitting the explicit schema text from the prompt (Condition D) yielded an obser
 
 Table~\ref{tab:qualitative_summary} summarizes the qualitative evaluation across all 160 completions.
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering
 \small
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Dimension} & \textbf{Condition A (Base)} & \textbf{Condition B (Adapted)} & \textbf{Condition C (1-Shot)} & \textbf{Condition D (No-Schema)} \\
@@ -200,10 +210,11 @@ Table~\ref{tab:qualitative_summary} summarizes the qualitative evaluation across
 \textbf{Safety Appropriateness}& 40 Pass / 0 Partial / 0 Fail & 38 Pass / 2 Partial / 0 Fail & 40 Pass / 0 Partial / 0 Fail & 38 Pass / 2 Partial / 0 Fail \\
 \textbf{Repair Prompt Utility} & 39 Pass / 1 Partial / 0 Fail & 38 Pass / 2 Partial / 0 Fail & 40 Pass / 0 Partial / 0 Fail & 37 Pass / 3 Partial / 0 Fail \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \caption{Systematic qualitative evaluation across all 160 completions (40 scenarios $\times$ 4 conditions). \textit{Rating provenance: 40/160 responses were included in the blinded/human-review workflow; 120/160 relied on unreviewed AI-generated provisional ratings selectively reviewed and adopted by the author. No inter-rater reliability statistic was computed.}}
 \label{tab:qualitative_summary}
-\end{table*}
+\end{table}
 
 Remarkably, qualitative diagnostic performance was virtually identical between unadapted and adapted models:
 \begin{itemize}
@@ -248,8 +259,10 @@ Automating system error remediation presents inherent operational risks. Flawed 
 
 All benchmark datasets, evaluation protocols, schemas, and analysis scripts are publicly available in the OOPSIE repository at \url{https://github.com/Onyx-Prasai/OOPSIE}. The frozen evaluation bundle and benchmark result archive are published under GitHub Release v1.2.0:
 \begin{itemize}
-    \item Evaluation Bundle ZIP SHA-256: \texttt{259bd473d9d18e0b13b79591ca1e44b0439667131b9e3966468d044ca05e42c5}
-    \item Public Result Archive SHA-256: \texttt{cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb}
+    \item Evaluation Bundle ZIP SHA-256:\\
+    \texttt{259bd473d9d18e0b13b79591ca1e44b0439667131b9e3966468d044ca05e42c5}
+    \item Public Result Archive SHA-256:\\
+    \texttt{cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb}
 \end{itemize}
 
 \section{Conclusion}
