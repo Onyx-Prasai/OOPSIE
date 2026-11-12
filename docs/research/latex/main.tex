@@ -30,11 +30,11 @@
 \maketitle
 
 \begin{abstract}
-Deploying instruction-tuned language models as programmatic middleware in automated software diagnostics is frequently hindered by structural output instability under zero-tolerance parsing. We present OOPSIE (Operational Output Parser \& Structured Inference Engine), an open evaluation framework examining whether Quantized Low-Rank Adaptation (QLoRA) improves structured JSON schema compliance for operational diagnostic reporting, and whether such adaptation alters qualitative diagnostic performance. We trained a QLoRA adapter ($r=16, \alpha=32$) on top of the public model \texttt{google/gemma-4-12B-it} using a multi-turn developer error-recovery corpus and 4-bit NormalFloat quantization.
+Deploying instruction-tuned language models as middleware in automated software diagnostics is frequently hindered by structural output instability under zero-tolerance parsing. We present OOPSIE (Operational Output Parser \& Structured Inference Engine), an open evaluation framework examining whether Quantized Low-Rank Adaptation (QLoRA) improves structured JSON schema compliance for operational diagnostic reporting, and whether such adaptation alters qualitative diagnostic performance. We trained a QLoRA adapter (r=16, alpha=32) on the public model \texttt{google/gemma-4-12B-it} using a multi-turn error-recovery corpus and 4-bit NormalFloat quantization.
 
-In a pre-specified frozen benchmark of 40 held-out failure scenarios (160 total greedy-decoding passes), QLoRA adaptation improved strict JSON schema compliance from 0.0\% in unadapted base-model conditions to 95.0\% (38/40) with schema guidance and 97.5\% (39/40) without schema guidance. The comparison between unadapted zero-shot base-model inference and adapted inference with schema guidance was statistically significant under an exact two-sided McNemar test (38 discordant pairs; $b=0$, $c=38$; $p \approx 7.28 \times 10^{-12}$; Edwards continuity-corrected $\chi^2 = 36.03$, $p \approx 1.95 \times 10^{-9}$). This result concerns programmatic schema compliance, not diagnostic correctness.
+In a pre-specified frozen benchmark of 40 held-out failure scenarios (160 greedy-decoding passes), QLoRA adaptation improved strict JSON schema compliance from 0.0\% in unadapted base-model conditions to 95.0\% (38/40) with schema guidance and 97.5\% (39/40) without schema guidance. Comparing unadapted zero-shot base inference to adapted inference with schema guidance was statistically significant under an exact two-sided McNemar test (38 discordant pairs; b=0, c=38; p approximately 7.28e-12; Edwards-corrected chi-squared=36.03, p approximately 1.95e-9). This result concerns programmatic schema compliance, not diagnostic correctness.
 
-An author-adopted qualitative evaluation, based on AI-generated provisional ratings across all 160 completions, did not demonstrate a diagnostic-reasoning or technical-correctness advantage for adapted conditions over unadapted base-model conditions. Within this benchmark, QLoRA adaptation functioned primarily as a structural output-format intervention rather than an amplifier of diagnostic reasoning. The benchmark, protocol, datasets, evaluation bundle, and result archive are publicly available; deployed systems require schema validation and human oversight.
+An author-adopted qualitative evaluation across all 160 completions, including blinded review of 40 responses, did not demonstrate a diagnostic-reasoning or technical-correctness advantage for adapted conditions over unadapted base models; no inter-rater reliability was computed. Within evaluated configurations, QLoRA adaptation improved structural output compliance. Constrained-decoding baselines were not evaluated; future work should compare adaptation with grammar-constrained decoding, JSON modes, and prompt-only controls. Artifacts and result archives are publicly available.
 \end{abstract}
 
 \textbf{Keywords:} Large Language Models, Parameter-Efficient Fine-Tuning, QLoRA, JSON Schema Conformance, Automated Program Repair, Operational Diagnostics.
@@ -111,7 +111,17 @@ All 160 completions were generated using greedy decoding (\texttt{temperature = 
 \end{enumerate}
 
 \subsection{Blinded Qualitative Evaluation}
-To evaluate diagnostic reasoning without confirmation bias, completions from all four conditions across the first 10 benchmark scenarios (40 total completions) were assigned cryptographic tokens and blinded. An evaluator assessed each completion across five dimensions: Technical Correctness, Root Cause Accuracy, Fix Actionability, Safety Appropriateness, and Repair Prompt Utility. The remaining 120 completions were evaluated using an automated evaluation pipeline applying the frozen rubric, which were subsequently author-reviewed and adopted.
+To evaluate diagnostic reasoning without confirmation bias, completions from all four conditions across the first 10 benchmark scenarios (40 total completions) were assigned cryptographic tokens and blinded. An evaluator assessed each completion across five dimensions: Technical Correctness, Root Cause Accuracy, Fix Actionability, Safety Appropriateness, and Repair Prompt Utility. The remaining 120 completions were evaluated using an automated evaluation pipeline applying the frozen rubric, which were subsequently author-reviewed and adopted. \textbf{Of the 160 total responses: 40 were included in the blinded/human-review workflow; the remaining 120 relied on unreviewed AI-generated provisional rubric ratings selectively reviewed and adopted by the author. No Cohen's $\kappa$, Krippendorff's $\alpha$, or other inter-rater reliability statistic was computed. These qualitative results are provisional and exploratory and should not be treated as a validated human evaluation.}
+
+\subsection{Relationship to Constrained Decoding and JSON Mode}
+\label{sec:constrained-decoding}
+This study did not evaluate constrained-decoding baselines, provider JSON modes, or grammar-guided decoding. Therefore, the results do not establish that QLoRA adaptation is necessary or preferable to constrained decoding for achieving schema compliance. Specifically, the following approaches were not evaluated:
+\begin{itemize}
+    \item \textbf{Grammar-constrained decoding} (e.g., FSM/CFG token masking as in Outlines~\cite{willard2023guided} or SynCode~\cite{ugare2025syncode}).
+    \item \textbf{Provider JSON modes} (inference-time JSON enforcement offered by hosted API providers).
+    \item \textbf{Negative-prompting baselines} (e.g., system-prompt instructions such as \textit{``Output raw JSON only, no markdown, no preamble''}).
+\end{itemize}
+The evaluation scope was restricted to parameter adaptation versus standard prompt-only baselines using identical inference infrastructure, without integration of constrained-decoding runtime engines. Future work should compare QLoRA adaptation against constrained-decoding approaches, JSON-mode decoding, and prompt-only formatting controls to determine whether adaptation is necessary or merely one of several viable paths to structural compliance.
 
 \section{Results}
 
@@ -191,7 +201,7 @@ Table~\ref{tab:qualitative_summary} summarizes the qualitative evaluation across
 \textbf{Repair Prompt Utility} & 39 Pass / 1 Partial / 0 Fail & 38 Pass / 2 Partial / 0 Fail & 40 Pass / 0 Partial / 0 Fail & 37 Pass / 3 Partial / 0 Fail \\
 \bottomrule
 \end{tabular}
-\caption{Systematic qualitative evaluation across all 160 completions (40 scenarios $\times$ 4 conditions). Ratings reflect 40 blinded protocol evaluations and 120 author-adopted AI-assisted evaluations using the frozen rubric.}
+\caption{Systematic qualitative evaluation across all 160 completions (40 scenarios $\times$ 4 conditions). \textit{Rating provenance: 40/160 responses were included in the blinded/human-review workflow; 120/160 relied on unreviewed AI-generated provisional ratings selectively reviewed and adopted by the author. No inter-rater reliability statistic was computed.}}
 \label{tab:qualitative_summary}
 \end{table*}
 
@@ -205,7 +215,9 @@ Remarkably, qualitative diagnostic performance was virtually identical between u
 \section{Discussion}
 
 \subsection{Parameter Adaptation as a Structural Filter}
-The central empirical finding of this work is that QLoRA adaptation functioned as an effective **structural syntax filter** rather than an amplifier of diagnostic reasoning. The base model \texttt{google/gemma-4-12B-it} already possesses comprehensive parametric domain knowledge regarding software faults, compilation errors, and distributed systems exceptions. However, its default conversational instruction tuning induces Markdown fences and conversational wrappers that break automated ingestion. Parameter adaptation successfully aligns the generation distribution to output bare RFC~8259 JSON, bypassing the need for decoding-time grammar constraints.
+The central empirical finding of this work is that QLoRA adaptation functioned primarily as a structural output-format intervention rather than an amplifier of diagnostic reasoning. The base model \texttt{google/gemma-4-12B-it} already possesses comprehensive parametric domain knowledge regarding software faults, compilation errors, and distributed systems exceptions. However, its default conversational instruction tuning induces Markdown fences and conversational wrappers that break automated ingestion. Within the evaluated configurations, QLoRA adaptation improved structural output compliance substantially, aligning the generation distribution to output bare RFC~8259 JSON without decoding-time grammar constraints.
+
+As noted in Section~\ref{sec:constrained-decoding}, constrained-decoding baselines, provider JSON modes, and negative-prompting controls were not evaluated. The results therefore do not establish that QLoRA adaptation is necessary or preferable to these alternatives. Future work should directly compare parameter adaptation against constrained-decoding and prompt-only formatting controls.
 
 \subsection{Prompt Compaction and Schema Omission}
 Condition D demonstrates that the adapted model internalizes the 10-key schema structure so completely that the prompt schema can be omitted entirely, reducing prompt context length by ~710 tokens and cutting end-to-end execution latency by 12.7\% without degrading schema compliance (97.5\%).
@@ -225,6 +237,7 @@ We explicitly document the threats to validity and limitations of this study:
     \item \textbf{Evaluator Scope}: 40 completions were evaluated under a blinded protocol, while the remaining 120 completions were author-adopted AI-assisted evaluations. These do not constitute independent multi-rater inter-coder reliability metrics.
     \item \textbf{Synthetic Contexts}: Scenarios were curated from real open-source repositories but evaluated as static isolated logs rather than live interactive environments.
     \item \textbf{Model Specificity}: Findings are specific to \texttt{google/gemma-4-12B-it} and the OOPSIE 10-key schema; generalization to other foundation models or schemas requires empirical verification.
+    \item \textbf{No Constrained-Decoding or JSON-Mode Baselines}: This study did not evaluate grammar-constrained decoding, provider JSON modes, FSM/CFG token masking, or negative-prompting controls. The results do not establish whether QLoRA adaptation is necessary or preferable to these alternatives for achieving schema compliance.
 \end{enumerate}
 
 \section{Ethics and Safety}
@@ -241,12 +254,12 @@ All benchmark datasets, evaluation protocols, schemas, and analysis scripts are 
 
 \section{Conclusion}
 
-This study investigated whether parameter-efficient fine-tuning via QLoRA can improve structural JSON schema compliance for operational software error recovery, and whether it alters underlying diagnostic reasoning. In a pre-specified frozen benchmark across 40 unseen failure scenarios (160 total passes), QLoRA adaptation of \texttt{google/gemma-4-12B-it} dramatically improved programmatic schema compliance from 0.0\% to 95.0\%--97.5\% under zero-tolerance greedy parsing ($p \approx 7.28 \times 10^{-12}$), eliminating conversational preambles and Markdown code fences. Crucially, the qualitative evaluation did not identify a diagnostic-reasoning or technical-correctness advantage for the adapted conditions over the unadapted base-model conditions. Within this benchmark, QLoRA adaptation functioned primarily as a structural output-format intervention rather than an amplifier of diagnostic reasoning. Consequently, operational deployments can leverage QLoRA for reliable automated JSON ingestion, but must maintain rigorous validation boundaries and human developer oversight.
+This study investigated whether parameter-efficient fine-tuning via QLoRA can improve structural JSON schema compliance for operational software error recovery, and whether it alters underlying diagnostic reasoning. In a pre-specified frozen benchmark across 40 unseen failure scenarios (160 total passes), QLoRA adaptation of \texttt{google/gemma-4-12B-it} dramatically improved programmatic schema compliance from 0.0\% to 95.0\%--97.5\% under zero-tolerance greedy parsing ($p \approx 7.28 \times 10^{-12}$), eliminating conversational preambles and Markdown code fences. Crucially, the qualitative evaluation did not identify a diagnostic-reasoning or technical-correctness advantage for the adapted conditions over the unadapted base-model conditions. Within this benchmark, QLoRA adaptation functioned primarily as a structural output-format intervention rather than an amplifier of diagnostic reasoning. Constrained-decoding baselines were not evaluated; future work should compare adaptation against grammar-constrained decoding, JSON-mode decoding, and prompt-only formatting controls. Consequently, operational deployments can leverage QLoRA for reliable automated JSON ingestion, but must maintain rigorous validation boundaries and human developer oversight.
 
 \section*{AI Use Disclosure}
 The author used AI-assisted tools during research and manuscript preparation. Initial qualitative ratings for the 160 benchmark completions were generated by an automated evaluation pipeline using a frozen rubric. The author reviewed key outputs, verification findings, and flagged evaluations, and takes full responsibility for the final work. The remaining provisional qualitative ratings were retained without case-by-case author review and are reported as author-adopted AI-assisted evaluations. These ratings are not independent human inter-rater assessments. AI tools were also used to assist with code development, documentation, manuscript drafting, and consistency checking.
 
-\bibliographystyle{plain}
+\bibliographystyle{alpha}
 \bibliography{references}
 
 \end{document}
