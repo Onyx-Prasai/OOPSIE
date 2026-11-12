@@ -56,8 +56,8 @@ python -m pytest tests/test_benchmark_contract.py tests/test_data_pipeline.py te
 ## 3. Obtaining Models and Checkpoints
 
 ### 3.1 Base Model
-The foundation model is `google/gemma-4-12b-it` (instruction-tuned Gemma 4, ~11.95B dense parameters), released by Google under the Apache 2.0 license:
-- **Hugging Face Model Hub**: `google/gemma-4-12b-it`
+The foundation model is `google/gemma-4-12B-it` (instruction-tuned Gemma 4, ~11.95B dense parameters), released by Google under the Apache 2.0 license:
+- **Hugging Face Model Hub**: `google/gemma-4-12B-it` (recorded as `google/gemma-4-12b-it` in historical training run configurations; Hugging Face repository identifiers are case-insensitive)
 - Obtain access via Hugging Face and log in via CLI:
   ```bash
   huggingface-cli login
@@ -109,7 +109,8 @@ benchmark_records = [
 assert len(benchmark_records) == 40
 
 # 3. Load Base Model in 4-bit NF4
-base_model_id = "google/gemma-4-12b-it"
+# Official Hugging Face repository identifier (case-insensitive on Hugging Face):
+base_model_id = "google/gemma-4-12B-it"
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type="nf4",

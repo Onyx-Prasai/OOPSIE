@@ -21,7 +21,9 @@ The output format is defined in [`data/schema.json`](data/schema.json).
 
 ## Project status
 
-A pilot QLoRA adapter (`oopsie-pilot-adapter` on `google/gemma-4-12b-it`) and a pre-registered four-condition benchmark evaluation are complete.
+A pilot QLoRA adapter (`oopsie-pilot-adapter` on `google/gemma-4-12B-it`)* and a pre-registered four-condition benchmark evaluation are complete.
+
+*\*Provenance Note*: The official public Hugging Face model identifier is `google/gemma-4-12B-it`. Historical training configuration files recorded the lowercase form `google/gemma-4-12b-it`; both resolve to the identical model checkpoint.
 
 - **Empirical Findings**: In our 40-scenario held-out benchmark (160 forward passes), the adapted model achieved 95.0% to 97.5% strict schema compliance under zero-tolerance greedy parsing, whereas unadapted base prompting failed automated ingestion (0.0%) due to conversational prose and markdown wrappers.
 - **Qualitative Evaluation**: Systematic qualitative evaluation across all 160 completions demonstrated that domain adaptation was associated with improved structural output-format compliance, but **did not demonstrate a qualitative diagnostic-reasoning advantage** over the unadapted base models.

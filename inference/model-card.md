@@ -1,7 +1,7 @@
 # OOPSIE Pilot Model Card: QLoRA Domain Adaptation of Gemma 4 12B
 
 **Model Name**: `oopsie-pilot-adapter`  
-**Base Model**: `google/gemma-4-12b-it` (instruction-tuned Gemma 4, ~11.95 billion dense parameters; Gemma Team, 2026)  
+**Base Model**: `google/gemma-4-12B-it` (instruction-tuned Gemma 4, ~11.95 billion dense parameters; Gemma Team, 2026; recorded as `google/gemma-4-12b-it` in historical training run artifacts; Hugging Face repository paths are case-insensitive)  
 **Adapter Architecture**: 4-bit NormalFloat (NF4) Quantized Low-Rank Adaptation (QLoRA; Dettmers et al., 2023)  
 **LoRA Hyperparameters**: Rank $r = 16$, Alpha $\alpha = 32$, Dropout = 0.05, Target Modules: all linear projections (`q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, `down_proj`)  
 **Training Checkpoint**: Step 44, Epoch 2 (selected via validation loss minimum on `data/validation.jsonl`)  
