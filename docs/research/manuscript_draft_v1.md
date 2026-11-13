@@ -1,7 +1,7 @@
 # OOPSIE: Evaluating QLoRA Adaptation for Schema-Compliant Operational Failure Diagnostics
 
 **Author**: Onyx Prasai  
-**Contact**: `onyxprasai@gmail.com`  
+**Contact**: `onyxefforts@gmail.com`  
 **Institutional Affiliation**: Independent Researcher *(no institutional affiliation asserted)*  
 **Manuscript Version**: Draft v1.5.0 (Pre-Submission Revision)  
 **Date**: November 2026  
