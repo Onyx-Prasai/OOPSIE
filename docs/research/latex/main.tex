@@ -31,11 +31,7 @@
 \maketitle
 
 \begin{abstract}
-Deploying instruction-tuned language models as middleware in automated software diagnostics is frequently hindered by structural output instability under zero-tolerance parsing. We present OOPSIE (Operational Output Parser \& Structured Inference Engine), an open evaluation framework examining whether Quantized Low-Rank Adaptation (QLoRA) improves structured JSON schema compliance for operational diagnostic reporting, and whether such adaptation alters qualitative diagnostic performance. We trained a QLoRA adapter (r=16, alpha=32) on the public model \texttt{google/gemma-4-12B-it} using a multi-turn error-recovery corpus and 4-bit NormalFloat quantization.
-
-In a pre-specified frozen benchmark of 40 held-out failure scenarios (160 greedy-decoding passes), QLoRA adaptation improved strict JSON schema compliance from 0.0\% in unadapted base-model conditions to 95.0\% (38/40) with schema guidance and 97.5\% (39/40) without schema guidance. Comparing unadapted zero-shot base inference to adapted inference with schema guidance was statistically significant under an exact two-sided McNemar test (38 discordant pairs; b=0, c=38; p approximately 7.28e-12; Edwards-corrected chi-squared=36.03, p approximately 1.95e-9). This result concerns programmatic schema compliance, not diagnostic correctness.
-
-An author-adopted qualitative evaluation across all 160 completions, including blinded review of 40 responses, did not demonstrate a diagnostic-reasoning or technical-correctness advantage for adapted conditions over unadapted base models; no inter-rater reliability was computed. Within evaluated configurations, QLoRA adaptation improved structural output compliance. Constrained-decoding baselines were not evaluated; future work should compare adaptation with grammar-constrained decoding, JSON modes, and prompt-only controls. Artifacts and result archives are publicly available.
+OOPSIE evaluates structured operational-failure diagnostics using a QLoRA adapter paired with an instruction-tuned language model. A frozen four-condition benchmark comprises 40 held-out synthetic failure scenarios and 160 generated responses. Under strict parsing of unmodified outputs, base-model configurations achieved 0/40 schema-conformant responses, while adapted configurations achieved 38/40 with schema guidance and 39/40 without schema text. A post-hoc fence-removal analysis recovered schema-conformant outputs from 40/40 base zero-shot responses and 39/40 base one-shot responses. These findings distinguish direct raw-output compliance from compliance after lightweight normalization and do not establish that adaptation is necessary or preferable to preprocessing. Adapter use also differed alongside input serialization, preventing isolation of the effect of adapter weights. All 160 responses received AI-generated provisional qualitative ratings. The author documented review of 16 flagged responses without changing their ratings; the remaining 144 ratings were adopted without documented case-level review. These exploratory ratings did not establish a diagnostic-quality advantage for adapted configurations. Constrained-decoding baselines were not evaluated. The study motivates controlled comparisons of prompting, normalization, constrained decoding, and adaptation, with schema validation and human oversight required for downstream use.
 \end{abstract}
 
 \textbf{Keywords:} Large Language Models, Parameter-Efficient Fine-Tuning, QLoRA, JSON Schema Conformance, Automated Program Repair, Operational Diagnostics.
@@ -51,7 +47,7 @@ In this work, we present \textbf{OOPSIE} (Operational Output Parser \& Structure
 \textit{Does QLoRA adaptation improve structured JSON/schema compliance for operational-failure diagnostic reporting, and does it improve qualitative diagnostic reasoning?}
 \end{quote}
 
-We evaluate this question on a pre-specified, frozen benchmark comprising 40 diverse, held-out software and infrastructure failure scenarios (160 total model completions across four experimental conditions). Our empirical results demonstrate that QLoRA adaptation dramatically improves programmatic schema compliance from 0.0\% to 95.0\%--97.5\% under zero-tolerance greedy parsing ($p \approx 7.28 \times 10^{-12}$). However, a systematic qualitative evaluation reveals that domain adaptation confers \textbf{no observable advantage in diagnostic reasoning or technical correctness} over the unadapted base model.
+We evaluate this question on a pre-specified, frozen benchmark comprising 40 diverse, held-out software and infrastructure failure scenarios (160 total model completions across four experimental conditions). Under strict parsing of unmodified outputs, adapted configurations achieved 38/40--39/40 schema-conformant responses compared with 0/40 for unadapted base-model configurations ($p \approx 7.28 \times 10^{-12}$). However, a post-hoc analysis shows that base-model failures were overwhelmingly a surface delimiter issue: stripping Markdown code fences recovered 40/40 schema-conformant outputs in zero-shot base inference and 39/40 in one-shot base inference. These results distinguish direct raw-output compliance from compliance after lightweight normalization. A systematic qualitative evaluation found no observable advantage in diagnostic reasoning or technical correctness for adapted conditions.
 
 \section{Related Work}
 
@@ -67,34 +63,40 @@ Automated Program Repair (APR) traditionally encompasses fault localization, pat
 \section{Method}
 
 \subsection{Canonical Diagnostic Schema}
-OOPSIE targets a standardized 10-key JSON schema compliant with JSON Schema Draft 2020-12~\cite{wright2022core,wright2022validation}. Every completion must contain exactly the following top-level keys without additional properties (\texttt{additionalProperties: false}):
+\label{sec:canonical-schema}
+OOPSIE targets a standardized operational diagnostic schema formalized in\\
+\texttt{data/schema.json} (LF SHA-256: \texttt{ce322859f8...}; CRLF SHA-256: \texttt{40550bfef0...}) under JSON Schema Draft 2020-12~\cite{wright2022core,wright2022validation}. Every output must parse as a single JSON object with no additional properties (\texttt{additionalProperties: false}). Ten keys are required:
 \begin{enumerate}
-    \item \texttt{schema\_version}: Fixed string enum (\texttt{"1.0.0"}).
-    \item \texttt{error\_category}: Closed vocabulary enum (10 valid operational categories).
-    \item \texttt{confidence}: Numeric float in the closed interval $[0.0, 1.0]$.
-    \item \texttt{risk\_level}: Categorical enum (\texttt{"low"}, \texttt{"medium"}, \texttt{"high"}).
-    \item \texttt{summary}: Concise diagnostic string ($\ge 10$ characters).
-    \item \texttt{root\_cause}: Deep technical failure attribution ($\ge 15$ characters).
-    \item \texttt{suggested\_fix}: Actionable developer guidance ($\ge 15$ characters).
-    \item \texttt{safety\_warning}: Risk mitigation advisory ($\ge 10$ characters).
-    \item \texttt{repair\_prompt}: Direct, copy-ready prompt string for coding agents ($\ge 20$ characters).
-    \item \texttt{verification\_steps}: Non-empty array of executable verification commands/checks ($\ge 1$ item).
+    \item \texttt{summary}: Non-empty string.
+    \item \texttt{plain\_explanation}: Non-empty string.
+    \item \texttt{error\_category}: Closed vocabulary enum of 14 values (\texttt{dependency}, \texttt{configuration}, \texttt{environment\_variables}, \texttt{database}, \texttt{authentication}, \texttt{authorization}, \texttt{network}, \texttt{build}, \texttt{deployment}, \texttt{runtime}, \texttt{typescript}, \texttt{frontend}, \texttt{other}, \texttt{unknown}).
+    \item \texttt{likely\_causes}: Array of objects with required \texttt{description} (non-empty string) and \texttt{confidence} (\texttt{low}, \texttt{medium}, or \texttt{high}); no additional properties.
+    \item \texttt{missing\_context\_questions}: Array of strings.
+    \item \texttt{risk\_level}: Enum of three values (\texttt{low}, \texttt{medium}, \texttt{high}).
+    \item \texttt{warnings}: Array of strings.
+    \item \texttt{repair\_prompt}: Non-empty string.
+    \item \texttt{verification\_steps}: Array of strings.
+    \item \texttt{matched\_recipes}: Array of objects with required \texttt{id} and \texttt{title} (strings) and optional \texttt{path}; no additional properties.
 \end{enumerate}
+\textit{Historical Schema Note}: Earlier internal design drafts described an alternative schema layout containing fields such as \texttt{schema\_version}, \texttt{root\_cause}, and \texttt{suggested\_fix}. The frozen benchmark and all 160 evaluation passes were executed exclusively against the canonical specification above, stored in \texttt{data/schema.json}.
 
 \subsection{Training Corpus and Data Governance}
-The training dataset was curated from 15 real-world open-source repositories across 10 functional software domains (web development, backend databases, cloud infrastructure, container orchestration, machine learning pipelines, etc.). Each scenario was mapped to an incident log and paired with an expert-verified 10-key JSON payload. The corpus was partitioned into 100 training examples, 20 validation examples, and 20 test examples. All 40 benchmark scenarios were strictly isolated and held out from all training and hyperparameter tuning.
+The training dataset comprises synthetic scenarios drawn from real-world error patterns across web development, backend databases, cloud infrastructure, container orchestration, and related domains. Each scenario was paired with a 10-key JSON reference payload constructed by the author following the canonical schema. All manifest records carry \texttt{source\_type: synthetic}. The corpus was partitioned into \textbf{85 training examples, 18 validation examples, and 17 test examples} (120 total curated records). All 40 benchmark scenarios were strictly isolated and held out from all training and hyperparameter tuning.
 
 \subsection{Model Architecture and QLoRA Adaptation}
-We trained a QLoRA adapter ($r=16, \alpha=32$) on top of the public instruction-tuned foundation model \texttt{google/gemma-4-12B-it}\footnote{Provenance note: The official public Hugging Face repository identifier is \texttt{google/gemma-4-12B-it}. Historical training run configuration files (\texttt{run\_config.json} and \texttt{adapter\_config.json}) in this repository recorded the lowercase identifier \texttt{google/gemma-4-12b-it}; both identifiers resolve to the identical model checkpoint on Hugging Face.} (~11.95B dense parameters; \cite{gemma2026report,google2026gemma4model}). The base model was loaded in 4-bit NormalFloat (NF4) with 16-bit bfloat compute dtype and double quantization. Trainable low-rank decomposition matrices were attached to all linear attention and feed-forward projections:
+We configured a QLoRA adapter ($r=16, \alpha=32$, dropout $0.05$) on top of the public instruction-tuned foundation model \texttt{google/gemma-4-12B-it}\footnote{Provenance note: The official public Hugging Face repository identifier is \texttt{google/gemma-4-12B-it}. Historical training run configuration files (\texttt{run\_config.json} and \texttt{adapter\_config.json}) in this repository recorded the lowercase identifier \texttt{google/gemma-4-12b-it}; both identifiers resolve to the identical model checkpoint on Hugging Face.} (~11.95B dense parameters; \cite{gemma2026report,google2026gemma4model}). The base model was loaded in 4-bit NormalFloat (NF4) with 16-bit bfloat compute dtype and double quantization. Trainable low-rank decomposition matrices were attached across all linear projections in the self-attention and MLP blocks:
 \begin{equation}
 W = W_0 + \frac{\alpha}{r}BA, \quad r = 16, \quad \alpha = 32
 \end{equation}
-yielding 42.6 million trainable parameters (0.35\% of total base model parameters). Training was executed for 2 epochs (44 optimization steps) using AdamW with cosine learning rate scheduling ($2 \times 10^{-4}$ peak), weight decay 0.01, and sequence length 2,048 tokens on an NVIDIA Tesla T4 GPU (16 GB VRAM). Checkpoint selection was determined by validation loss minimum on \texttt{data/validation.jsonl}.
+Target modules in the training configuration include attention projections (\texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, \texttt{o\_proj}) and feed-forward projections (\texttt{gate\_proj}, \texttt{up\_proj}, \texttt{down\_proj}). Inspection of the saved checkpoint tensor dictionary (\texttt{adapter\_model.safetensors}) confirms 656 adapter weight tensors totaling 65,568,768 parameters ($65.57\times 10^6$) across all 48 transformer layers. Relative to the ~11.95B base model, this represents approximately 0.55\% of base parameters. Earlier draft claims of 42.6M parameters (0.35\%) arose from an incomplete estimate omitting Gemma 4's expanded intermediate dimensions and hybrid attention projection ranks.
+
+The training configuration specified 3 epochs with per-device batch size 1 and 4 gradient accumulation steps (effective batch size 4), AdamW optimization, cosine learning rate scheduling ($2 \times 10^{-4}$ peak), and sequence length 1,536 tokens on an NVIDIA Tesla T4 GPU (14.56~GB allocated VRAM, Kaggle free tier). The evaluation checkpoint corresponds to the saved Step 44 checkpoint (\texttt{oopsie-pilot-adapter}) associated with Epoch~2 validation tracking. Execution was managed within an interactive notebook environment without independent training-loss log retention; claims of global checkpoint optimality or exact executed step counts are therefore constrained to the saved configuration and checkpoint artifacts.
 
 \section{Experimental Setup}
 
 \subsection{Four Experimental Conditions}
-To rigorously isolate the effects of QLoRA adaptation versus prompt engineering, we evaluate four conditions across all 40 held-out benchmark scenarios:
+\label{sec:four-conditions}
+To evaluate the effect of QLoRA adaptation on schema compliance and qualitative diagnostic performance, we tested four conditions across all 40 held-out benchmark scenarios:
 \begin{itemize}
     \item \textbf{Condition A (Base Zero-Shot + Schema)}: Unadapted base model with full ~710-token JSON schema embedded in the system prompt.
     \item \textbf{Condition B (Adapted + Schema)}: QLoRA adapted model with full JSON schema in the system prompt.
@@ -102,8 +104,10 @@ To rigorously isolate the effects of QLoRA adaptation versus prompt engineering,
     \item \textbf{Condition D (Adapted No-Schema)}: QLoRA adapted model with minimal task prompt, completely omitting the schema text.
 \end{itemize}
 
+\textbf{Critical Methodological Confound}: Condition A and Condition B differ in both adapter weights \emph{and} chat-template formatter. Condition A applies the official Gemma instruction-tuned chat template (\texttt{apply\_chat\_template}, \texttt{add\_generation\_prompt=True}); Condition B applies a training-aligned formatter (\texttt{add\_generation\_prompt=False} $+$ \texttt{<|turn>model\textbackslash{}n} suffix). This comparison therefore evaluates \emph{configured end-to-end systems} under identical prompt text, not an isolated weight-only ablation. The relative contribution of adapter weights versus chat-template format difference cannot be determined from this design. This confound is disclosed explicitly in the frozen evaluation protocol (\S9.1 of \texttt{OOPSIE-EVAL-PROTOCOL-v1.2.0-frozen}).
+
 \subsection{Decoding Parameters and Ingestion Pipeline}
-All 160 completions were generated using greedy decoding (\texttt{temperature = 0.0}, \texttt{top\_p = 1.0}, \texttt{max\_new\_tokens = 1536}) to ensure deterministic reproducibility. Programmatic evaluation employs a zero-tolerance ingestion pipeline:
+All 160 completions were generated using greedy decoding (\texttt{temperature = 0.0}, \texttt{top\_p = 1.0}, \texttt{max\_new\_tokens = 1024}) to ensure deterministic reproducibility. Programmatic evaluation employs a zero-tolerance ingestion pipeline:
 \begin{enumerate}
     \item \textbf{Raw JSON Parse}: \texttt{json.loads(output)} without Markdown fence stripping or regex extraction.
     \item \textbf{Lenient JSON Parse}: Extraction after stripping leading/trailing whitespace and Markdown code fences (\texttt{```json ... ```}).
@@ -111,8 +115,18 @@ All 160 completions were generated using greedy decoding (\texttt{temperature = 
     \item \textbf{Key Completeness}: Verification that all 10 canonical keys are present and no unexpected keys exist.
 \end{enumerate}
 
-\subsection{Blinded Qualitative Evaluation}
-To evaluate diagnostic reasoning without confirmation bias, completions from all four conditions across the first 10 benchmark scenarios (40 total completions) were assigned cryptographic tokens and blinded. An evaluator assessed each completion across five dimensions: Technical Correctness, Root Cause Accuracy, Fix Actionability, Safety Appropriateness, and Repair Prompt Utility. The remaining 120 completions were evaluated using an automated evaluation pipeline applying the frozen rubric, which were subsequently author-reviewed and adopted. \textbf{Of the 160 total responses: 40 were included in the blinded/human-review workflow; the remaining 120 relied on unreviewed AI-generated provisional rubric ratings selectively reviewed and adopted by the author. No Cohen's $\kappa$, Krippendorff's $\alpha$, or other inter-rater reliability statistic was computed. These qualitative results are provisional and exploratory and should not be treated as a validated human evaluation.}
+\subsection{Qualitative Evaluation Protocol and Documented Review Coverage}
+To evaluate diagnostic reasoning independently of programmatic syntax checks, qualitative ratings were analyzed across five dimensions: Technical Correctness, Root Cause Accuracy, Fix Actionability, Safety Appropriateness, and Repair Prompt Utility. 
+
+\textbf{Documented Review Provenance and Workflow Boundaries}:
+\begin{enumerate}
+    \item \textbf{Initial AI Rating Generation}: All 160 completions across the 40 benchmark scenarios and four experimental conditions were initially rated using an automated AI-assisted evaluation pipeline applying the frozen rubric.
+    \item \textbf{Preparation for Concealed Presentation}: All 160 completions were formatted into eight batch review documents (\texttt{batch\_01.md} through \texttt{batch\_08.md}) with randomized condition labels (\texttt{System Alpha}, \texttt{Beta}, \texttt{Gamma}, \texttt{Delta}). The first 10 benchmark scenarios (Batches 1--2, comprising 40 completions) were specifically staged for blinded human review.
+    \item \textbf{Documented Author Review}: Rather than de novo blind scoring of all completions, author review evaluated a triage checklist and decision sheet (\texttt{author\_decision\_sheet.md}). This recorded inspection of 16 flagged evaluation entries (category boundaries such as authentication vs.\ authorization, emulator tests, syntax defects, or workaround flags like \texttt{--legacy-peer-deps}).
+    \item \textbf{Overlap and Adoption}: Of the 16 flagged entries subjected to documented author review, exactly 1 overlapped with Batches 1--2 (case \texttt{bench-authentication-03}, Beta); the other 15 belonged to Batches 3--8. For all 16 flagged cases, the author retained the provisional rating. The remaining 144 evaluations were adopted into the snapshot manifest without case-level human inspection.
+    \item \textbf{Absence of Inter-Rater Reliability}: No secondary independent human annotator scored the completions; consequently, no Cohen's $\kappa$, Krippendorff's $\alpha$, or inter-rater reliability statistic was calculated.
+\end{enumerate}
+These qualitative results represent author-adopted AI-assisted ratings and must be interpreted as exploratory observations rather than an independently verified human evaluation.
 
 \subsection{Relationship to Constrained Decoding and JSON Mode}
 \label{sec:constrained-decoding}
@@ -120,7 +134,7 @@ This study did not evaluate constrained-decoding baselines, provider JSON modes,
 \begin{itemize}
     \item \textbf{Grammar-constrained decoding} (e.g., FSM/CFG masking as in Outlines~\cite{willard2023guided} or SynCode~\cite{ugare2025syncode}).
     \item \textbf{Provider JSON modes} (inference-time JSON enforcement offered by hosted model providers).
-    \item \textbf{Negative-prompting baselines} (e.g., system-prompt instructions such as \textit{``Output raw JSON only, no markdown, no preamble''}).
+    \item \textbf{Negative-prompting baselines} (e.g., system-prompt instructions such as \textit{``Output raw JSON only, no markdown, no preamble''}). All conditions shared a base system prompt containing the directive ``Return only one JSON object conforming to \texttt{data/schema.json}''; however, this directive omitted explicit anti-markdown or anti-preamble instructions. A pure no-directive baseline was therefore not evaluated.
 \end{itemize}
 The evaluation scope was restricted to parameter adaptation versus standard prompt-only baselines using identical inference infrastructure, without integration of constrained-decoding runtime engines. Future work should compare QLoRA adaptation against constrained-decoding approaches, JSON-mode decoding, and prompt-only formatting controls to determine whether adaptation is necessary or merely one of several viable paths to structural compliance.
 
@@ -141,19 +155,29 @@ Table~\ref{tab:programmatic_results} reports the quantitative parsing and schema
 \textbf{Condition} & \textbf{Raw JSON} & \textbf{Lenient JSON} & \textbf{Strict Schema} & \textbf{Key Compl.} & \textbf{Latency (s)} & \textbf{Fail Reason} \\
 \midrule
 \textbf{A: Base Zero-Shot + Schema} & 0/40 (0.0\%) & 40/40 (100.0\%) & 0/40 (0.0\%) & 0/40 (0.0\%) & $118.62 \pm 12.73$ & Markdown fences / preambles \\
-\textbf{B: Adapted + Schema}        & 38/40 (95.0\%) & 38/40 (95.0\%) & 38/40 (95.0\%) & 38/40 (95.0\%) & $114.42 \pm 11.53$ & Max tokens cutoff (2 runs) \\
-\textbf{C: Base One-Shot + Schema}  & 0/40 (0.0\%) & 40/40 (100.0\%) & 0/40 (0.0\%) & 0/40 (0.0\%) & $119.35 \pm 9.79$ & Markdown fences / preambles \\
+\textbf{B: Adapted + Schema}        & 38/40 (95.0\%) & 38/40 (95.0\%) & 38/40 (95.0\%) & 38/40 (95.0\%) & $114.42 \pm 11.53$ & Incomplete/syntax defects (2 runs) \\
+\textbf{C: Base One-Shot + Schema}  & 0/40 (0.0\%) & 39/40 (97.5\%) & 0/40 (0.0\%) & 0/40 (0.0\%) & $119.35 \pm 9.79$ & Markdown fences / syntax defect \\
 \textbf{D: Adapted No-Schema}       & 40/40 (100.0\%) & 40/40 (100.0\%) & 39/40 (97.5\%) & 39/40 (97.5\%) & $99.88 \pm 11.93$ & Missing 1 key (1 run) \\
 \bottomrule
 \end{tabular}%
 }
-\caption{Programmatic parsing and schema compliance results across 40 held-out scenarios (160 total passes). Latency denotes single sequential execution time on an NVIDIA Tesla T4 GPU (mean $\pm$ standard deviation).}
+\caption{Programmatic parsing and schema compliance results across 40 held-out scenarios (160 total passes). Lenient JSON reflects parser output after removing Markdown code fences. Latency denotes single sequential execution time on an NVIDIA Tesla T4 GPU (mean $\pm$ standard deviation).}
 \label{tab:programmatic_results}
 \end{table}
 
-Unadapted base models (Conditions A and C) achieved 0.0\% raw JSON parsing and 0.0\% strict schema compliance. In 100\% of cases, failure resulted from enclosing the output in Markdown code blocks or including conversational introductory text. Once fences were stripped (Lenient JSON), the base models proved to have generated valid JSON syntax (100.0\%).
+Unadapted base models (Conditions A and C) achieved 0.0\% raw JSON parsing and 0.0\% strict schema compliance under the primary zero-tolerance protocol. In all failure cases, the raw model emission was enclosed in Markdown code blocks (\texttt{```json ... ```}) or conversational introductory formatting.
 
-Conversely, QLoRA adaptation successfully internalized direct JSON emission: Condition B achieved 95.0\% (38/40) raw and strict schema compliance, while Condition D achieved 100.0\% raw parsing and 97.5\% (39/40) strict schema compliance. In Condition B, the two non-compliant completions were truncated due to the 1,536-token generation limit. In Condition D, the single non-compliant completion omitted one required key (\texttt{risk\_level}) while successfully producing the other 9 keys.
+\paragraph{Post-Hoc Lenient Extraction Analysis}
+To evaluate whether base-model non-compliance was exclusively a superficial delimiter framing failure, we parsed and validated outputs after stripping Markdown code fences:
+\begin{itemize}
+    \item \textbf{Condition A (Base Zero-Shot)}: 40/40 (100.0\%) parsed as valid JSON and 40/40 (100.0\%) fully satisfied the strict JSON schema, confirming all 10 canonical keys, enum constraints, and type requirements were met once framing delimiters were removed.
+    \item \textbf{Condition C (Base One-Shot)}: 39/40 (97.5\%) parsed as valid JSON and passed strict schema validation. The single failure (\texttt{bench-nextjs-03}) contained an internal syntax defect (a missing opening quote on a key name: \texttt{\_explanation"}), preventing JSON parsing even after fence stripping.
+\end{itemize}
+\textit{Correction Notice on Condition C Lenient Parsing}: Earlier project summaries and draft tables incorrectly listed Condition C lenient parsing as 40/40 (100.0\%). A forensic audit of the frozen benchmark execution records confirmed that the raw completion for \texttt{bench-nextjs-03} omitted the leading quote and identifier for \texttt{"plain\_explanation"}, causing a \texttt{JSONDecodeError} on line 3 column 3 upon parsing. The underlying frozen benchmark results remain unaltered; the corrected count of 39/40 (97.5\%) is reported here.
+
+This post-hoc analysis demonstrates that unadapted base models under greedy decoding possessed the latent structural ability to generate schema-compliant diagnostic payloads, but failed the operational pipeline entirely due to enclosing delimiters.
+
+Conversely, QLoRA adaptation eliminated Markdown code fences and preambles from direct emission: Condition B achieved 95.0\% (38/40) raw and strict schema compliance, while Condition D achieved 100.0\% raw JSON parsing and 97.5\% (39/40) strict schema compliance directly out of the model. The two Condition B failures (\texttt{bench-firebase-01} and \texttt{bench-nextjs-01}) contained invalid backslash escape sequences in their raw JSON output --- not framing delimiters --- and therefore were not recoverable by fence removal. The single Condition C failure after fence removal (\texttt{bench-nextjs-03}) had a missing opening quote on the \texttt{plain\_explanation} key, causing a \texttt{JSONDecodeError} at line 3, column 3. The single Condition D failure (\texttt{bench-npm-03}) produced valid JSON but omitted the required \texttt{matched\_recipes} key while including all other keys. These four cases are the failures \emph{remaining after normalization}, not the only raw-output failures (Conditions A and C each had 40 raw failures, all due to Markdown framing).
 
 \subsection{Inferential Statistical Significance}
 
@@ -212,29 +236,31 @@ Table~\ref{tab:qualitative_summary} summarizes the qualitative evaluation across
 \bottomrule
 \end{tabular}%
 }
-\caption{Systematic qualitative evaluation across all 160 completions (40 scenarios $\times$ 4 conditions). \textit{Rating provenance: 40/160 responses were included in the blinded/human-review workflow; 120/160 relied on unreviewed AI-generated provisional ratings selectively reviewed and adopted by the author. No inter-rater reliability statistic was computed.}}
+\caption{Systematic qualitative evaluation across all 160 completions (40 scenarios $\times$ 4 conditions). \textit{Rating provenance: All 160 ratings were generated by an automated AI evaluation pipeline; 40 were prepared for concealed review, and 16 flagged edge cases received documented author review before ratings were adopted without case-level re-annotation. No inter-rater reliability statistic was computed.}}
 \label{tab:qualitative_summary}
 \end{table}
 
-Remarkably, qualitative diagnostic performance was virtually identical between unadapted and adapted models:
+Qualitative diagnostic ratings were similar across unadapted and adapted models:
 \begin{itemize}
     \item Across all 160 completions, zero completions received a \textbf{Fail}, \textbf{Severe Risk}, or \textbf{Cannot Assess} rating.
-    \item Condition C (Base 1-Shot) achieved 40/40 Pass on technical correctness and root cause accuracy, whereas Conditions B and D each achieved 37/40 Pass and 3/40 Partial.
-    \item Error attribution errors in the Partial cases (e.g., misattributing an expired SSL certificate to an incorrect intermediate authority) occurred with equivalent frequency across base and adapted completions.
+    \item Condition C (Base 1-Shot) was rated 40/40 Pass on technical correctness and root cause accuracy, whereas Conditions B and D were each rated 37/40 Pass and 3/40 Partial.
+    \item In the Partial cases, diagnostic discrepancies (e.g., categorizing an authorization failure as authentication, or misattributing an expired SSL certificate to an intermediate authority) were observed across both base and adapted completions without a clear separation in technical reasoning depth.
 \end{itemize}
 
 \section{Discussion}
 
-\subsection{Parameter Adaptation as a Structural Filter}
-The central empirical finding of this work is that QLoRA adaptation functioned primarily as a structural output-format intervention rather than an amplifier of diagnostic reasoning. The base model \texttt{google/gemma-4-12B-it} already possesses comprehensive parametric domain knowledge regarding software faults, compilation errors, and distributed systems exceptions. However, its default conversational instruction tuning induces Markdown fences and conversational wrappers that break automated ingestion. Within the evaluated configurations, QLoRA adaptation improved structural output compliance substantially, aligning the generation distribution to output bare RFC~8259 JSON without decoding-time grammar constraints.
+\subsection{Raw Direct Emission vs.\ Superficial Delimiter Framing}
+A key finding of this investigation is that the 0.0\% strict schema compliance observed in unadapted base models under zero-tolerance parsing was primarily a superficial delimiter framing failure. The base model \texttt{google/gemma-4-12B-it} already possesses comprehensive parametric knowledge regarding software faults, and the post-hoc normalization analysis demonstrated that 40/40 (100.0\%) zero-shot base completions and 39/40 (97.5\%) one-shot completions were fully compliant with the canonical schema once outer Markdown code fences were removed.
 
-As noted in Section~\ref{sec:constrained-decoding}, constrained-decoding baselines, provider JSON modes, and negative-prompting controls were not evaluated. The results therefore do not establish that QLoRA adaptation is necessary or preferable to these alternatives. Future work should directly compare parameter adaptation against constrained-decoding and prompt-only formatting controls.
+QLoRA adaptation altered this behavior by eliminating outer Markdown code fences and conversational preambles directly from raw generation, achieving 95.0\%--97.5\% compliance directly out of the model without post-processing. However, because Condition A and Condition B differ in both adapter weights and chat-template formatting boundaries (the official Gemma template versus the training-aligned \texttt{<|turn>model} boundary), this structural change cannot be causally isolated to weight adaptation alone. Furthermore, because removing Markdown code fences achieves 100.0\% schema compliance in base zero-shot inference, QLoRA adaptation cannot be concluded to be necessary or intrinsically superior to simple string post-processing or constrained decoding.
+
+As noted in Section~\ref{sec:constrained-decoding}, constrained-decoding baselines, provider JSON modes, and negative-prompting controls were not evaluated. Future work should directly compare parameter adaptation against constrained-decoding and prompt-only formatting controls.
 
 \subsection{Prompt Compaction and Schema Omission}
-Condition D demonstrates that the adapted model internalizes the 10-key schema structure so completely that the prompt schema can be omitted entirely, reducing prompt context length by ~710 tokens and cutting end-to-end execution latency by 12.7\% without degrading schema compliance (97.5\%).
+Condition D demonstrates that the adapted model reliably produces the 10-key schema structure even when the schema definition is completely omitted from the prompt, reducing prompt context length by ~710 tokens and cutting end-to-end execution latency by 12.7\% without degrading schema compliance (97.5\%). This indicates that the structural property names and types are reliably reproduced from model parameters.
 
 \subsection{Operational Safety Implications}
-Because parameter adaptation does not enhance underlying reasoning, it must not be treated as a substitute for validation. Organizations adopting PEFT models for automated operational pipelines must implement strict validation boundaries:
+Because parameter adaptation does not enhance underlying diagnostic reasoning, it must not be treated as a substitute for validation. Organizations adopting PEFT models for automated operational pipelines must implement strict validation boundaries:
 \begin{enumerate}
     \item \textbf{Syntactic and Schema Gate}: Automatic validation against the formal JSON schema before downstream consumption.
     \item \textbf{Human-in-the-Loop Gate}: Requiring explicit developer review before executing suggested fixes or repair prompts in production environments.
@@ -245,9 +271,10 @@ Because parameter adaptation does not enhance underlying reasoning, it must not 
 We explicitly document the threats to validity and limitations of this study:
 \begin{enumerate}
     \item \textbf{Sample Size}: The benchmark contains 40 curated scenarios. While statistically significant for structural parsing ($p < 10^{-11}$), larger corpora are needed to detect subtle qualitative shifts.
-    \item \textbf{Evaluator Scope}: 40 completions were evaluated under a blinded protocol, while the remaining 120 completions were author-adopted AI-assisted evaluations. These do not constitute independent multi-rater inter-coder reliability metrics.
-    \item \textbf{Synthetic Contexts}: Scenarios were curated from real open-source repositories but evaluated as static isolated logs rather than live interactive environments.
-    \item \textbf{Model Specificity}: Findings are specific to \texttt{google/gemma-4-12B-it} and the OOPSIE 10-key schema; generalization to other foundation models or schemas requires empirical verification.
+    \item \textbf{Evaluator Scope and Review Coverage}: Initial qualitative rubric ratings across all 160 completions were generated by an automated AI evaluation pipeline. Forty completions (the first 10 scenarios across four conditions) were staged in blinded batches, and 16 flagged edge cases received documented author review via a decision sheet before ratings were adopted without case-level human re-annotation. No Cohen's $\kappa$, Krippendorff's $\alpha$, or multi-rater inter-coder reliability metrics were computed. Furthermore, because base-model completions were framed by Markdown backticks while adapted completions were bare JSON, subtle surface differences may have partially compromised human blinding.
+    \item \textbf{Adapter and Template Confound}: As detailed in Section~\ref{sec:four-conditions}, Conditions A and B differ in both adapter weights and chat-template formatting boundary (official Gemma template vs.\ training-aligned \texttt{<|turn>model} boundary). Performance differences reflect the configured systems rather than isolated weight effects.
+    \item \textbf{Synthetic Contexts}: Scenarios were synthetically generated error patterns representing common web and infrastructure failures, evaluated as static isolated logs rather than live interactive environments.
+    \item \textbf{Model and Task Specificity}: Findings are specific to \texttt{google/gemma-4-12B-it} and the OOPSIE 10-key schema; generalization to other foundation models or schemas requires empirical verification.
     \item \textbf{No Constrained-Decoding or JSON-Mode Baselines}: This study did not evaluate grammar-constrained decoding, provider JSON modes, FSM/CFG token masking, or negative-prompting controls. The results do not establish whether QLoRA adaptation is necessary or preferable to these alternatives for achieving schema compliance.
 \end{enumerate}
 
@@ -267,7 +294,9 @@ All benchmark datasets, evaluation protocols, schemas, and analysis scripts are 
 
 \section{Conclusion}
 
-This study investigated whether parameter-efficient fine-tuning via QLoRA can improve structural JSON schema compliance for operational software error recovery, and whether it alters underlying diagnostic reasoning. In a pre-specified frozen benchmark across 40 unseen failure scenarios (160 total passes), QLoRA adaptation of \texttt{google/gemma-4-12B-it} dramatically improved programmatic schema compliance from 0.0\% to 95.0\%--97.5\% under zero-tolerance greedy parsing ($p \approx 7.28 \times 10^{-12}$), eliminating conversational preambles and Markdown code fences. Crucially, the qualitative evaluation did not identify a diagnostic-reasoning or technical-correctness advantage for the adapted conditions over the unadapted base-model conditions. Within this benchmark, QLoRA adaptation functioned primarily as a structural output-format intervention rather than an amplifier of diagnostic reasoning. Constrained-decoding baselines were not evaluated; future work should compare adaptation against grammar-constrained decoding, JSON-mode decoding, and prompt-only formatting controls. Consequently, operational deployments can leverage QLoRA for reliable automated JSON ingestion, but must maintain rigorous validation boundaries and human developer oversight.
+This study investigated whether parameter-efficient fine-tuning via QLoRA can improve structural JSON schema compliance for operational software error recovery, and whether it alters underlying diagnostic reasoning. In a pre-specified frozen benchmark across 40 unseen failure scenarios (160 total passes), QLoRA adaptation of \texttt{google/gemma-4-12B-it} improved direct raw JSON schema compliance from 0.0\% in unadapted base-model conditions to 95.0\%--97.5\% under zero-tolerance greedy parsing ($p \approx 7.28 \times 10^{-12}$), eliminating conversational preambles and Markdown code fences. Crucially, a post-hoc analysis revealed that unadapted base-model non-compliance was overwhelmingly a surface formatting issue: removing outer Markdown code fences recovered 100.0\% (40/40) schema compliance in zero-shot base inference and 97.5\% (39/40) in one-shot base inference.
+
+Furthermore, qualitative diagnostic evaluation across all 160 completions did not demonstrate a diagnostic-reasoning or technical-correctness advantage for adapted conditions over the unadapted base model. Within the evaluated configurations, QLoRA adaptation functioned as an effective formatting mechanism for direct raw emission, but adaptation was not causally isolated from chat-template conventions and was not demonstrated to be necessary relative to fence stripping or constrained decoding. Operational software diagnostic pipelines can utilize QLoRA for automated direct JSON formatting, but must maintain rigorous programmatic schema validation gates and mandatory human developer oversight.
 
 \section*{AI Use Disclosure}
 The author used AI-assisted tools during research and manuscript preparation. Initial qualitative ratings for the 160 benchmark completions were generated by an automated evaluation pipeline using a frozen rubric. The author reviewed key outputs, verification findings, and flagged evaluations, and takes full responsibility for the final work. The remaining provisional qualitative ratings were retained without case-by-case author review and are reported as author-adopted AI-assisted evaluations. These ratings are not independent human inter-rater assessments. AI tools were also used to assist with code development, documentation, manuscript drafting, and consistency checking.

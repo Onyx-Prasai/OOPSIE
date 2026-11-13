@@ -1,0 +1,1440 @@
+{
+  "metadata": {
+    "validator": "jsonschema",
+    "validator_version": "4.26.0",
+    "schema_path": "C:\\Users\\onyxe\\Desktop\\OOPSIE\\data\\schema.json",
+    "schema_sha256_lf": "ce322859f8e4a757847b3e4d02b90ded41054ccbef5b4dd872523a80d681440a",
+    "schema_sha256_raw": "40550bfef007a7078dc3515a0c03e52dec29e351b931e9bb6cd5ea8f447b547a",
+    "benchmark_results_path": "C:\\Users\\onyxe\\Desktop\\OOPSIE\\artifacts\\benchmark_v1_2_0\\benchmark_results\\benchmark_results_full.json",
+    "benchmark_results_sha256": "6021aaab2616aec8cd09679532686eb09d424adfb15c2d2e22469f6c75aca397",
+    "total_cases": 40,
+    "total_evaluations": 160
+  },
+  "summary": {
+    "cond_a": {
+      "total_cases": 40,
+      "raw_json_valid": 0,
+      "raw_schema_valid": 0,
+      "norm_json_valid": 40,
+      "norm_schema_valid": 40,
+      "norm_schema_pct": 100.0,
+      "unrecovered_failures": []
+    },
+    "cond_b": {
+      "total_cases": 40,
+      "raw_json_valid": 38,
+      "raw_schema_valid": 38,
+      "norm_json_valid": 38,
+      "norm_schema_valid": 38,
+      "norm_schema_pct": 95.0,
+      "unrecovered_failures": [
+        {
+          "case_id": "bench-firebase-01",
+          "condition": "cond_b",
+          "norm_json_ok": false,
+          "error": "Invalid \\escape: line 1 column 1490 (char 1489)"
+        },
+        {
+          "case_id": "bench-nextjs-01",
+          "condition": "cond_b",
+          "norm_json_ok": false,
+          "error": "Invalid \\escape: line 1 column 1155 (char 1154)"
+        }
+      ]
+    },
+    "cond_c": {
+      "total_cases": 40,
+      "raw_json_valid": 0,
+      "raw_schema_valid": 0,
+      "norm_json_valid": 39,
+      "norm_schema_valid": 39,
+      "norm_schema_pct": 97.5,
+      "unrecovered_failures": [
+        {
+          "case_id": "bench-nextjs-03",
+          "condition": "cond_c",
+          "norm_json_ok": false,
+          "error": "Expecting property name enclosed in double quotes: line 3 column 3 (char 81)"
+        }
+      ]
+    },
+    "cond_d": {
+      "total_cases": 40,
+      "raw_json_valid": 40,
+      "raw_schema_valid": 39,
+      "norm_json_valid": 40,
+      "norm_schema_valid": 39,
+      "norm_schema_pct": 97.5,
+      "unrecovered_failures": [
+        {
+          "case_id": "bench-npm-03",
+          "condition": "cond_d",
+          "norm_json_ok": true,
+          "error": "'matched_recipes' is a required property"
+        }
+      ]
+    }
+  },
+  "per_response": {
+    "bench-authentication-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-authentication-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-authentication-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-authentication-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-backend-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-backend-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-backend-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-backend-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-deployment-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-deployment-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-deployment-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-deployment-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-environment-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-environment-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-environment-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-environment-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-firebase-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": false,
+        "norm_schema_valid": false,
+        "raw_error": "Invalid \\escape: line 1 column 1490 (char 1489)",
+        "norm_error": "Invalid \\escape: line 1 column 1490 (char 1489)"
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-firebase-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-firebase-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-firebase-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-general-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-general-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-general-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-general-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-nextjs-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": false,
+        "norm_schema_valid": false,
+        "raw_error": "Invalid \\escape: line 1 column 1155 (char 1154)",
+        "norm_error": "Invalid \\escape: line 1 column 1155 (char 1154)"
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-nextjs-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-nextjs-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": false,
+        "norm_schema_valid": false,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": "Expecting property name enclosed in double quotes: line 3 column 3 (char 81)"
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-nextjs-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-npm-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-npm-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-npm-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": false,
+        "raw_error": "'matched_recipes' is a required property",
+        "norm_error": "'matched_recipes' is a required property"
+      }
+    },
+    "bench-npm-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-react-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-react-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-react-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-react-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-supabase-01": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-supabase-02": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-supabase-03": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    },
+    "bench-supabase-04": {
+      "cond_a": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_b": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      },
+      "cond_c": {
+        "raw_json_valid": false,
+        "raw_schema_valid": false,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": "Expecting value: line 1 column 1 (char 0)",
+        "norm_error": null
+      },
+      "cond_d": {
+        "raw_json_valid": true,
+        "raw_schema_valid": true,
+        "norm_json_valid": true,
+        "norm_schema_valid": true,
+        "raw_error": null,
+        "norm_error": null
+      }
+    }
+  }
+}

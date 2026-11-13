@@ -54,6 +54,7 @@ The model was evaluated under a frozen four-condition benchmark (`OOPSIE-EVAL-PR
 
 - **Statistical Significance**: The improvement in programmatic schema compliance between Condition A and Condition B is statistically significant (exact paired McNemar test $p \approx 7.28 \times 10^{-12}$; Edwards continuity-corrected $\chi^2 = 36.03, p \approx 1.95 \times 10^{-9}$).
 - **Latency Advantage**: Omitting the JSON schema from the runtime prompt (Condition D) reduced mean latency by 14.54 seconds (-12.7%) while maintaining 97.5% strict schema validity.
+- **Post-hoc normalization**: A post-hoc fence-removal analysis recovered schema-conformant outputs from 40/40 Condition A (zero-shot base) and 39/40 Condition C (one-shot base) responses. These findings distinguish direct raw-output compliance from compliance after lightweight normalization, and do not establish that adapter use is necessary or preferable to preprocessing. Conditions A and B also differed in input serialization (chat template), preventing isolation of adapter weight effects from serialization formatting effects.
 
 ### Qualitative Technical Substance ($N = 40$ per condition, $N = 160$ total)
 
@@ -64,7 +65,7 @@ Qualitative diagnostic soundness was evaluated across all 160 completions using 
 - **Repair Scope & Verification**: Conditions B and D each had one `Harmful / Overbroad` repair rating and one `Incomplete` verification rating on `bench-npm-02` (recommending `npm install --legacy-peer-deps`). Condition B had the only `Overconfident` uncertainty rating (`bench-react-02`).
 
 ### Qualitative Review Provenance & Limitations
-- **Author-Adopted Review**: Initial ratings were generated provisionally by an automated evaluation pipeline using the frozen rubric. The author systematically reviewed flagged cases on the verification checklist and made final adoption decisions; remaining provisional ratings were retained without case-by-case author review.
+- **Author-Adopted Review**: Initial ratings were generated provisionally by an automated evaluation pipeline using the frozen rubric. The author documented review of 16 flagged responses via a triage checklist and decision sheet, retaining the provisional rating in all 16 cases without changes. The remaining 144 ratings were adopted into the snapshot manifest without documented case-level author inspection.
 - **Not Independent Evaluation**: These ratings represent author-adopted AI-assisted evaluations and **do not constitute independent human inter-rater assessments** or double-blind expert panel review.
 - **Absence of Diagnostic Advantage**: Qualitative results demonstrate that domain adaptation improved structural output-format compliance, but **did not confer an advantage in technical diagnostic correctness, hallucination mitigation, or repair scoping** over the unadapted base model.
 

@@ -88,3 +88,7 @@ apps/vscode-extension/node_modules/
 *.sln
 scratch/
 
+# LaTeX build intermediates
+/docs/research/latex/*.aux
+/docs/research/latex/*.out
+

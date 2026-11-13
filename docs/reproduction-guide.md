@@ -203,3 +203,38 @@ print('All 10 snapshot files cryptographically verified!')
 "
 ```
 
+### Post-Hoc Normalization Validation
+
+A post-hoc raw-vs-normalized compliance analysis distinguishes strict (unmodified output) schema compliance from compliance after Markdown fence removal. It is documented in `docs/research/post_hoc_normalization_report.md`.
+
+If the frozen benchmark results directory is not present locally (as `artifacts/` is excluded by `.gitignore`), acquire and extract the v1.2.0 benchmark result archive:
+
+```bash
+mkdir -p artifacts/benchmark_v1_2_0
+curl -L -o artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz \
+  https://github.com/Onyx-Prasai/OOPSIE/releases/download/v1.2.0/oopsie_benchmark_results_v1_2_0.tar.gz
+tar -xzf artifacts/benchmark_v1_2_0/oopsie_benchmark_results_v1_2_0.tar.gz -C artifacts/benchmark_v1_2_0/
+```
+
+Then execute the evaluation:
+
+```bash
+python scripts/evaluate_post_hoc_normalization.py \
+  --results artifacts/benchmark_v1_2_0/benchmark_results/benchmark_results_full.json \
+  --schema  data/schema.json \
+  --out     docs/research/post_hoc_normalized_evaluation.json
+```
+
+Expected console output:
+```
+Condition cond_a: Raw Schema= 0/40 | Norm Schema=40/40 (100.0%)
+Condition cond_b: Raw Schema=38/40 | Norm Schema=38/40 (95.0%)
+Condition cond_c: Raw Schema= 0/40 | Norm Schema=39/40 (97.5%)
+Condition cond_d: Raw Schema=39/40 | Norm Schema=39/40 (97.5%)
+```
+
+Verification hashes:
+- Schema SHA-256 (LF-normalized): `ce322859f8e4a757847b3e4d02b90ded41054ccbef5b4dd872523a80d681440a`
+- Benchmark results SHA-256: `6021aaab2616aec8cd09679532686eb09d424adfb15c2d2e22469f6c75aca397`
+- Release archive SHA-256: `cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb`
+
