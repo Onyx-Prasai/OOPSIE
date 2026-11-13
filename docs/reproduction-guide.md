@@ -238,3 +238,27 @@ Verification hashes:
 - Benchmark results SHA-256: `6021aaab2616aec8cd09679532686eb09d424adfb15c2d2e22469f6c75aca397`
 - Release archive SHA-256: `cf24eec1a5c3347ae826fec4b5cbfb7133a1c4ce92aace3eab2b048bdd37f4eb`
 
+---
+
+## 6. Compiling the Research Manuscript PDF
+
+The canonical manuscript PDF is compiled from `docs/research/latex/main.tex` into `docs/research/latex/main.pdf`.
+
+### Prerequisites
+Compilation requires [Tectonic](https://tectonic-typesetting.github.io/) (an external XeTeX-based typesetting engine) or an equivalent LaTeX distribution:
+- Install Tectonic via your package manager (e.g., `cargo install tectonic`, `brew install tectonic`, or download a pre-built binary).
+- Ensure `tectonic` is available on your `PATH` (or placed in the workspace root).
+
+### Compilation Command
+From the repository root, run:
+
+```bash
+tectonic --keep-logs --keep-intermediates --print \
+  -o docs/research/latex \
+  docs/research/latex/main.tex
+```
+
+> [!NOTE]
+> On first-time compilation, Tectonic may automatically download required TeX packages and font bundles over the network.
+> The canonical compiled output is `docs/research/latex/main.pdf` (12 pages).
+

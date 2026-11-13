@@ -88,7 +88,12 @@ apps/vscode-extension/node_modules/
 *.sln
 scratch/
 
+# Standalone binaries
+/tectonic.exe
+
 # LaTeX build intermediates
 /docs/research/latex/*.aux
 /docs/research/latex/*.out
+/docs/research/latex/*.blg
+/docs/research/latex/main.bbl
 
